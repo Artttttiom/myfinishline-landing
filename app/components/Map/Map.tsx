@@ -20,7 +20,7 @@ const Map = ({ coordinates }: { coordinates: any }) => {
       />
       <Polyline positions={coordinates} color="blue" />
       {coordinates?.length &&
-        coordinates.map((coordinate) => (
+        coordinates.map((coordinate: any) => (
           <Marker key={coordinate} position={coordinate}></Marker>
         ))}
     </MapContainer>
