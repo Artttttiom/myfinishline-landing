@@ -1,4 +1,3 @@
-// app/api/create-payment-intent/route.ts
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -24,9 +23,6 @@ export async function POST(request: Request) {
     const paymentIntent = await stripe.paymentIntents.create({
       amount: amount,
       currency: currency || "usd",
-      // Remove automatic_payment_methods since we're handling manually
-      // Add this if you want to capture later, or remove for immediate capture
-      // capture_method: "automatic",
     });
 
     console.log("Payment intent created:", paymentIntent.id);

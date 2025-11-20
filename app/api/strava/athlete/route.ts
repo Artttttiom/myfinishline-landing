@@ -44,7 +44,6 @@ export async function GET(request: Request) {
 
     const cookieStore = await cookies();
 
-    // Устанавливаем cookies
     cookieStore.set("strava_access_token", tokenData.access_token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",

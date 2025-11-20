@@ -23,7 +23,6 @@ export async function GET() {
 
     if (!response.ok) {
       if (response.status === 401) {
-        // Токен истек - очищаем cookies
         cookieStore.delete("strava_access_token");
         cookieStore.delete("strava_refresh_token");
         cookieStore.delete("strava_athlete");

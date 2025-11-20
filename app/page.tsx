@@ -1,6 +1,5 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import Login from "./components/Login/Login";
 
 export default async function Home() {
   const cookieStore = await cookies();
@@ -10,5 +9,5 @@ export default async function Home() {
     redirect("/homepage");
   }
 
-  return <Login />;
+  return "";
 }
