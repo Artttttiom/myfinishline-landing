@@ -87,6 +87,72 @@ const content = {
         title: "Navigate your way through Russia",
         description: "A jogging challenge to make your moves",
         distance: "315km / 215mi",
+        content: [
+          {
+            id: 1,
+            title: "Earn a Chilling Medal",
+            image: "/images/challenge-page/challenge1.jpg",
+            paragraphs: [
+              {
+                id: 1,
+                text: "Complete the IT™ Virtual Challenge and you’ll earn a medal straight out of your darkest nightmare",
+              },
+              {
+                id: 2,
+                text: "Pennywise’s grin slides open to unleash the Deadlights, his true otherworldly form.",
+              },
+              {
+                id: 3,
+                text: "The medal hangs on a red balloon ribbon and arrives in a custom collector’s box that feels like it’s been pulled from the sewers of Derry.",
+              },
+              {
+                id: 4,
+                text: "Can you spot the Losers’ Club mark on the back?",
+              },
+            ],
+          },
+          {
+            id: 2,
+            title: "Virtually travel beneath Derry",
+            image: "/images/challenge-page/challenge2.jpg",
+            paragraphs: [
+              {
+                id: 1,
+                text: "Journey 89 miles (143 km) through key locations from the summer of 1989, starting in the Barrens where the Losers’ Club first banded together and ending where an oath takes place.",
+              },
+              {
+                id: 2,
+                text: "The app tracks your progress, and every time you add a workout, you’ll advance across a virtual map through the sewers.",
+              },
+            ],
+          },
+          {
+            id: 3,
+            title: "Collect All 7 Losers’ Club Cards",
+            image: "/images/challenge-page/challenge3.jpg",
+            paragraphs: [
+              {
+                id: 1,
+                text: "Every member of the Losers’ Club has a story… and a fear. As you make your way through the challenge, you’ll collect seven exclusive cards, one for each of the kids who stood up to Pennywise.",
+              },
+              {
+                id: 2,
+                text: "Complete the set, and you’ll know the Losers’ Club like you were one of them",
+              },
+            ],
+          },
+          {
+            id: 4,
+            title: "Unlock Virtual Postcards",
+            image: "/images/challenge-page/challenge4.png",
+            paragraphs: [
+              {
+                id: 1,
+                text: "Unlock a haunting Virtual Postcard at every milestone. Piece by piece, unfold the nightmare of IT™ (2017) until you complete the full set of 12 and finish the story.",
+              },
+            ],
+          },
+        ],
         image: {
           src: "/images/features-carousel/1.webp",
           alt: "Navigate your work with clarity",

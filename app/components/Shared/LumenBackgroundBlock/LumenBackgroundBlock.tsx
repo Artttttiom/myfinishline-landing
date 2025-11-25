@@ -6,10 +6,14 @@ import Noise from "../Noise/noise";
 import { ReactNode } from "react";
 
 interface ILumenBackgroundBlockProps {
+  className?: string;
   children: ReactNode;
 }
 
-const LumenBackgroundBlock = ({ children }: ILumenBackgroundBlockProps) => {
+const LumenBackgroundBlock = ({
+  children,
+  className,
+}: ILumenBackgroundBlockProps) => {
   const prefersReducedMotion = usePrefersReducedMotion();
 
   const overlayVariants = {
@@ -30,7 +34,9 @@ const LumenBackgroundBlock = ({ children }: ILumenBackgroundBlockProps) => {
   };
 
   return (
-    <section className="section-padding border-none min-h-[752px] relative flex flex-col items-center bg-[url(/images/gradient.webp)] bg-cover bg-center bg-no-repeat pb-0! dark:bg-[url(/images/gradient-dark.webp)]">
+    <section
+      className={`section-padding border-none min-h-[752px] relative flex flex-col items-center bg-[url(/images/gradient.webp)] bg-cover bg-center bg-no-repeat pb-0! dark:bg-[url(/images/gradient-dark.webp)] ${className}`}
+    >
       <motion.div
         variants={overlayVariants}
         initial={prefersReducedMotion ? "visible" : "hidden"}
