@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
+import { Input } from "../components/ui/input";
+import { Button } from "../components/ui/button";
 
 export default function VerifyPage() {
   const [code, setCode] = useState(["", "", "", "", "", ""]);
@@ -135,12 +137,10 @@ export default function VerifyPage() {
   return (
     <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
-        <div className="p-8 rounded-2xl shadow-xl">
+        <div className="p-8 rounded-2xl bg-accent">
           <div className="text-center">
-            <h2 className="mt-2 text-3xl font-extrabold text-black">
-              Confirm email
-            </h2>
-            <p className="mt-2 text-sm text-gray-400">
+            <h2 className="mt-2 text-3xl font-extrabold">Confirm email</h2>
+            <p className="mt-2 text-sm text-accent-foreground">
               Enter 6-digit code sent to your email
             </p>
           </div>
@@ -160,7 +160,7 @@ export default function VerifyPage() {
 
             <div className="flex justify-center space-x-2">
               {code.map((digit, index) => (
-                <input
+                <Input
                   key={index}
                   ref={(el) => {
                     if (inputRefs.current) {
@@ -171,7 +171,7 @@ export default function VerifyPage() {
                   type="text"
                   inputMode="numeric"
                   maxLength={1}
-                  className="w-12 h-12 text-center text-xl font-semibold border border-neutral-300 text-black rounded-lg focus:outline-none focus:border-orange-400 focus:ring-1 focus:ring-orange-400"
+                  className="w-12 h-12 text-center text-xl font-semibold border rounded-lg focus:outline-none focus:border-orange-400 focus:ring-1 focus:ring-orange-400"
                   value={digit}
                   onChange={(e) => handleChange(index, e.target.value)}
                   onKeyDown={(e) => handleKeyDown(index, e)}
@@ -181,22 +181,20 @@ export default function VerifyPage() {
               ))}
             </div>
 
-            <div>
-              <button
-                type="submit"
-                disabled={loading}
-                className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-orange-400 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-              >
-                {loading ? (
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    Loading
-                  </div>
-                ) : (
-                  "Confirm Email"
-                )}
-              </button>
-            </div>
+            <Button
+              type="submit"
+              disabled={loading}
+              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              {loading ? (
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  Loading
+                </div>
+              ) : (
+                "Confirm Email"
+              )}
+            </Button>
 
             <div className="text-center">
               <button

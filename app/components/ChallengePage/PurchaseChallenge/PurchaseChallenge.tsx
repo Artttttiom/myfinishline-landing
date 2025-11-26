@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Button } from "../../ui/button";
 import { Check, Dot, ListCheck } from "lucide-react";
+import Link from "next/link";
 
 interface IPurchaseChallengeProps {
   id: number;
@@ -33,9 +34,12 @@ const PurchaseChallenge = ({ id, imageSrc }: IPurchaseChallengeProps) => {
       <span className="block text-2xl mx-auto text-center font-medium mt-2">
         $19.00
       </span>
-      <Button className="uppercase text-2xl px-20 py-6 mt-2">
+      <Link
+        href="/payment"
+        className="uppercase text-2xl px-20 py-2 mt-2 bg-card-foreground block rounded text-background"
+      >
         Sign up now
-      </Button>
+      </Link>
     </div>
   );
 };
