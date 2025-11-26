@@ -5,6 +5,7 @@ export function middleware(request: NextRequest) {
   const isAuthenticated = request.cookies.get("user_authenticated");
 
   if (!isAuthenticated && request.nextUrl.pathname.startsWith("/dashboard")) {
+    console.log("🔴 Redirecting to login");
     return NextResponse.redirect(new URL("/login", request.url));
   }
 

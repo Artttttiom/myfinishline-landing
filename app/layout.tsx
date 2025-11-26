@@ -4,7 +4,6 @@ import {
   Geist,
   Geist_Mono,
   Montserrat,
-  Stardos_Stencil,
 } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./components/theme-provider";

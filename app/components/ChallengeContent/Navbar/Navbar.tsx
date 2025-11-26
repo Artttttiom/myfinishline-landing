@@ -58,7 +58,7 @@ export const NAV_LINKS = [
 
 const ACTION_BUTTONS = [
   { label: "Sign in", href: "/login", variant: "ghost" as const },
-  { label: "Get started", href: "/register", variant: "default" as const },
+  { label: "Get started", href: "/signup", variant: "default" as const },
 ];
 const Navbar = ({
   initialBannerVisible = true,
@@ -70,13 +70,9 @@ const Navbar = ({
   const { isAtLeast } = useMediaQuery();
   const pathname = usePathname();
   const [isBannerVisible, setIsBannerVisible] = useState(initialBannerVisible);
-  const hideNavbar = [
-    "/signin",
-    "/signup",
-    "/docs",
-    "/not-found",
-    "/forgot-password",
-  ].some((route) => pathname.includes(route));
+  const hideNavbar = ["/login", "/signup", "/not-found", "/verify"].some(
+    (route) => pathname.includes(route)
+  );
 
   useEffect(() => {
     const handleBannerDismiss = () => {

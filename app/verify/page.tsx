@@ -135,84 +135,87 @@ export default function VerifyPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div className="p-8 rounded-2xl bg-accent">
-          <div className="text-center">
-            <h2 className="mt-2 text-3xl font-extrabold">Confirm email</h2>
-            <p className="mt-2 text-sm text-accent-foreground">
-              Enter 6-digit code sent to your email
-            </p>
-          </div>
-
-          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-            {error && (
-              <div className="bg-red-900 border border-red-700 text-red-200 px-4 py-3 rounded-lg">
-                {error}
-              </div>
-            )}
-
-            {success && (
-              <div className="bg-green-900 border border-green-700 text-green-200 px-4 py-3 rounded-lg">
-                {success}
-              </div>
-            )}
-
-            <div className="flex justify-center space-x-2">
-              {code.map((digit, index) => (
-                <Input
-                  key={index}
-                  ref={(el) => {
-                    if (inputRefs.current) {
-                      inputRefs.current[index] = el;
-                    }
-                  }}
-                  id={`code-${index}`}
-                  type="text"
-                  inputMode="numeric"
-                  maxLength={1}
-                  className="w-12 h-12 text-center text-xl font-semibold border rounded-lg focus:outline-none focus:border-orange-400 focus:ring-1 focus:ring-orange-400"
-                  value={digit}
-                  onChange={(e) => handleChange(index, e.target.value)}
-                  onKeyDown={(e) => handleKeyDown(index, e)}
-                  onPaste={index === 0 ? handlePaste : undefined}
-                  disabled={loading}
-                />
-              ))}
-            </div>
-
-            <Button
-              type="submit"
-              disabled={loading}
-              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-            >
-              {loading ? (
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  Loading
-                </div>
-              ) : (
-                "Confirm Email"
-              )}
-            </Button>
-
+    <section className="grid min-h-svh lg:grid-cols-2">
+      <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-md w-full space-y-8">
+          <div className="p-8 rounded-2xl bg-accent">
             <div className="text-center">
-              <button
-                type="button"
-                onClick={handleResendCode}
-                disabled={resendLoading || cooldown > 0}
-                className="text-orange-400 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-              >
-                {resendLoading
-                  ? "Sending"
-                  : cooldown > 0
-                  ? `Can resend in (${cooldown}с)`
-                  : "Resend email"}
-              </button>
+              <h2 className="mt-2 text-3xl font-extrabold">Confirm email</h2>
+              <p className="mt-2 text-sm text-accent-foreground">
+                Enter 6-digit code sent to your email
+              </p>
             </div>
-          </form>
+
+            <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+              {error && (
+                <div className="bg-red-900 border border-red-700 text-red-200 px-4 py-3 rounded-lg">
+                  {error}
+                </div>
+              )}
+
+              {success && (
+                <div className="bg-green-900 border border-green-700 text-green-200 px-4 py-3 rounded-lg">
+                  {success}
+                </div>
+              )}
+
+              <div className="flex justify-center space-x-2">
+                {code.map((digit, index) => (
+                  <Input
+                    key={index}
+                    ref={(el) => {
+                      if (inputRefs.current) {
+                        inputRefs.current[index] = el;
+                      }
+                    }}
+                    id={`code-${index}`}
+                    type="text"
+                    inputMode="numeric"
+                    maxLength={1}
+                    className="w-12 h-12 text-center text-xl font-semibold border rounded-lg focus:outline-none focus:border-orange-400 focus:ring-1 focus:ring-orange-400"
+                    value={digit}
+                    onChange={(e) => handleChange(index, e.target.value)}
+                    onKeyDown={(e) => handleKeyDown(index, e)}
+                    onPaste={index === 0 ? handlePaste : undefined}
+                    disabled={loading}
+                  />
+                ))}
+              </div>
+
+              <Button
+                type="submit"
+                disabled={loading}
+                className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                {loading ? (
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    Loading
+                  </div>
+                ) : (
+                  "Confirm Email"
+                )}
+              </Button>
+
+              <div className="text-center">
+                <button
+                  type="button"
+                  onClick={handleResendCode}
+                  disabled={resendLoading || cooldown > 0}
+                  className="text-orange-400 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                >
+                  {resendLoading
+                    ? "Sending"
+                    : cooldown > 0
+                    ? `Can resend in (${cooldown}с)`
+                    : "Resend email"}
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
+      <div className="relative hidden bg-[url(/images/gradient.webp)] bg-cover bg-center bg-no-repeat lg:block dark:bg-[url(/images/gradient-dark.webp)]"></div>
+    </section>
   );
 }
