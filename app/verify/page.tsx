@@ -4,12 +4,13 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
+import { AnimatePresence } from "motion/react";
+import { motion } from "motion/react";
 
 export default function VerifyPage() {
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [resendLoading, setResendLoading] = useState(false);
   const [cooldown, setCooldown] = useState(0);
   const [success, setSuccess] = useState("");
   const router = useRouter();
@@ -92,7 +93,7 @@ export default function VerifyPage() {
       const data = await response.json();
 
       if (response.ok && data.success) {
-        setSuccess("Email confirmed");
+        setSuccess("Code confirmed");
         setTimeout(() => {
           router.push("/");
         }, 2000);
@@ -108,57 +109,19 @@ export default function VerifyPage() {
     }
   };
 
-  const handleResendCode = async () => {
-    setResendLoading(true);
-    setError("");
-    setSuccess("");
-
-    try {
-      const response = await fetch("/api/auth/resend-code", {
-        method: "POST",
-      });
-
-      const data = await response.json();
-
-      if (response.ok && data.success) {
-        setSuccess("New code was sent");
-        setCooldown(60);
-        console.log(`Demo verification code: ${data.code}`);
-      } else {
-        setError(data.message || "Error sending code");
-      }
-    } catch (error) {
-      setError("Network error");
-    } finally {
-      setResendLoading(false);
-    }
-  };
-
   return (
     <section className="grid min-h-svh lg:grid-cols-2">
       <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md w-full space-y-8">
-          <div className="p-8 rounded-2xl bg-accent">
+        <div className="relative max-w-md w-full">
+          <div className="rounded-2xl">
             <div className="text-center">
-              <h2 className="mt-2 text-3xl font-extrabold">Confirm email</h2>
+              <h2 className="mt-2 text-3xl font-extrabold">Activation</h2>
               <p className="mt-2 text-sm text-accent-foreground">
-                Enter 6-digit code sent to your email
+                Enter challenge activation code
               </p>
             </div>
 
             <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-              {error && (
-                <div className="bg-red-900 border border-red-700 text-red-200 px-4 py-3 rounded-lg">
-                  {error}
-                </div>
-              )}
-
-              {success && (
-                <div className="bg-green-300 border text-green-700 px-4 py-3 rounded-lg">
-                  {success}
-                </div>
-              )}
-
               <div className="flex justify-center space-x-2">
                 {code.map((digit, index) => (
                   <Input
@@ -193,26 +156,35 @@ export default function VerifyPage() {
                     Loading
                   </div>
                 ) : (
-                  "Confirm Email"
+                  "Confirm"
                 )}
               </Button>
-
-              <div className="text-center">
-                <button
-                  type="button"
-                  onClick={handleResendCode}
-                  disabled={resendLoading || cooldown > 0}
-                  className="text-orange-400 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                >
-                  {resendLoading
-                    ? "Sending"
-                    : cooldown > 0
-                    ? `Can resend in (${cooldown}с)`
-                    : "Resend email"}
-                </button>
-              </div>
             </form>
           </div>
+          {error && (
+            <div className="bg-red-900 border border-red-700 text-red-200 px-4 py-3 rounded-lg">
+              {error}
+            </div>
+          )}
+
+          <AnimatePresence>
+            {success && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  type: "spring" as const,
+                  stiffness: 100,
+                  damping: 25,
+                  mass: 1,
+                  duration: 0.6,
+                }}
+                className="absolute left-0 -bottom-20 w-full py-3 px-4 rounded-lg bg-green-200 text-green-700"
+              >
+                {success}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
       <div className="relative hidden bg-[url(/images/gradient.webp)] bg-cover bg-center bg-no-repeat lg:block dark:bg-[url(/images/gradient-dark.webp)]"></div>

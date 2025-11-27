@@ -109,6 +109,8 @@
   --border: oklch(0.98 0 0);
   --input: oklch(0.916 0.002 300);
   --ring: oklch(0.84 0.01 50);
+  --error: oklch(70.4% 0.191 22.216);
+  --success: oklch(34% 0.69 165.96);
 
   --chart-1: oklch(0.585 0.132 257);
   --chart-2: oklch(0.741 0.088 220);

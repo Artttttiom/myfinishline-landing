@@ -201,6 +201,34 @@ const content = {
       },
     ],
   },
+  roadmap: {
+    title: "Launch with Assurance",
+    description:
+      "Simplify your workflow with our tools that provide clear insights, minimizing the complexity of managing intricate deployment data.",
+    steps: {
+      1: {
+        title: "Monitor Deployments live",
+        description:
+          "Track your deployments with clarity, seeing updates take place as they happen.",
+        image:
+          "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/placeholder-1.svg",
+      },
+      2: {
+        title: "Immediate Issue Detection",
+        description:
+          "Spot issues instantly and address them with precise metrics for optimized performance",
+        image:
+          "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/placeholder-2.svg",
+      },
+      3: {
+        title: "Revert to a Stable Version",
+        description:
+          "With just a few actions, revert to a previous version and restore system health swiftly.",
+        image:
+          "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/placeholder-3.svg",
+      },
+    },
+  },
   grid_block: {
     title: "Game features that level up your running",
     description:

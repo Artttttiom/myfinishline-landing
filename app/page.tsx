@@ -9,7 +9,7 @@ import FeaturesShowcase from "@/app/components/ChallengeContent/FeaturesShowcase
 import Testimonials from "@/app/components/ChallengeContent/Testimonials/Testimonials";
 import FAQSection from "@/app/components/ChallengeContent/FAQSection/FAQSection";
 import Pricing from "@/app/components/ChallengeContent/Pricing/Pricing";
-import Navbar from "@/app/components/ChallengeContent/Navbar/Navbar";
+import { Feature102 } from "./components/ui/feature102";
 
 export default async function Home() {
   const cookieStore = await cookies();
@@ -24,6 +24,7 @@ export default async function Home() {
       <Hero />
       <Logos />
       <FeaturesCarousel />
+      <Feature102 />
       <FeaturesGrid />
       <FeaturesShowcase />
       <Testimonials />
