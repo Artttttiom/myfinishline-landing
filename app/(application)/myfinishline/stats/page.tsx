@@ -15,8 +15,9 @@ const page = () => {
     try {
       const response = await fetch("/api/strava/activities");
       const data = await response.json();
-      setActivities(data.activities);
-      console.log(data);
+      if (data.activities) {
+        setActivities(data.activities);
+      }
     } catch (error) {
       console.error("Error fetching run history:", error);
     } finally {
@@ -37,12 +38,12 @@ const page = () => {
           <div className="absolute w-full h-full top-0 flex justify-center items-center">
             <Loader2 width={48} height={48} className="animate-spin" />
           </div>
-        ) : activities.length > 0 ? (
+        ) : activities?.length > 0 ? (
           <div className="mt-2">
             <ActivitiesList activities={activities} />
           </div>
         ) : (
-          <div className="text-center text-muted py-10">
+          <div className="text-center text-sm py-10">
             No activities found. Connect your Strava account to see your
             activities here.
           </div>
