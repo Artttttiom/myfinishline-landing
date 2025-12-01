@@ -75,7 +75,7 @@ const page = () => {
 
   return (
     <div>
-      {stravaData.athlete && (
+      {stravaData.athlete?.id && (
         <div className="mt-4">
           <h3 className="text-lg font-semibold mb-2">Strava Athlete Info:</h3>
           <Input
