@@ -1,9 +1,7 @@
-import React from "react";
+import Leaderboard from "@/app/components/Application/Leaderboard/Leaderboard";
 
-type Props = {};
-
-const page = (props: Props) => {
-  return <div>page</div>;
+const page = () => {
+  return <Leaderboard />;
 };
 
 export default page;
