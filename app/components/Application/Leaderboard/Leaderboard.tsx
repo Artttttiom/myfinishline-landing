@@ -14,8 +14,6 @@ import { motion } from "motion/react";
 
 import "swiper/css";
 
-const fakeArray = [1, 2, 3, 4];
-
 const championships = [
   {
     id: 1,
@@ -144,7 +142,7 @@ const Leaderboard = () => {
 
   return (
     <>
-      <ul className="min-h-screen h-full">
+      <ul className="min-h-screen h-full max-w-3xl mx-auto">
         <Swiper
           className="h-full"
           slidesPerView={1}

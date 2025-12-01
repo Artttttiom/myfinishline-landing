@@ -43,31 +43,33 @@ const LeaderTable = ({
             />
           );
         })}
-        <tr className="border text-background">
+        <tr className="text-background">
           <td className="h-13"></td>
         </tr>
-        <tr className="border bg-foreground text-background">
-          <td className="p-2 w-8 rounded-l-lg text-center">9999</td>
-          <td className="p-2 w-16">
-            {currentUserInfo?.profile && (
-              <Image
-                className="object-cover rounded-full h-12 w-12"
-                src={
-                  currentUserInfo?.profile ||
-                  "/images/application/profile-pic.jpg"
-                }
-                alt={`User ${currentUserInfo?.firstname} ${currentUserInfo?.lastname}`}
-                width={48}
-                height={48}
-              />
-            )}
-          </td>
-          <td className="p-2">
-            {currentUserInfo?.firstname} {currentUserInfo?.lastname}
-          </td>
-          <td className="p-2">0</td>
-          <td className="p-2 rounded-r-lg">0</td>
-        </tr>
+        {currentUserInfo && (
+          <tr className="border bg-foreground text-background">
+            <td className="p-2 w-8 rounded-l-lg text-center">9999</td>
+            <td className="p-2 w-16">
+              {currentUserInfo?.profile && (
+                <Image
+                  className="object-cover rounded-full h-12 w-12"
+                  src={
+                    currentUserInfo?.profile ||
+                    "/images/application/profile-pic.jpg"
+                  }
+                  alt={`User ${currentUserInfo?.firstname} ${currentUserInfo?.lastname}`}
+                  width={48}
+                  height={48}
+                />
+              )}
+            </td>
+            <td className="p-2">
+              {currentUserInfo?.firstname} {currentUserInfo?.lastname}
+            </td>
+            <td className="p-2">0</td>
+            <td className="p-2 rounded-r-lg">0</td>
+          </tr>
+        )}
       </tbody>
     </table>
   );
