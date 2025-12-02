@@ -23,33 +23,29 @@ const LeaderTable = ({
   onUserClick,
 }: LeaderTableProps) => {
   return (
-    <table className="mt-4 w-full border-spacing-y-1">
-      <thead>
-        <tr className="w-full text-left">
-          <th className="p-2 text-center">#</th>
-          <th className="p-2"></th>
-          <th className="p-2">Name</th>
-          <th className="p-2">Distance</th>
-          <th className="p-2">Time</th>
-        </tr>
-      </thead>
+    <table className="mt-4 w-full border-separate border-spacing-0">
       <tbody>
         {users?.map((user: IUser) => {
           return (
-            <LeaderItem
-              key={user.id}
-              {...user}
-              handleClick={() => onUserClick(user)}
-            />
+            <>
+              <LeaderItem
+                key={user.id}
+                {...user}
+                handleClick={() => onUserClick(user)}
+              />
+              <tr className="h-1"></tr>
+            </>
           );
         })}
         <tr className="text-background">
           <td className="h-13"></td>
         </tr>
         {currentUserInfo && (
-          <tr className="border bg-foreground text-background">
-            <td className="p-2 w-8 rounded-l-lg text-center">9999</td>
-            <td className="p-2 w-16">
+          <tr className="bg-success text-background">
+            <td className="p-2 w-8 text-center border-success-dark border-y-2 border-l-2 rounded-l-lg">
+              999
+            </td>
+            <td className="p-2 w-16 border-success-dark border-y-2">
               {currentUserInfo?.profile && (
                 <Image
                   className="object-cover rounded-full h-12 w-12"
@@ -63,11 +59,15 @@ const LeaderTable = ({
                 />
               )}
             </td>
-            <td className="p-2">
+            <td className="p-2 font-medium text-sm border-success-dark border-y-2">
               {currentUserInfo?.firstname} {currentUserInfo?.lastname}
             </td>
-            <td className="p-2">0</td>
-            <td className="p-2 rounded-r-lg">0</td>
+            <td className="p-2 text-sm leading-5 font-bold border-success-dark border-y-2">
+              0
+            </td>
+            <td className="p-2 text-sm leading-5 font-bold border-success-dark border-y-2 border-r-2 rounded-r-lg">
+              0
+            </td>
           </tr>
         )}
       </tbody>

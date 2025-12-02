@@ -160,8 +160,10 @@ const Leaderboard = () => {
                   </button>
 
                   <div>
-                    <h4 className="text-center">{championship.title}</h4>
-                    <p className="text-xs mt">
+                    <h4 className="text-center font-bold text-3xl">
+                      {championship.title}
+                    </h4>
+                    <p className="text-center text-xs mt">
                       See the leaders and compare your achievements. Reach the
                       top!
                     </p>

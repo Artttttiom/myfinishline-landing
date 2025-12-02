@@ -1,7 +1,7 @@
-import Leaderboard from "@/app/components/Application/Leaderboard/Leaderboard";
+import Map from "@/app/components/Map/Map";
 
 const page = () => {
-  return <Leaderboard />;
+  return <Map />;
 };
 
 export default page;

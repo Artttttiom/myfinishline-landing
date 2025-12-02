@@ -48,7 +48,7 @@ const BoosterList = () => {
       <p className="mt-6 font-regular text-sm">
         For more information on the terms of the promotion and how to receive
         bonuses{" "}
-        <a className="font-medium">
+        <a href="https://google.com" className="font-medium cursor-pointer">
           <i>follow the link</i>
         </a>
       </p>

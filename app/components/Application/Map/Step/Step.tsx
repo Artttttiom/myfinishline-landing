@@ -25,7 +25,7 @@ const Step = ({ id, title, stepsAmount }: IStepProps) => {
       <div
         id={`challenge-step-${id}`}
         key={id}
-        className=" h-15 w-15 relative flex items-center justify-center cursos-pointer"
+        className="h-15 w-15 relative flex items-center justify-center cursos-pointer"
         onClick={handleSetIsOpen}
       >
         <div className="w-full h-full bg-blue-300 shadow-2xl shadow-blue-900 rounded-full flex items-center justify-center rotate-x-45">
@@ -37,7 +37,7 @@ const Step = ({ id, title, stepsAmount }: IStepProps) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
-              className="absolute bottom-full bg-white p-2 rounded shadow-2xl"
+              className="absolute bottom-full bg-white text-black p-2 rounded shadow-2xl z-10   "
             >
               {title}
             </motion.div>

@@ -1,4 +1,4 @@
-import { Trophy, User } from "lucide-react";
+import { User } from "lucide-react";
 import Image from "next/image";
 import { IUser } from "../LeaderTable";
 
@@ -6,10 +6,10 @@ interface ILeaderItem extends IUser {
   handleClick: (userId: number) => void;
 }
 
-const trophyColors = {
-  1: "goldenrod",
-  2: "silver",
-  3: "peru",
+const gradientColors = {
+  1: "bg-linear-to-r from-[#FDF684] to-[#DDAD1A] from-0 to-100",
+  2: "bg-linear-to-r from-[#E7E7EB] to-[#99A1BD] from-0 to-100",
+  3: "bg-linear-to-r from-[#EBC8B7] to-[#AF5B2F] from-0 to-100",
 };
 
 const LeaderItem = ({
@@ -26,18 +26,17 @@ const LeaderItem = ({
 
   return (
     <tr
-      className="border bg-foreground text-background cursor-pointer"
+      className={`${
+        gradientColors[id as keyof typeof gradientColors] || "bg-accent"
+      }  cursor-pointer`}
       onClick={handlePressUser}
     >
-      <td className="p-2 w-8 rounded-l-lg text-center">
-        {id > 3 ? (
-          id
-        ) : (
-          <Trophy
-            className="mx-auto"
-            color={trophyColors[id as keyof typeof trophyColors]}
-          />
-        )}
+      <td
+        className={`p-2 w-8 rounded-l-lg text-center ${
+          id < 4 ? "text-black" : "text-foreground"
+        }`}
+      >
+        {id}
       </td>
       <td className="p-2 w-16">
         {image ? (
@@ -54,9 +53,17 @@ const LeaderItem = ({
           </div>
         )}
       </td>
-      <td className="p-2">{name}</td>
-      <td className="p-2">{distance}km</td>
-      <td className="p-2 rounded-r-lg">{hours}h</td>
+      <td
+        className={`p-2 font-medium text-sm ${
+          id < 4 ? "text-black" : "text-foreground"
+        }`}
+      >
+        {name}
+      </td>
+      <td className="p-2 text-sm leading-5 font-bold">{distance} km</td>
+      <td className="p-2 text-sm leading-5 font-bold rounded-r-lg">
+        {hours} h
+      </td>
     </tr>
   );
 };

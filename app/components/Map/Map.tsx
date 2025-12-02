@@ -8,24 +8,30 @@ const challenge = {
       title: "Welcome to MyFinishLine",
       index: 1,
       completed: true,
+      progress: 0.5,
     },
     {
       id: 2,
       title: "Your first steps",
       index: 2,
+      progress: 0,
     },
     {
       id: 3,
       title: "Almost there!",
       index: 1,
+      progress: 0,
     },
     {
       id: 4,
       title: "Champion!",
       index: 2,
+      progress: 0,
     },
   ],
 };
+
+const reversedSteps = challenge.steps.reverse();
 
 const stepsAmount = challenge.steps.length || 1;
 
@@ -45,7 +51,7 @@ const page = () => {
         }}
         className="absolute p-2 h-full z-10 w-full grid gap-2 items-center justify-center"
       >
-        {challenge.steps.reverse().map((step) => {
+        {reversedSteps.map((step) => {
           const array: any[] = [null, null, null, null];
 
           array[step.index] = (
