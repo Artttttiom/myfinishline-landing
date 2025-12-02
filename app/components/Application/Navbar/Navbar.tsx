@@ -16,7 +16,7 @@ const navLinks = [
   {
     id: 2,
     name: "Store",
-    href: "/myfinishline/store",
+    href: "/myfinishline/store/booster",
     parent: "store",
     Icon: Store,
   },

@@ -4,6 +4,29 @@ import { Input } from "@/app/components/ui/input";
 import { Camera } from "lucide-react";
 import Image from "next/image";
 
+const profileLinks = [
+  {
+    id: 1,
+    name: "Account",
+    href: "/myfinishline/profile/account",
+  },
+  {
+    id: 2,
+    name: "Password",
+    href: "/myfinishline/profile/password",
+  },
+  {
+    id: 3,
+    name: "Activities",
+    href: "/myfinishline/profile/activities",
+  },
+  {
+    id: 4,
+    name: "Strava",
+    href: "/myfinishline/profile/strava",
+  },
+];
+
 const page = ({
   children,
 }: Readonly<{
@@ -32,7 +55,7 @@ const page = ({
         <ThemeToggle />
       </section>
       <div className="mt-4">
-        <Tabs />
+        <Tabs links={profileLinks} layoutId="profile-tab-navigation" />
       </div>
       <div className="mt-4">{children}</div>
     </main>

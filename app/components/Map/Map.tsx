@@ -1,30 +1,68 @@
-"use client";
+import Step from "@/app/components/Application/Map/Step/Step";
+import Image from "next/image";
 
-import "leaflet-defaulticon-compatibility";
-import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
-import "leaflet/dist/leaflet.css";
+const challenge = {
+  steps: [
+    {
+      id: 1,
+      title: "Welcome to MyFinishLine",
+      index: 1,
+      completed: true,
+    },
+    {
+      id: 2,
+      title: "Your first steps",
+      index: 2,
+    },
+    {
+      id: 3,
+      title: "Almost there!",
+      index: 1,
+    },
+    {
+      id: 4,
+      title: "Champion!",
+      index: 2,
+    },
+  ],
+};
 
-import { MapContainer, Marker, Polyline, TileLayer } from "react-leaflet";
+const stepsAmount = challenge.steps.length || 1;
 
-const Map = ({ coordinates }: { coordinates: any }) => {
+const page = () => {
   return (
-    <MapContainer
-      center={coordinates[0]}
-      zoom={5}
-      scrollWheelZoom={true}
-      className="w-full h-full z-0"
-    >
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+    <main className="max-w-3xl mx-auto bg-foreground w-full min-h-[calc(100vh-72px)] relative flex flex-col">
+      <Image
+        objectFit="cover"
+        src="/images/application/map.png"
+        fill
+        alt="Map"
       />
-      <Polyline positions={coordinates} color="blue" />
-      {coordinates?.length &&
-        coordinates.map((coordinate: any) => (
-          <Marker key={coordinate} position={coordinate}></Marker>
-        ))}
-    </MapContainer>
+      <div
+        style={{
+          gridTemplateColumns: `repeat(${stepsAmount},1fr)`,
+          gridTemplateRows: `repeat(${stepsAmount},1fr)`,
+        }}
+        className="absolute p-2 h-full z-10 w-full grid gap-2 items-center justify-center"
+      >
+        {challenge.steps.reverse().map((step) => {
+          const array: any[] = [null, null, null, null];
+
+          array[step.index] = (
+            <Step id={step.id} title={step.title} stepsAmount={stepsAmount} />
+          );
+
+          return array.map((item) => {
+            if (item) {
+              return item;
+            } else {
+              return <div />;
+            }
+          });
+        })}
+      </div>
+    </main>
   );
 };
 
-export default Map;
+export default page;
