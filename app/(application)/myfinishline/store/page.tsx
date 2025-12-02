@@ -1,7 +1,5 @@
-"use client";
-
+import Step from "@/app/components/Application/Map/Step/Step";
 import Image from "next/image";
-import Xarrow from "react-xarrows";
 
 const challenge = {
   steps: [
@@ -13,7 +11,7 @@ const challenge = {
     },
     {
       id: 2,
-      title: "You first steps",
+      title: "Your first steps",
       index: 2,
     },
     {
@@ -59,25 +57,7 @@ const page = () => {
             step.id > stepsAmount - 1 ? null : `challenge-step-${step.id + 1}`;
 
           array[step.index] = (
-            <>
-              <div
-                id={`challenge-step-${step.id}`}
-                key={step.id}
-                className="bg-blue-300 shadow-2xl shadow-blue-900 h-15 w-15 rounded-full relative flex items-center justify-center cursos-pointer"
-              >
-                <div className="w-12 h-12 bg-blue-400 rounded-full"></div>
-                <div className="absolute bottom-full">{step.title}</div>
-              </div>
-              {!!nextStepId && (
-                <Xarrow
-                  dashness
-                  color="white"
-                  start={currentStepId}
-                  end={nextStepId}
-                  showHead={false}
-                />
-              )}
-            </>
+            <Step id={step.id} title={step.title} stepsAmount={stepsAmount} />
           );
 
           return array.map((item) => {
