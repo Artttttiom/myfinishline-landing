@@ -79,7 +79,7 @@ function StravaIntegrationButton() {
 
 const page = () => {
   return (
-    <main className="p-4">
+    <main className="p-4 max-w-4xl mx-auto">
       <h3 className="text-left text-2xl font-semibold">Integrations</h3>
       <p className="text-sm text-muted-foreground mt-1">
         Integrate your Strava and Garmin accounts to track your progression
