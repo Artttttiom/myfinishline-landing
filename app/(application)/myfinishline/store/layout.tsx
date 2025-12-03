@@ -24,7 +24,7 @@ export default function StoreLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <main className="max-w-3xl mx-auto pt-2">
+    <main className="max-w-3xl mx-auto pt-2 px-2">
       <Tabs links={storeLinks} layoutId="store-tab-navigation" />
       {children}
     </main>

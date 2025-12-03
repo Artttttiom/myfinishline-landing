@@ -1,102 +1,119 @@
 "use client";
 
-import { ChevronLeft, ChevronRight, User } from "lucide-react";
+import { ChevronLeft, ChevronRight, Medal, Trophy } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { IAthlete } from "@/app/types";
+import Avatar from "../../Shared/Avatar/Avatar";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Swiper as SwiperType } from "swiper";
-import { useRef } from "react";
-import { IAthlete } from "@/app/types";
-import { useEffect, useState } from "react";
-import LeaderTable, { IUser } from "./LeaderTable/LeaderTable";
+import "swiper/css";
 import CustomModal from "../../Shared/CustomModal/CustomModal";
-import Image from "next/image";
-import { Trophy } from "lucide-react";
 import { motion } from "motion/react";
 
-import "swiper/css";
+export interface IRunner {
+  id: number;
+  image?: string;
+  name: string;
+  distance: number;
+  time?: string;
+  achievements?: string[];
+}
 
-const championships = [
+const leaderboardData = [
   {
     id: 1,
-    title: "Atlantic Run",
-    users: [
-      {
-        id: 1,
-        image:
-          "https://static.wikia.nocookie.net/fallout/images/7/76/Caesar2.png/revision/latest?cb=20210110054724",
-        name: "Edward Sallow",
-        distance: 200,
-        hours: 76,
-        achievements: ["Marathon Finisher", "100km Club", "Early Bird Runner"],
-      },
-      {
-        id: 2,
-        image:
-          "https://static.wikia.nocookie.net/fallout/images/0/02/Pan_house.png/revision/latest?cb=20110212204018&path-prefix=pl",
-        name: "Edwin House",
-        distance: 198,
-        hours: 72,
-        achievements: ["Marathon Finisher", "50km Club"],
-      },
-      {
-        id: 3,
-        image:
-          "https://static.wikia.nocookie.net/fallout/images/3/3b/Craig_Boone.jpg/revision/latest?cb=20200601101856",
-        name: "Craig Boone",
-        distance: 197,
-        hours: 79,
-        achievements: ["Half Marathon Finisher", "10km Club"],
-      },
-      {
-        id: 4,
-        image:
-          "https://static.wikia.nocookie.net/fallout/images/e/ef/Raul_Tejada.jpg/revision/latest?cb=20101224210151",
-        name: "Raul Tejada",
-        distance: 192,
-        hours: 71,
-        achievements: [],
-      },
-      {
-        id: 5,
-        image:
-          "https://static.wikia.nocookie.net/fallout/images/3/3f/HH_Joshua_Graham.jpg/revision/latest?cb=20110607152803",
-        name: "Joshua Graham",
-        distance: 182,
-        hours: 67,
-        achievements: ["10km Club"],
-      },
-      {
-        id: 6,
-        image:
-          "https://static.wikia.nocookie.net/fallout/images/1/17/DeanDomino.png/revision/latest?cb=20120613231132",
-        name: "Dean Domino",
-        distance: 182,
-        hours: 67,
-        achievements: [],
-      },
-    ],
+    name: "Sarah Johnson",
+    avatar: "",
+    initials: "SJ",
+    image:
+      "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/38/3869b54bd27a5ff56c8c01453794948782790261_full.jpg",
+    distance: 1200,
+    time: "12 hours",
+    achievements: ["Marathon Runner", "Best of the best"],
+  },
+  {
+    id: 2,
+    name: "Mike Chen",
+    image:
+      "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/bc/bc1aff4acf6b2263a63febc068c7752b8a96b674_full.jpg",
+    initials: "MC",
+    distance: 1158,
+    time: "11 hours",
+    achievements: ["Longrunner"],
+  },
+  {
+    id: 3,
+    name: "Emma Wilson",
+    avatar: "",
+    image:
+      "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/40/40265d8b098379efe642b5e223802b2ea501aa18_medium.jpg",
+    initials: "EW",
+    distance: 1112,
+    time: "9 hours",
+  },
+  {
+    id: 4,
+    name: "James Miller",
+    distance: 1002,
+  },
+  { id: 5, name: "Lisa Anderson", distance: 958 },
+  {
+    id: 6,
+    name: "David Brown",
+    image:
+      "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/7f/7fa9e76b90f91a0e5f887645f97dfcc6c5b05ed0_full.jpg",
+    distance: 940,
+  },
+  {
+    id: 7,
+    name: "Amy Taylor",
+    distance: 921,
+    achievements: ["Last but not least"],
+  },
+];
+
+const challenges = [
+  {
+    id: 1,
+    title: "Monthly Challenge",
+    description:
+      "See the leaders and compare your achievements. Reach the top!",
+    users: leaderboardData,
   },
   {
     id: 2,
     title: "World Run Challenge",
-    users: [
-      {
-        id: 1,
-        image: "",
-        name: "Edward Sallow",
-        distance: 500,
-        hours: 190,
-      },
-      {
-        id: 2,
-        image:
-          "https://static.wikia.nocookie.net/fallout/images/0/02/Pan_house.png/revision/latest?cb=20110212204018&path-prefix=pl",
-        name: "Edwin House",
-        distance: 480,
-        hours: 185,
-      },
-    ],
+    description:
+      "See the leaders and compare your achievements. Reach the top!",
+    users: leaderboardData,
   },
 ];
+
+const getMedalColor = (rank: number) => {
+  switch (rank) {
+    case 1:
+      return "#FFD700";
+    case 2:
+      return "#C0C0C0";
+    case 3:
+      return "#CD7F32";
+    default:
+      return undefined;
+  }
+};
+
+const getRowStyle = (rank: number) => {
+  switch (rank) {
+    case 1:
+      return "bg-amber-100 dark:bg-amber-900/30";
+    case 2:
+      return "bg-slate-200 dark:bg-slate-700/30";
+    case 3:
+      return "bg-orange-100 dark:bg-orange-900/20";
+    default:
+      return "bg-background hover:bg-muted/50";
+  }
+};
 
 const Leaderboard = () => {
   const [stravaData, setStravaData] = useState<{
@@ -106,7 +123,7 @@ const Leaderboard = () => {
     athlete: null as IAthlete | null,
     isConnected: false,
   });
-  const [clickedUserInfo, setClickedUserInfo] = useState<IUser | null>(null);
+  const [clickedUserInfo, setClickedUserInfo] = useState<IRunner | null>(null);
 
   const swiperRef = useRef<SwiperType | null>(null);
 
@@ -136,72 +153,141 @@ const Leaderboard = () => {
     }
   };
 
-  const handleOpenUserModal = (user: IUser) => {
-    setClickedUserInfo(user);
-  };
-
   return (
-    <>
-      <ul className="min-h-screen h-full max-w-3xl mx-auto">
+    <div className="min-h-screen">
+      <div className="max-w-4xl mx-auto px-4 pt-2 pb-8">
         <Swiper
           className="h-full"
           slidesPerView={1}
+          spaceBetween={2}
           loop
           onSwiper={(swiper) => {
             swiperRef.current = swiper;
           }}
         >
-          {championships.map((championship) => (
-            <li className="h-full" key={championship.id}>
-              <SwiperSlide key={championship.id} className="px-2 h-full">
-                <section className="flex items-center justify-between">
-                  <button onClick={handleGoToPrevSlide}>
-                    <ChevronLeft />
-                  </button>
+          {challenges.map((challenge) => (
+            <SwiperSlide key={challenge.id}>
+              <div className="flex items-center justify-between text-center">
+                <button
+                  className="p-1 text-muted-foreground hover:text-foreground transition-colors"
+                  onClick={handleGoToPrevSlide}
+                >
+                  <ChevronLeft className="h-5 w-5" />
+                </button>
+                <div>
+                  <h1 className="text-2xl font-semibold text-foreground tracking-tight">
+                    {challenge.title}
+                  </h1>
+                  <p className="text-sm text-muted-foreground">
+                    {challenge.description}
+                  </p>
+                </div>
+                <button
+                  className="p-1 text-muted-foreground hover:text-foreground transition-colors"
+                  onClick={handleGoToNextSlide}
+                >
+                  <ChevronRight className="h-5 w-5" />
+                </button>
+              </div>
+              <div className="flex flex-col gap-1 mt-4">
+                {challenge.users.map((runner) => {
+                  const isTopThree = runner.id <= 3;
+                  const medalColor = getMedalColor(runner.id);
 
-                  <div>
-                    <h4 className="text-center font-bold text-3xl">
-                      {championship.title}
-                    </h4>
-                    <p className="text-center text-xs mt">
-                      See the leaders and compare your achievements. Reach the
-                      top!
-                    </p>
+                  return (
+                    <div
+                      key={runner.id}
+                      className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${getRowStyle(
+                        runner.id
+                      )}`}
+                      onClick={() => setClickedUserInfo(runner)}
+                    >
+                      <span
+                        className={`w-6 text-sm font-medium ${
+                          isTopThree
+                            ? "text-foreground"
+                            : "text-muted-foreground"
+                        }`}
+                      >
+                        {medalColor ? (
+                          <Medal
+                            className="h-5 w-5"
+                            style={{ color: medalColor }}
+                          />
+                        ) : (
+                          runner.id
+                        )}
+                      </span>
+
+                      <div className="h-12 w-12">
+                        <Avatar
+                          imageSrc={runner.image}
+                          fullName={runner.name}
+                        />
+                      </div>
+
+                      <span className="text-sm font-medium text-foreground flex-1">
+                        {runner.name}
+                      </span>
+
+                      <div className="text-right">
+                        <span className="text-sm font-medium text-foreground">
+                          {runner.distance.toLocaleString()} km
+                        </span>
+                        {isTopThree && runner.time && (
+                          <span className="text-sm text-muted-foreground ml-2">
+                            {runner.time}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+
+                <div className="mt-4 pt-4 border-t border-border">
+                  <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
+                    <span className="w-6 text-sm font-medium text-muted-foreground">
+                      999
+                    </span>
+
+                    <div className="h-12 w-12">
+                      {stravaData.athlete?.profile && (
+                        <Avatar
+                          imageSrc={stravaData.athlete?.profile}
+                          fullName={
+                            stravaData.athlete?.firstname +
+                            " " +
+                            stravaData.athlete?.lastname
+                          }
+                        />
+                      )}
+                    </div>
+
+                    <span className="text-sm font-medium text-foreground flex-1">
+                      {stravaData.athlete?.firstname}{" "}
+                      {stravaData.athlete?.lastname}
+                    </span>
+
+                    <span className="text-sm font-medium text-foreground">
+                      0 km
+                    </span>
                   </div>
-
-                  <button onClick={handleGoToNextSlide}>
-                    <ChevronRight />
-                  </button>
-                </section>
-                <LeaderTable
-                  users={championship.users}
-                  currentUserInfo={stravaData.athlete!}
-                  onUserClick={handleOpenUserModal}
-                />
-              </SwiperSlide>
-            </li>
+                </div>
+              </div>
+            </SwiperSlide>
           ))}
         </Swiper>
-      </ul>
+      </div>
       <CustomModal
         isOpen={!!clickedUserInfo}
         onClose={() => setClickedUserInfo(null)}
       >
         <div className="p-4">
           <div className="flex gap-2">
-            {clickedUserInfo?.image ? (
-              <Image
-                className="object-cover rounded-full h-12 w-12"
-                src={clickedUserInfo.image}
-                alt={`User ${clickedUserInfo.name}`}
-                width={48}
-                height={48}
-              />
-            ) : (
-              <div className="h-12 w-12 flex items-center justify-center border-background/50 border rounded-full">
-                <User />
-              </div>
-            )}
+            <Avatar
+              imageSrc={clickedUserInfo?.image}
+              fullName={clickedUserInfo?.name}
+            />
             <h2 className="text-2xl font-bold">{clickedUserInfo?.name}</h2>
           </div>
           {!!clickedUserInfo?.achievements?.length && (
@@ -225,7 +311,7 @@ const Leaderboard = () => {
                       color="gold"
                     />
                     <span className="italic font-medium text-center">
-                      {achievement}
+                      {achievement}{" "}
                     </span>
                   </motion.li>
                 ))}
@@ -234,7 +320,7 @@ const Leaderboard = () => {
           )}
         </div>
       </CustomModal>
-    </>
+    </div>
   );
 };
 

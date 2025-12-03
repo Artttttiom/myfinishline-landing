@@ -10,12 +10,12 @@ export async function GET(request: Request) {
 
   if (error) {
     console.log("Auth error:", error);
-    redirect("/myfinishline/profile/account/?error=auth_denied");
+    redirect("/myfinishline/integrations?status=auth_denied");
   }
 
   if (!code) {
     console.log("No code received");
-    redirect("/myfinishline/profile/account/?error=no_code");
+    redirect("/myfinishline/integrations?status=no_code");
   }
 
   try {
@@ -56,7 +56,7 @@ export async function GET(request: Request) {
       console.error("Strava returned HTML error page");
       // Log the full HTML for debugging
       console.error("Full HTML response:", responseText);
-      redirect("/myfinishline/profile/account/?error=strava_html_error");
+      redirect("/myfinishline/integrations?status=strava_html_error");
     }
 
     let tokenData;
@@ -65,23 +65,24 @@ export async function GET(request: Request) {
     } catch (parseError) {
       console.error("JSON parse error:", parseError);
       console.error("Response that failed to parse:", responseText);
-      redirect("/myfinishline/profile/account/?error=invalid_json");
+      redirect("/myfinishline/integrations?status=invalid_json");
     }
 
     // Check for Strava API errors
     if (tokenData.errors || !tokenResponse.ok) {
       console.error("Strava API error:", tokenData);
-      redirect("/myfinishline/profile/account/?error=strava_api_error");
+      redirect("/myfinishline/integrations?status=strava_api_error");
     }
 
     if (!tokenData.access_token) {
       console.error("No access token in response:", tokenData);
-      redirect("/myfinishline/profile/account/?error=no_access_token");
+      redirect("/myfinishline/integrations?status=no_access_token");
     }
 
     console.log(
       "Token exchange successful for athlete:",
-      tokenData.athlete?.firstname
+      tokenData.athlete?.firstname,
+      tokenData.athlete?.lastname
     );
 
     const cookieStore = await cookies();
@@ -101,9 +102,9 @@ export async function GET(request: Request) {
     });
 
     console.log("Cookies set, redirecting to dashboard");
-    redirect("/myfinishline/profile/strava");
+    redirect("/myfinishline/integrations");
   } catch (error) {
     console.error("Callback error:", error);
-    redirect("/myfinishline/profile/account/?error=auth_failed");
+    redirect("/myfinishline/integrations");
   }
 }

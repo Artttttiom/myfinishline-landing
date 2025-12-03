@@ -19,17 +19,17 @@ const Tabs = ({ links, layoutId }: ITabsProps) => {
   const pathname = usePathname();
 
   return (
-    <nav className="flex items-center gap-1 p-0.5 rounded overflow-hidden bg-accent">
+    <nav className="flex items-center gap-1 p-0.5 overflow-hidden border-b-accent border-b">
       {links.map((link) => {
         return (
           <Link
-            className="flex-1 p-1 text-center relative text-foreground"
+            className="flex-1 p-1 py-2 text-center relative text-foreground"
             key={link.id}
             href={link.href}
           >
             {pathname.includes(link.href) && (
               <motion.div
-                className="absolute rounded-md w-full h-full top-0 left-0 bg-foreground backdrop-invert-100"
+                className="absolute top-full w-full h-full left-0 bg-foreground backdrop-invert-100"
                 layoutId={layoutId}
                 transition={{
                   type: "spring",
@@ -40,7 +40,7 @@ const Tabs = ({ links, layoutId }: ITabsProps) => {
             )}
             <span
               className={`${
-                pathname.includes(link.href) && "text-background"
+                pathname.includes(link.href) && "font-bold transition-all"
               } relative z-10`}
             >
               {link.name}
