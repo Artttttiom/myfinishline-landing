@@ -62,9 +62,6 @@ const Integrations = () => {
           )}
         </div>
       </Button>
-      <span className="text-red-400 text-sm">
-        {handleParseStravaStatus(status as STRAVA_RESPONSE_STATUSES)}
-      </span>
       <Button
         className="mt-2 h-fit w-full px-6 font-semibold cursor-pointer transition-all duration-300 flex items-center justify-start gap-3"
         variant="outline"
