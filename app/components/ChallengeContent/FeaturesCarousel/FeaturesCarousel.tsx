@@ -223,6 +223,7 @@ export default function FeaturesCarousel() {
                             src={feature.image.src}
                             alt={feature.image.alt}
                             fill
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                             className={cn(
                               "object-cover transition-transform duration-300 hover:scale-105 p-0!",
                               feature.image.className

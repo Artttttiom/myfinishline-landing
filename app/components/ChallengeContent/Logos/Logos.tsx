@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
 import { cn } from "@/app/lib/utils";
@@ -11,7 +10,6 @@ import Noise from "../../Shared/Noise/noise";
 import content from "@/app/lib/content/landing/content";
 
 export default function Logos() {
-  const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -21,11 +19,7 @@ export default function Logos() {
   // Filter out companies with dark:hidden when theme is dark
   // Only apply theme-based filtering after component is mounted to prevent hydration mismatch
   const visibleCompanies = content.logos.filter((company) => {
-    if (
-      mounted &&
-      theme === "dark" &&
-      company.className.includes("dark:hidden")
-    ) {
+    if (mounted && company.className.includes("dark:hidden")) {
       return false;
     }
     return true;
