@@ -45,7 +45,6 @@ const Redeem = () => {
   const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e);
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -56,7 +55,7 @@ const Redeem = () => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     toast.success("Medal claimed! Your medal is on its way.");
-    // router.push("/myfinishline/profile/awards");
+    router.push("/myfinishline/profile/awards");
 
     setIsSubmitting(false);
   };

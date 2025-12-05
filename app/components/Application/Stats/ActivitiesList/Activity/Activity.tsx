@@ -1,4 +1,5 @@
 import { IActivity } from "@/app/types";
+import { motion } from "motion/react";
 import { MapPin, Clock, Gauge, Calendar, Route } from "lucide-react";
 
 const handleConvertDistance = (distanceInMeters: number) => {
@@ -29,6 +30,7 @@ const handleConvertDate = (dateString: string) => {
 };
 
 const Activity = ({
+  delay,
   name,
   distance,
   elapsed_time,
@@ -37,11 +39,24 @@ const Activity = ({
   location_city,
   average_speed,
   sport_type,
-}: IActivity) => {
+}: IActivity & { delay: number }) => {
   const location = [location_city, location_country].filter(Boolean).join(", ");
 
   return (
-    <li className="group border border-border bg-card px-4 py-3 rounded-md hover:bg-accent transition-colors duration-150">
+    <motion.li
+      initial={{
+        opacity: 0,
+        y: 10,
+      }}
+      animate={{
+        opacity: 1,
+        y: 0,
+      }}
+      transition={{
+        delay: delay,
+      }}
+      className="group border border-border bg-card px-4 py-3 rounded-md hover:bg-accent transition-colors duration-150"
+    >
       <div className="flex items-start justify-between gap-4 mb-3">
         <h3 className="font-medium text-foreground leading-snug">{name}</h3>
         <span className="text-xs font-medium text-background bg-foreground px-2 py-1 rounded shrink-0">
@@ -88,7 +103,7 @@ const Activity = ({
           <span>{location}</span>
         </div>
       )}
-    </li>
+    </motion.li>
   );
 };
 

@@ -155,7 +155,7 @@ const Leaderboard = () => {
 
   return (
     <div className="min-h-screen">
-      <div className="max-w-4xl mx-auto px-4 pt-2 pb-8">
+      <div className="max-w-4xl mx-auto pt-2 pb-8">
         <Swiper
           className="h-full"
           slidesPerView={1}
@@ -166,7 +166,7 @@ const Leaderboard = () => {
           }}
         >
           {challenges.map((challenge) => (
-            <SwiperSlide key={challenge.id}>
+            <SwiperSlide key={challenge.id} className="px-4">
               <div className="flex items-center justify-between text-center">
                 <button
                   className="p-1 text-muted-foreground hover:text-foreground transition-colors"

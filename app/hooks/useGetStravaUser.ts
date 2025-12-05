@@ -4,33 +4,55 @@ import { useEffect, useState } from "react";
 import { IAthlete } from "../types";
 
 const useGetStravaUser = () => {
-  const [data, setData] = useState<{
+  const [state, setState] = useState<{
     athlete: IAthlete | null;
     isConnected: boolean;
-  } | null>({ athlete: null, isConnected: false });
+    isLoading: boolean;
+  }>({
+    athlete: null,
+    isConnected: false,
+    isLoading: true, // Start as loading
+  });
 
-  const handleGetStravaUser = async () => {
+  const fetchStravaUser = async () => {
     try {
       const response = await fetch("/api/strava/user");
       const data = await response.json();
-      setData(data);
+
+      setState((prev) => ({
+        ...prev,
+        athlete: data.athlete,
+        isConnected: data.isConnected,
+        isLoading: false,
+      }));
     } catch (error) {
       console.error("Error fetching Strava user data:", error);
+      setState((prev) => ({
+        ...prev,
+        athlete: null,
+        isConnected: false,
+        isLoading: false,
+      }));
     }
   };
 
   const handleResetUser = () => {
-    setData({ athlete: null, isConnected: false });
+    setState({
+      athlete: null,
+      isConnected: false,
+      isLoading: false,
+    });
   };
 
   useEffect(() => {
-    handleGetStravaUser();
+    fetchStravaUser();
   }, []);
 
   return {
-    athlete: data?.athlete || ({} as IAthlete),
-    isConnected: data?.isConnected || false,
+    athlete: state.athlete || ({} as IAthlete),
+    isConnected: state.isConnected,
     handleResetUser,
+    isLoading: state.isLoading,
   };
 };
 

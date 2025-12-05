@@ -1,9 +1,23 @@
+"use client";
+
+import { motion } from "motion/react";
 import { Gift, Zap } from "lucide-react";
 import { IBooster } from "../BoosterList";
 
-const Booster = ({ title, description, energy, reward }: IBooster) => {
+const Booster = ({
+  title,
+  description,
+  energy,
+  reward,
+  delay,
+}: IBooster & { delay: number }) => {
   return (
-    <li className="flex items-center justify-between bg-card p-4 border-border border-2 rounded-2xl">
+    <motion.li
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: delay }}
+      className="flex items-center justify-between bg-card p-4 border-border border-2 rounded-2xl"
+    >
       <div>
         <span className="block font-semibold text-md">{title}</span>
         <span className="block font-medium text-xs">{description}</span>
@@ -22,7 +36,7 @@ const Booster = ({ title, description, energy, reward }: IBooster) => {
           <span>{reward}</span>
         </div>
       </div>
-    </li>
+    </motion.li>
   );
 };
 

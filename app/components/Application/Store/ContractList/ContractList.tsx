@@ -1,3 +1,5 @@
+"use client";
+
 import { LucideProps, Trophy, Zap } from "lucide-react";
 import Contract from "./Contract/Contract";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
@@ -29,7 +31,7 @@ const contracts: IContract[] = [
         amount: 5,
       },
       {
-        id: 1,
+        id: 2,
         Icon: Trophy,
         amount: 1,
       },
@@ -53,8 +55,8 @@ const contracts: IContract[] = [
 const ContractList = () => {
   return (
     <ul className="flex flex-col gap-2">
-      {contracts.map((contract) => (
-        <Contract key={contract.id} {...contract} />
+      {contracts.map((contract, index) => (
+        <Contract key={contract.id} {...contract} delay={index * 0.05} />
       ))}
     </ul>
   );

@@ -25,7 +25,7 @@ const boosters: IBooster[] = [
     reward: 1,
   },
   {
-    id: 1,
+    id: 3,
     title: "Leader",
     description: "A set for the most daring runners",
     energy: 5,
@@ -41,8 +41,8 @@ const BoosterList = () => {
         <Coins />
       </div>
       <ul className="mt-2 flex flex-col gap-2">
-        {boosters.map((booster) => (
-          <Booster key={booster.id} {...booster} />
+        {boosters.map((booster, index) => (
+          <Booster key={booster.id} {...booster} delay={index * 0.05} />
         ))}
       </ul>
       <p className="mt-6 font-regular text-sm">

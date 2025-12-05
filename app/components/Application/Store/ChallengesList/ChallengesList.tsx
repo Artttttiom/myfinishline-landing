@@ -21,7 +21,7 @@ const challenges: IChallenge[] = [
     disabled: true,
   },
   {
-    id: 1,
+    id: 3,
     title: "Leader",
     description: "A set for the most daring runners",
     disabled: false,
@@ -31,8 +31,8 @@ const challenges: IChallenge[] = [
 const ChallengesList = () => {
   return (
     <ul className="flex flex-col gap-2">
-      {challenges.map((challenge) => (
-        <ChallengeItem key={challenge.id} {...challenge} />
+      {challenges.map((challenge, index) => (
+        <ChallengeItem key={challenge.id} {...challenge} delay={index * 0.05} />
       ))}
     </ul>
   );

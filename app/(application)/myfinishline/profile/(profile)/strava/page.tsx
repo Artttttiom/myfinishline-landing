@@ -71,8 +71,6 @@ const page = () => {
     handleGetStravaUser();
   }, []);
 
-  console.log(stravaData);
-
   return (
     <div>
       {stravaData.athlete?.id && (

@@ -58,6 +58,20 @@
 
   --animate-marquee: marquee var(--duration) infinite linear;
   --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
+
+  --animate-pulse-shimmer: pulse 2s ease-in-out infinite;
+  @keyframes pulse {
+    0% {
+      background-color: #666;
+    }
+    50% {
+      background-color: #999;
+    }
+    100% {
+      background-color: #666;
+    }
+  }
+
   @keyframes marquee {
     from {
       transform: translateX(0);
