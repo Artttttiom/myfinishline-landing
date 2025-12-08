@@ -45,7 +45,7 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/myfinishline/profile",
-        destination: "/myfinishline/profile/account",
+        destination: "/myfinishline/profile/awards",
         permanent: true,
       },
       {

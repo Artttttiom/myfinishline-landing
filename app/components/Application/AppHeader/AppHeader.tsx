@@ -1,9 +1,7 @@
 "use client";
 
-import useGetStravaUser from "@/app/hooks/useGetStravaUser";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Settings } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
-import Avatar from "../../Shared/Avatar/Avatar";
 
 const rootLayouts = [
   "/myfinishline",
@@ -18,10 +16,32 @@ const rootLayouts = [
   "/myfinishline/profile/activities",
 ];
 
+const links = [
+  {
+    id: 1,
+    link: "/contracts",
+  },
+  {
+    id: 2,
+    link: "/settings",
+  },
+  {
+    id: 3,
+    link: "/faq",
+  },
+  {
+    id: 4,
+    link: "/contact-us",
+  },
+  {
+    id: 5,
+    link: "/integrations",
+  },
+];
+
 const AppHeader = () => {
   const router = useRouter();
   const pathname = usePathname();
-  const { athlete } = useGetStravaUser();
 
   const handleGoBack = () => {
     router.back();
@@ -31,27 +51,27 @@ const AppHeader = () => {
     router.push("/myfinishline/settings");
   };
 
+  const currentLink = links.find((link) => pathname?.includes(link.link));
+  const isCurrentLinkNested = !!currentLink;
+
+  console.log(isCurrentLinkNested);
+
   return (
-    <header className="border-b border-border sticky top-0 z-40 bg-background">
+    <header className="sticky top-0 z-40 bg-foreground">
       <div className="flex items-center justify-between max-w-4xl mx-auto px-4">
-        {rootLayouts.find((rootLayout) => pathname === rootLayout) ? (
-          <div className="h-14" />
-        ) : (
+        {isCurrentLinkNested ? (
           <button
             onClick={handleGoBack}
-            className="flex gap-1 font-medium py-4 cursor-pointer"
+            className="flex gap-1 font-medium py-4 cursor-pointer text-background"
           >
             <ChevronLeft />
             Back
           </button>
+        ) : (
+          <div className="h-14" />
         )}
         <button className="flex items-center gap-2" onClick={handleGoToEdit}>
-          <span>{athlete.username || "User"}</span>
-          <Avatar
-            size={36}
-            imageSrc={athlete.profile}
-            fullName="Not Applicable"
-          />
+          <Settings color="white" />
         </button>
       </div>
     </header>

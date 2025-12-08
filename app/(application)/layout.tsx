@@ -17,7 +17,9 @@ export default function ApplicationLayout({
     <div className="h-full">
       <div className="h-full flex flex-col">
         <AppHeader />
-        <div className="min-h-screen h-full flex-1">{children}</div>
+        <div className="min-h-screen h-full flex-1 bg-white rounded-tl-2xl rounded-tr-2xl">
+          {children}
+        </div>
         <Navbar />
       </div>
       <ToastContainer

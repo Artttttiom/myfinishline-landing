@@ -1,21 +1,6 @@
 import type { Metadata } from "next";
-import {
-  Allerta_Stencil,
-  Geist,
-  Geist_Mono,
-  Montserrat,
-} from "next/font/google";
+import { Allerta_Stencil, Inter, Montserrat } from "next/font/google";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 const montserrat = Montserrat({
   variable: "--font-montserrant",
@@ -23,9 +8,10 @@ const montserrat = Montserrat({
   subsets: ["latin"],
 });
 
-const allerta_stencil = Allerta_Stencil({
-  variable: "--font-allerta-stencil",
-  weight: "400",
+const inter = Inter({
+  variable: "--font-inter",
+  display: "swap",
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
@@ -41,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${montserrat.variable} ${allerta_stencil.variable} ${geistSans.variable} ${geistMono.variable} [--header-height:calc(var(--spacing)*14)] lg:[--header-height:calc(var(--spacing)*23)] antialiased`}
+        className={`${inter.variable} [--header-height:calc(var(--spacing)*14)] lg:[--header-height:calc(var(--spacing)*23)] antialiased bg-black`}
       >
         {children}
       </body>
