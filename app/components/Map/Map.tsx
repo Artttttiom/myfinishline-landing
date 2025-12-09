@@ -263,7 +263,7 @@ const Map = () => {
     }
 
     setTimeout(() => setIsAnimating(false), 1000);
-    // setisAwardOpen(true);
+    setisAwardOpen(true);
   };
 
   const handleStepClick = (stepId: number) => {
