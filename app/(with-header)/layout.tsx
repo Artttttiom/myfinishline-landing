@@ -7,7 +7,7 @@ export default function WithHeaderLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="h-full">
+    <div className="h-full bg-white">
       <Navbar />
       {children}
       <Footer />

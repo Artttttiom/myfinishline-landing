@@ -11,5 +11,5 @@ export default function WithoutHeaderLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <div className="h-full">{children}</div>;
+  return <div className="h-full bg-white">{children}</div>;
 }
