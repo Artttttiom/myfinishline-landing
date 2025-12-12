@@ -24,7 +24,7 @@ const Settings = () => {
           icon={<User className="w-4 h-4" />}
           label="Account"
           description="Edit your account information"
-          onClick={() => handleGoTo("/myfinishline/settings/edit-account")}
+          onClick={() => handleGoTo("/app/settings/edit-account")}
           delay={1}
         />
         <div className="px-2">

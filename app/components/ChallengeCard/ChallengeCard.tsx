@@ -33,7 +33,7 @@ const ChallengeCard = () => {
           <div className="w-full flex items-center justify-between">
             <span className="text-[10px] text-muted-foreground">649 km</span>
             <Link
-              href="/myfinishline/homepage"
+              href="/app/homepage"
               className="underline font-semibold text-[10px] text-black"
             >
               Go to map

@@ -23,7 +23,7 @@ export default function Login() {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
 
-    window.location.href = "/myfinishline";
+    window.location.href = "/app";
   };
 
   const handleStravaLogin = () => {
