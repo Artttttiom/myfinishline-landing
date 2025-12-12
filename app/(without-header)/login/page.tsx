@@ -24,6 +24,12 @@ export default function Login() {
     e.preventDefault();
 
     window.location.href = "/app";
+    cookieStore.set({
+      name: "user_authenticated",
+      value: "true", // or "1" or user ID
+      path: "/",
+      sameSite: "strict",
+    });
   };
 
   const handleStravaLogin = () => {
