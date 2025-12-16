@@ -10,7 +10,7 @@ import {
   SelectValue,
 } from "@/app/components/ui/select";
 import { countries } from "@/app/data/countries";
-import { setUser } from "@/app/lib/features/user/userSlice";
+import { setUser, updateUser } from "@/app/lib/features/user/userSlice";
 import { useAppDispatch, useAppSelector } from "@/app/lib/hooks";
 import { IUser } from "@/app/types/user";
 import axios from "axios";
@@ -38,17 +38,35 @@ const page = () => {
     const formData = new FormData();
     const dataArray = Object.entries(data);
     dataArray.forEach((item) => {
-      formData.append(item[0], item[1]);
+      !!item[1] && formData.append(item[0], item[1]);
     });
     if (file) {
       formData.append("avatar", file);
     }
     try {
       const { data } = await axios.post("/api/user/update-user", formData);
-      dispatch(setUser(data));
+      dispatch(
+        updateUser({
+          ...(user.first_name !== data.first_name
+            ? { first_name: data.first_name }
+            : {}),
+          ...(user.last_name !== data.last_name
+            ? { last_name: data.last_name }
+            : {}),
+          ...(user.email !== data.email ? { email: data.email } : {}),
+          ...(user.username !== data.username
+            ? { username: data.username }
+            : {}),
+          ...(data.country ? { country: data.country } : {}),
+          phone: data.phone,
+          ...(data.full_avatar_url
+            ? { full_avatar_url: data.full_avatar_url }
+            : {}),
+        })
+      );
       toast.success("Profile successfully updated");
     } catch (error: any) {
-      console.log(error.response?.data.message);
+      console.log("SIDHADISD", error.response?.data.message);
       toast.error(error.response?.data.message);
       console.log(error);
     } finally {
@@ -63,7 +81,7 @@ const page = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="px-4">
       <div className="group relative w-20 h-20 flex items-center justify-center border rounded-lg overflow-hidden">
         {file ? (
           <Image
@@ -101,26 +119,28 @@ const page = () => {
           onChange={handleChangeFile}
         />
       </div>
-      <label className="block mt-4">
-        <span className="text-xs">First Name</span>
-        <Input
-          name="first_name"
-          className="mt-px"
-          placeholder="John"
-          value={data.first_name || ""}
-          onChange={handleChange}
-        />
-      </label>
-      <label className="block mt-4">
-        <span className="text-xs">Last Name</span>
-        <Input
-          name="last_name"
-          className="mt-px"
-          placeholder="Doe"
-          value={data.last_name || ""}
-          onChange={handleChange}
-        />
-      </label>
+      <div className="flex w-full gap-2">
+        <label className="block mt-4 w-full">
+          <span className="text-xs">First Name</span>
+          <Input
+            name="first_name"
+            className="mt-px"
+            placeholder="John"
+            value={data.first_name || ""}
+            onChange={handleChange}
+          />
+        </label>
+        <label className="block mt-4 w-full">
+          <span className="text-xs">Last Name</span>
+          <Input
+            name="last_name"
+            className="mt-px"
+            placeholder="Doe"
+            value={data.last_name || ""}
+            onChange={handleChange}
+          />
+        </label>
+      </div>
 
       <label className="block mt-2">
         <span className="text-xs">Email</span>

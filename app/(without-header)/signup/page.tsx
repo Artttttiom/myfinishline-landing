@@ -9,6 +9,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/app/lib/hooks";
 import { setUser } from "@/app/lib/features/user/userSlice";
+import authWithStrava from "@/app/lib/utils/authWithStrava";
 
 export default function Register() {
   const [loading, setLoading] = useState(false);
@@ -199,11 +200,7 @@ export default function Register() {
             variant="outline"
             onClick={() => {
               setLoading(true);
-              const clientId = process.env.NEXT_PUBLIC_STRAVA_CLIENT_ID;
-              const redirectUri = `${window.location.origin}/api/strava/callback`;
-              const scope = "activity:read_all,profile:read_all";
-              const authUrl = `https://www.strava.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}&approval_prompt=force`;
-              window.location.href = authUrl;
+              authWithStrava();
             }}
             disabled={loading}
             className={`w-full py-3 px-6 font-semibold cursor-pointer transition-all duration-300 flex items-center justify-center gap-3

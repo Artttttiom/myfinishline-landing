@@ -65,22 +65,18 @@ const ProfileUserline = () => {
           <div className="flex items-center gap-4">
             <StatBlock
               label="Total distance"
-              value={
-                handleConvertDistance(stats.all_run_totals?.distance) || "0"
-              }
+              value={handleConvertDistance(user.total_distance) || "0"}
             />
             <StatBlock
               label="Total hours"
               value={
-                handleConvertTime(
-                  stats.all_run_totals?.moving_time,
-                  "hoursOnly"
-                ) || "0"
+                handleConvertTime(user.total_moving_time_hours, "hoursOnly") ||
+                "0"
               }
             />
             <StatBlock
               label="Total runs"
-              value={stats.all_run_totals?.count?.toString() || "0"}
+              value={user.total_activities_count?.toString() || "0"}
             />
           </div>
         </div>

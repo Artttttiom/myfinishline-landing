@@ -15,4 +15,5 @@ export interface IUser {
   total_moving_time_hours: number;
   updated_at: string;
   username: string;
+  has_strava_connect: boolean;
 }
