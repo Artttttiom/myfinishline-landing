@@ -4,13 +4,7 @@ import CelebrationComponent from "../../Shared/CelebrateComponent/CelebrateCompo
 import { useLottie } from "lottie-react";
 import award from "./trophy.json";
 
-const AwardModal = ({
-  stepName,
-  onCloseClick,
-}: {
-  stepName: string;
-  onCloseClick: () => void;
-}) => {
+const AwardModal = ({ onCloseClick }: { onCloseClick: () => void }) => {
   const options = {
     animationData: award,
     loop: false,
@@ -42,7 +36,7 @@ const AwardModal = ({
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 3, ease: "easeInOut" }}
             >
-              Congratulations! You finished the {stepName} step!
+              Congratulations! You finished the step!
             </motion.span>
           </motion.div>
           <motion.button

@@ -4,10 +4,12 @@ import storage from "redux-persist/lib/storage";
 
 import activitiesSlice from "./features/activities/activitiesSlice";
 import userReducer from "./features/user/userSlice";
+import challengeSlice from "./features/challenge/challengeSlice";
 
 const rootReducer = combineReducers({
   user: userReducer,
   activities: activitiesSlice,
+  challenge: challengeSlice,
 });
 
 const persistConfig = {

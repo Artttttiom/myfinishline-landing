@@ -1,3 +1,49 @@
+export interface IBackgroundImage {
+  id: number;
+  image_url: string;
+  challenge_id: number;
+}
+
+export interface IStatus {
+  id: number | null;
+  name: string;
+  type: string;
+}
+
+export interface IStory {
+  id: number;
+  image_url: string;
+  title: string;
+  content: string;
+  challenge_step_id: string;
+}
+
+export interface IStep {
+  challenge_id: number;
+  completed: boolean;
+  distance_by_next_step: string;
+  id: number;
+  index: number;
+  story: IStory[];
+  user_distance: number;
+  user_distance_percent: number;
+  x_coordinate: string;
+  y_coordinate: string;
+  active: boolean;
+  title: string;
+}
+
+export interface IActiveChallenge {
+  background_images: IBackgroundImage[];
+  description: string;
+  id: number;
+  name: string;
+  status: IStatus;
+  status_id: number;
+  steps: IStep[];
+  total_distance: string;
+}
+
 export interface IActivity {
   activity_date: string;
   activity_id: string;

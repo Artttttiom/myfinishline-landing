@@ -3,13 +3,7 @@ import { createPortal } from "react-dom";
 import { AnimatePresence, motion, useAnimation } from "motion/react";
 import Image from "next/image";
 import StoryShadow from "./StoryShadow/StoryShadow";
-
-export interface IStory {
-  id: number;
-  image: string;
-  foregroundImage?: string;
-  description: string;
-}
+import { IStory } from "@/app/types";
 
 const StoryList = ({
   stories,
@@ -71,6 +65,8 @@ const StoryList = ({
 
   const currentStory =
     typeof activeStoryIndex === "number" ? stories[activeStoryIndex] : null;
+
+  console.log(currentStory);
 
   const handlePauseAnimation = () => {
     pauseTimeoutRef.current = setTimeout(() => {
@@ -143,12 +139,10 @@ const StoryList = ({
       {currentStory && (
         <Image
           className="fixed object-cover z-50 w-full h-full blur-xl opacity-50"
-          src={currentStory?.image}
+          src={currentStory?.image_url}
           fill
           alt="Story background"
           priority
-          placeholder="blur"
-          blurDataURL={currentStory?.image}
         />
       )}
 
@@ -205,10 +199,8 @@ const StoryList = ({
               className="relative w-full h-full"
             >
               <Image
-                placeholder="blur"
-                blurDataURL={currentStory?.image}
                 className="w-full h-full object-contain"
-                src={currentStory?.image}
+                src={currentStory?.image_url}
                 fill
                 quality={75}
                 alt="Story"
@@ -220,14 +212,14 @@ const StoryList = ({
         </AnimatePresence>
       </div>
 
-      {currentStory && currentStory.description && (
+      {currentStory && currentStory.content && (
         <div className="absolute bottom-0 z-100 left-0 right-0 bg-black/75 backdrop-blur-md">
           <div className="relative block h-full max-w-[1080px] mx-auto pt-2 px-2 pb-9">
             <div className="absolute bottom-1 right-2 w-fit z-100 flex gap-1 bg-black/50 px-3 py-1.5 rounded-full text-white text-xs">
               {activeStoryIndex + 1} / {stories.length}
             </div>
             <p className="text-white text-lg text-center font-medium">
-              {currentStory.description}
+              {currentStory.content}
             </p>
           </div>
         </div>

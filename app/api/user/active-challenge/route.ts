@@ -14,9 +14,10 @@ export async function GET() {
       );
     }
 
-    const { data } = await instance.get("/user/activities", {
+    const { data } = await instance.get("/challenges/active", {
       headers: {
         Authorization: "Bearer " + token,
+        "Content-Type": "multipart/form-data",
       },
     });
 
