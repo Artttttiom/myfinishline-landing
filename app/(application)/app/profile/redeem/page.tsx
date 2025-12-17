@@ -45,7 +45,7 @@ const Redeem = () => {
   };
 
   return (
-    <div>
+    <div className="p-4 max-w-4xl mx-auto">
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
