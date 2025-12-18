@@ -10,6 +10,8 @@ const initialState: IActiveChallenge = {
   status_id: 0,
   steps: [],
   background_images: [],
+  user_distance: 0,
+  activate_date: "",
 };
 
 const challengeSlice = createSlice({

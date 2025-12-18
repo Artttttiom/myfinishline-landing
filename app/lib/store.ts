@@ -5,17 +5,21 @@ import storage from "redux-persist/lib/storage";
 import activitiesSlice from "./features/activities/activitiesSlice";
 import userReducer from "./features/user/userSlice";
 import challengeSlice from "./features/challenge/challengeSlice";
+import productsSlice from "./features/products/productsSlice";
+import rewardsSlice from "./features/rewards/rewardsSlice";
 
 const rootReducer = combineReducers({
   user: userReducer,
   activities: activitiesSlice,
   challenge: challengeSlice,
+  products: productsSlice,
+  rewards: rewardsSlice,
 });
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["user", "activities"],
+  whitelist: ["user", "activities", "products"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -3,13 +3,26 @@
 import { motion } from "framer-motion";
 
 interface StatsBlockProps {
+  completedDistance: number;
   distance: string;
   steps: Array<{ completed: boolean }>;
+  startDate: string;
 }
 
-const MapStats = ({ steps, distance }: StatsBlockProps) => {
+const MapStats = ({
+  steps,
+  completedDistance,
+  distance,
+  startDate,
+}: StatsBlockProps) => {
   const completedSteps = steps.filter((s) => s.completed).length;
-  const progressPercentage = (completedSteps / steps.length) * 100;
+  const progressPercentage = (completedDistance / Number(distance)) * 100;
+
+  const createdDate = new Date(startDate);
+  const currentDate = new Date();
+
+  const d = 24 * 60 * 60 * 1000;
+  const daysOnTrack = (Number(currentDate) - Number(createdDate)) / d;
 
   return (
     <motion.div className="sticky w-40 bottom-4 right-4 z-30 float-right">
@@ -18,12 +31,14 @@ const MapStats = ({ steps, distance }: StatsBlockProps) => {
           <div className="flex justify-between items-center mb-2">
             <span className="text-xs font-medium text-gray-600">Distance</span>
             <span className="text-xs font-semibold text-gray-800">
-              0/{distance} km
+              {completedDistance || 0}/{distance || 0} km
             </span>
           </div>
           <div className="flex justify-between items-center">
             <span className="text-xs font-medium text-gray-600">On track</span>
-            <span className="text-xs font-semibold text-green-600">1 day</span>
+            <span className="text-xs font-semibold text-green-600">
+              {(daysOnTrack || 0)?.toFixed(2)} days
+            </span>
           </div>
         </motion.div>
 
@@ -44,7 +59,7 @@ const MapStats = ({ steps, distance }: StatsBlockProps) => {
           </div>
           <div className="text-right mt-1">
             <span className="text-xs text-gray-500">
-              {progressPercentage.toFixed(0)}%
+              {(progressPercentage || 0).toFixed(0)}%
             </span>
           </div>
         </div>

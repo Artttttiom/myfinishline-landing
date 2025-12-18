@@ -1,18 +1,19 @@
+import Link from "next/link";
+
 export default function SuccessPage() {
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+    <div className="h-[calc(100vh-300px)] bg-gray-50 flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-md text-center">
-        <div className="text-green-600 text-6xl mb-4">✓</div>
-        <h1 className="text-2xl font-bold text-green-600 mb-4">
+        <div className="flex items-center text-2xl font-bold text-green-600 mb-4">
           Payment Successful!
-        </h1>
+        </div>
         <p className="text-gray-600 mb-4">Thank you for your purchase.</p>
-        <a
-          href="/"
-          className="inline-block bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
+        <Link
+          href="/signup"
+          className="inline-block w-full bg-black text-white py-2 px-4 rounded-md"
         >
-          Return Home
-        </a>
+          Sign up
+        </Link>
       </div>
     </div>
   );

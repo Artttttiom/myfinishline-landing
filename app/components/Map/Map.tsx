@@ -7,14 +7,14 @@ import AwardModal from "./AwardModal/AwardModal";
 import { Xwrapper } from "react-xarrows";
 import StoryModal from "../Shared/StoryList/StoryList";
 import { IActiveChallenge, IStep } from "@/app/types";
-import { useAppDispatch } from "@/app/lib/hooks";
-import { updateChallenge } from "@/app/lib/features/challenge/challengeSlice";
 import MapStats from "./MapStats/MapStats";
 
 const Map = ({
   background_images,
   steps,
   total_distance,
+  activate_date,
+  user_distance,
 }: IActiveChallenge) => {
   const [activeStep, setActiveStep] = useState<IStep | null>(null);
   const [isAwardOpen, setIsAwardOpen] = useState(false);
@@ -200,7 +200,12 @@ const Map = ({
         </div>
 
         <div className="fixed bottom-18 right-6 z-30">
-          <MapStats distance={total_distance} steps={steps} />
+          <MapStats
+            distance={total_distance}
+            completedDistance={user_distance}
+            steps={steps}
+            startDate={activate_date}
+          />
         </div>
       </div>
 

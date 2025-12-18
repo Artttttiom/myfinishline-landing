@@ -1,9 +1,13 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Swiper as SwiperType } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Reward from "../Application/Reward/Reward";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import "swiper/css";
+import axios from "axios";
+import { useAppDispatch, useAppSelector } from "@/app/lib/hooks";
+import { setRewards } from "@/app/lib/features/rewards/rewardsSlice";
+import { IReward } from "@/app/types";
 
 const rewards = [
   {
@@ -34,8 +38,12 @@ const rewards = [
 
 const RewardsSwiper = () => {
   const swiperRef = useRef<SwiperType | null>(null);
+  const { rewards }: { rewards: IReward[] } = useAppSelector(
+    (state) => state.rewards
+  );
   const [isFirstSlide, setIsFirstSlide] = useState(true);
   const [isLastSlide, setIsLastSlide] = useState(false);
+  const dispatch = useAppDispatch();
 
   const handleGoNext = () => {
     if (swiperRef.current) {
@@ -49,28 +57,45 @@ const RewardsSwiper = () => {
     }
   };
 
+  const handleLoadRewards = async () => {
+    try {
+      const { data } = await axios.get("/api/user/rewards");
+      if (data?.length) {
+        dispatch(setRewards(data));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    handleLoadRewards();
+  }, []);
+
   return (
     <section className="bg-[#F4F4F5] py-10 mt-14">
       <div className="flex items-center justify-between">
         <h4 className="font-medium text-3xl leading-9 text-[#09090B] px-4">
           My Rewards
         </h4>
-        <div>
-          <button
-            className="px-4 cursor-pointer"
-            onClick={handleGoPrev}
-            disabled={isFirstSlide}
-          >
-            <ArrowLeft color={isFirstSlide ? "#797979" : "black"} />
-          </button>
-          <button
-            className="px-4 cursor-pointer"
-            onClick={handleGoNext}
-            disabled={isLastSlide}
-          >
-            <ArrowRight color={isLastSlide ? "#797979" : "black"} />
-          </button>
-        </div>
+        {rewards.length > 2 && (
+          <div>
+            <button
+              className="px-4 cursor-pointer"
+              onClick={handleGoPrev}
+              disabled={isFirstSlide}
+            >
+              <ArrowLeft color={isFirstSlide ? "#797979" : "black"} />
+            </button>
+            <button
+              className="px-4 cursor-pointer"
+              onClick={handleGoNext}
+              disabled={isLastSlide}
+            >
+              <ArrowRight color={isLastSlide ? "#797979" : "black"} />
+            </button>
+          </div>
+        )}
       </div>
 
       <Swiper
@@ -85,12 +110,12 @@ const RewardsSwiper = () => {
           setIsLastSlide(swiper.isEnd);
         }}
       >
-        {rewards.map((reward) => (
+        {(rewards || []).map((reward) => (
           <SwiperSlide key={reward.id} className="px-4">
             <Reward
-              title={reward.title}
+              title={reward.name}
               description={reward.description}
-              image={reward.image}
+              image={reward.image_url || ""}
             />
           </SwiperSlide>
         ))}

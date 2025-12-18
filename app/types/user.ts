@@ -5,7 +5,7 @@ export interface IUser {
   email: string;
   first_name: string;
   full_avatar_url: string | null;
-  has_activated_code: boolean;
+  has_activated_code: boolean | null;
   id: number;
   last_name: string | null;
   phone: string | null;

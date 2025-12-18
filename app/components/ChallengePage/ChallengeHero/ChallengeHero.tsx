@@ -11,13 +11,7 @@ interface IChallengeProps {
   title: string;
   description: string;
   distance: string;
-  image: {
-    src: string;
-    alt: string;
-    width: number;
-    height: number;
-    className?: string;
-  };
+  image: string;
 }
 
 const ChallengeHero = ({
@@ -107,7 +101,7 @@ const ChallengeHero = ({
       block: "center",
     });
   };
-
+  console.log(image);
   return (
     <>
       <motion.div
@@ -127,7 +121,7 @@ const ChallengeHero = ({
           variants={itemVariants}
           className="text-muted-foreground my-2 text-sm md:my-4 md:text-lg lg:my-6 lg:text-xl"
         >
-          {distance}
+          {distance} km
         </motion.p>
 
         <motion.p
@@ -154,14 +148,16 @@ const ChallengeHero = ({
           variants={imageVariants}
           className="bg-background/45 border-background relative mt-10 justify-self-end overflow-hidden rounded-t-xl border p-2 md:mt-20 md:rounded-t-3xl md:p-4 lg:mt-25 mx-auto"
         >
-          <Image
-            src={image.src}
-            alt={image.alt}
-            width={image.width}
-            height={image.height}
-            priority
-            className="border-background/45 rounded-t-sm md:rounded-t-xl w-full"
-          />
+          {image && (
+            <Image
+              src={image}
+              alt={"Challenge image"}
+              width={800}
+              height={600}
+              priority
+              className="border-background/45 max-h-100 rounded-t-sm md:rounded-t-xl w-full"
+            />
+          )}
         </motion.div>
       </motion.div>
     </>

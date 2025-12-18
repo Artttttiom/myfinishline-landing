@@ -14,7 +14,6 @@ function StravaIntegrationButton() {
     try {
       const response = await axios.get("/api/user/disconnect-strava");
       dispatch(updateUser({ has_strava_connect: false }));
-      console.log(response);
     } catch (error) {
       console.error("Error logging out from Strava:", error);
     }

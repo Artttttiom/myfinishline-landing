@@ -8,7 +8,7 @@ const initialState: IUser = {
   email: "",
   first_name: "",
   full_avatar_url: null,
-  has_activated_code: false,
+  has_activated_code: null,
   id: 0,
   last_name: null,
   phone: null,

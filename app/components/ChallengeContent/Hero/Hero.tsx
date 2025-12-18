@@ -8,9 +8,11 @@ import { Button } from "@/app/components/ui/button";
 import usePrefersReducedMotion from "@/app/hooks/usePrefersReducedMotion";
 import Noise from "../../Shared/Noise/noise";
 import content from "@/app/lib/content/landing/content";
+import { useRouter } from "next/navigation";
 
 export default function Hero() {
   const prefersReducedMotion = usePrefersReducedMotion();
+  const router = useRouter();
 
   // Animation variants
   const containerVariants = {
@@ -83,6 +85,10 @@ export default function Hero() {
     },
   };
 
+  const handleGoToLogin = () => {
+    router.push("/login");
+  };
+
   return (
     <section className="section-padding relative flex flex-col items-center bg-[url(/images/gradient.webp)] bg-cover bg-center bg-no-repeat pb-0! dark:bg-[url(/images/gradient-dark.webp)]">
       <motion.div
@@ -116,6 +122,7 @@ export default function Hero() {
           <Button
             size="lg"
             className="mt-2 rounded-full pl-5.5! before:rounded-full"
+            onClick={handleGoToLogin}
           >
             {content.hero.button_label}
             <div className="bg-background/15 border-background/10 grid size-5.5 place-items-center rounded-full border">

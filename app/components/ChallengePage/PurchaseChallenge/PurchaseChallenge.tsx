@@ -1,17 +1,19 @@
 import Image from "next/image";
-import { Button } from "../../ui/button";
-import { Check, Dot, ListCheck } from "lucide-react";
+import { Check } from "lucide-react";
 import Link from "next/link";
+import { CurrencieSymbols, IPrice } from "@/app/types";
 
 interface IPurchaseChallengeProps {
   id: number;
   imageSrc: string;
   title: string;
+  price: IPrice;
 }
 
 const PurchaseChallenge = ({
   title,
   id,
+  price,
   imageSrc,
 }: IPurchaseChallengeProps) => {
   return (
@@ -41,10 +43,11 @@ const PurchaseChallenge = ({
         </li>
       </ul>
       <span className="block text-2xl mx-auto text-center font-medium mt-2">
-        $19.00
+        {CurrencieSymbols[price.currency]}
+        {price.amount}
       </span>
       <Link
-        href="/payment"
+        href={"/payment?challenge_id=" + id}
         className="uppercase text-2xl px-20 py-2 mt-2 bg-card-foreground block rounded text-background"
       >
         Sign up now

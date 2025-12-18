@@ -1,10 +1,11 @@
 "use client";
 
 import ActivitiesList from "@/app/components/Application/Stats/ActivitiesList/ActivitiesList";
+import { Button } from "@/app/components/ui/button";
 import { setActivities } from "@/app/lib/features/activities/activitiesSlice";
 import { useAppDispatch, useAppSelector } from "@/app/lib/hooks";
 import axios from "axios";
-import { Loader2 } from "lucide-react";
+import { Loader2, RefreshCcw, RefreshCw } from "lucide-react";
 import { AnimatePresence } from "motion/react";
 import { useEffect, useState } from "react";
 
@@ -12,15 +13,16 @@ const page = () => {
   const { isLoaded, activities } = useAppSelector((state) => state.activities);
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   const handleGetActivitiesFromStrava = async () => {
-    setIsLoading(true);
+    setIsUpdating(true);
     try {
       await axios.get("/api/user/refresh-activities");
     } catch (error) {
       console.error("Error fetching activities:", error);
     } finally {
-      setIsLoading(false);
+      setIsUpdating(false);
     }
   };
 
@@ -36,18 +38,40 @@ const page = () => {
     }
   };
 
-  useEffect(() => {
+  const handleLoadAllActivities = async () => {
+    await handleGetActivitiesFromStrava();
+    await handleLoadActivities();
+  };
+
+  const handleFirstLoadActivities = async () => {
     if (!isLoaded) {
-      handleGetActivitiesFromStrava();
+      await handleGetActivitiesFromStrava();
     }
-    handleLoadActivities();
+    await handleLoadActivities();
+  };
+
+  useEffect(() => {
+    handleFirstLoadActivities();
   }, []);
 
   return (
     <main className="relative px-4">
-      <h4 className="mt-10 text-3xl text-center font-medium leading-9 text-[#09090B]">
-        Recent Activities
-      </h4>
+      <div className="mt-10 flex items-center justify-between">
+        <div className="flex-1"></div>
+        <h4 className="text-3xl text-center font-medium leading-9 text-[#09090B] flex-1">
+          Recent Activities
+        </h4>
+        <div className="flex-1 flex justify-end">
+          <Button
+            onClick={handleLoadAllActivities}
+            className="ml-auto mr-0 rounded-full w-10 h-10"
+          >
+            <div className={`${isUpdating && "animate-spin"}`}>
+              <RefreshCw />
+            </div>
+          </Button>
+        </div>
+      </div>
       <AnimatePresence mode="wait">
         {isLoading ? (
           <div className="flex justify-center items-center mt-8">

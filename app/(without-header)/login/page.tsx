@@ -39,7 +39,6 @@ export default function Login() {
         email: formData.email,
         password: formData.password,
       });
-      console.log(data);
       dispatch(setUser(data.user));
       router.replace("/app");
     } catch (error: any) {

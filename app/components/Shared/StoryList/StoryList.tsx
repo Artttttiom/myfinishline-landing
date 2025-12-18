@@ -66,8 +66,6 @@ const StoryList = ({
   const currentStory =
     typeof activeStoryIndex === "number" ? stories[activeStoryIndex] : null;
 
-  console.log(currentStory);
-
   const handlePauseAnimation = () => {
     pauseTimeoutRef.current = setTimeout(() => {
       setIsPaused(true);
@@ -146,7 +144,7 @@ const StoryList = ({
         />
       )}
 
-      <div className="top-0 h-screen z-100 max-w-[1080px] w-full mx-auto relative">
+      <div className="top-0 h-screen z-100 max-w-270 w-full mx-auto relative">
         <div className="absolute top-0 left-0 w-full z-50 flex gap-1">
           {stories.map((story, index) => {
             const isActive = index === activeStoryIndex;

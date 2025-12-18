@@ -27,8 +27,6 @@ const page = () => {
     handleGetActiveChallenge();
   }, []);
 
-  console.log("challenge", challenge);
-
   return <Map {...challenge} />;
 };
 

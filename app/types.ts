@@ -42,6 +42,8 @@ export interface IActiveChallenge {
   status_id: number;
   steps: IStep[];
   total_distance: string;
+  activate_date: string;
+  user_distance: number;
 }
 
 export interface IActivity {
@@ -81,4 +83,45 @@ export interface IAthlete {
   profile: string;
   friend: null;
   follower: null;
+}
+
+export enum Currencies {
+  EUR = "EUR",
+  USD = "USD",
+}
+
+export enum CurrencieSymbols {
+  EUR = "€",
+  USD = "$",
+}
+
+export interface IPrice {
+  amount: number;
+  currency: Currencies;
+  stripe_price_id: string;
+}
+
+// Product from landing page
+export interface IProduct {
+  name: string;
+  description: string;
+  images: string[];
+  main_image: string;
+  prices: IPrice[];
+  stripe_product_id: string;
+  challenge_info: IActiveChallenge;
+  content: {
+    id: number;
+    title: string;
+    image: string;
+    paragraphs: { id: number; text: string }[];
+  }[];
+}
+
+export interface IReward {
+  id: number;
+  challenge_id: number;
+  name: string;
+  description: string;
+  image_url: string | null;
 }

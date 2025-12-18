@@ -1,33 +1,17 @@
+"use client";
+
 import ChallengeHero from "@/app/components/ChallengePage/ChallengeHero/ChallengeHero";
 import LumenBackgroundBlock from "@/app/components/Shared/LumenBackgroundBlock/LumenBackgroundBlock";
-import content from "@/app/lib/content/landing/content";
 import ChallengeContent from "@/app/components/ChallengePage/ChallengePage";
 import PurchaseChallenge from "@/app/components/ChallengePage/PurchaseChallenge/PurchaseChallenge";
-import Image from "next/image";
 import FAQSection from "@/app/components/ChallengeContent/FAQSection/FAQSection";
-import { ReactNode } from "react";
 import { cn } from "@/app/lib/utils";
-
-interface IChallenge {
-  id: number;
-  title: string;
-  description: string;
-  icon?: any;
-  distance: string;
-  image: {
-    src: string;
-    alt: string;
-    width: number;
-    height: number;
-    className?: string;
-  };
-  content: {
-    id: number;
-    title: string;
-    image: string;
-    paragraphs: { id: number; text: string }[];
-  }[];
-}
+import { useAppDispatch, useAppSelector } from "@/app/lib/hooks";
+import { useParams } from "next/navigation";
+import { Currencies, IProduct } from "@/app/types";
+import { useEffect } from "react";
+import { setProducts } from "@/app/lib/features/products/productsSlice";
+import axios from "axios";
 
 interface IChallengesPageProps {
   params: {
@@ -35,41 +19,81 @@ interface IChallengesPageProps {
   };
 }
 
-const page = async ({ params }: IChallengesPageProps) => {
-  const challengeId = (await params).challengeId;
+const page = ({ params }: IChallengesPageProps) => {
+  const { challengeId } = useParams();
+  const { products } = useAppSelector((state) => state.products);
+  const dispatch = useAppDispatch();
 
-  // @ts-ignore
-  const challenge: IChallenge = content.challenges.features.find(
-    (challenge) => challenge.id === Number(challengeId)
+  const product: IProduct = products.find(
+    (product) => product.challenge_info.id === Number(challengeId)
   ) || {
-    id: 0,
-    title: "",
+    name: "",
     description: "",
-    distance: "",
-    icon: undefined,
+    images: [],
+    main_image: "",
     content: [],
-    image: {
-      src: "",
-      alt: "",
-      width: 0,
-      height: 0,
-      className: "",
+    prices: [
+      {
+        amount: 0,
+        currency: Currencies.EUR,
+        stripe_price_id: "",
+      },
+    ],
+    stripe_product_id: "",
+    challenge_info: {
+      background_images: [
+        {
+          id: 0,
+          image_url: "",
+          challenge_id: 0,
+        },
+      ],
+      description: "",
+      id: 0,
+      name: "",
+      status: {
+        id: null,
+        name: "",
+        type: "",
+      },
+      status_id: 0,
+      steps: [],
+      total_distance: "",
+      activate_date: "",
+      user_distance: 0,
     },
   };
+
+  const handleLoadProducts = async () => {
+    try {
+      const { data }: { data: IProduct[] } = await axios.get(
+        "/api/payment/products"
+      );
+      dispatch(setProducts(data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (!products.length) {
+      handleLoadProducts();
+    }
+  }, []);
 
   return (
     <>
       <LumenBackgroundBlock>
         <ChallengeHero
-          id={challenge.id}
-          title={challenge.title}
-          description={challenge.description}
-          image={challenge.image}
-          distance={challenge.distance}
+          id={product?.challenge_info.id}
+          title={product.name}
+          description={product.description}
+          image={product.main_image}
+          distance={product.challenge_info.total_distance}
         />
       </LumenBackgroundBlock>
       <section className="mt-40">
-        <ChallengeContent content={challenge.content} />
+        <ChallengeContent content={product.content} />
       </section>
 
       <section className="section-padding relative overflow-hidden">
@@ -89,9 +113,10 @@ const page = async ({ params }: IChallengesPageProps) => {
         </div>
         <div className="relative w-full py-10 flex items-center justify-center">
           <PurchaseChallenge
-            title={challenge.title}
-            id={challenge.id}
-            imageSrc={challenge.image.src}
+            title={product.name}
+            price={product.prices?.[0]}
+            id={product.challenge_info.id}
+            imageSrc={product.main_image}
           />
         </div>
       </section>

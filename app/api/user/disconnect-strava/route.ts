@@ -22,14 +22,12 @@ export const GET = async () => {
         },
       }
     );
-    console.log(data);
-    console.log("adadadada");
+
     cookieStore.delete("strava_token");
     cookieStore.delete("strava_athlete");
 
     return NextResponse.json(data);
   } catch (error: any) {
-    console.log("erroras asdasdasda");
     return NextResponse.json(
       {
         message: error.response?.data.message || "Error disconnecting Strava",

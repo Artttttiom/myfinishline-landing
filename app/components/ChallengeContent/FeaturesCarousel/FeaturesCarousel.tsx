@@ -23,15 +23,18 @@ import usePrefersReducedMotion from "@/app/hooks/usePrefersReducedMotion";
 import { cn } from "@/app/lib/utils";
 import content from "@/app/lib/content/landing/content";
 import Link from "next/link";
-
-const features = content.challenges.features;
+import axios from "axios";
+import { IProduct } from "@/app/types";
+import { useAppDispatch, useAppSelector } from "@/app/lib/hooks";
+import { setProducts } from "@/app/lib/features/products/productsSlice";
 
 export default function FeaturesCarousel() {
   const prefersReducedMotion = usePrefersReducedMotion();
   const [api, setApi] = useState<CarouselApi>();
   const [activeIndex, setActiveIndex] = useState(0);
+  const { products } = useAppSelector((state) => state.products);
+  const dispatch = useAppDispatch();
 
-  // Animation variants
   const headerVariants = {
     hidden: { opacity: 0, y: 30, filter: "blur(2px)" },
     visible: {
@@ -98,7 +101,23 @@ export default function FeaturesCarousel() {
     api?.scrollTo(index);
   };
 
-  // Listen to carousel changes to update active index
+  const handleGetProducts = async () => {
+    try {
+      const data: { data: IProduct[] } = await axios.get(
+        "/api/payment/products"
+      );
+      if (data.data.length) {
+        dispatch(setProducts(data.data));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    handleGetProducts();
+  }, []);
+
   useEffect(() => {
     if (!api) return;
 
@@ -107,7 +126,7 @@ export default function FeaturesCarousel() {
     };
 
     api.on("select", onSelect);
-    onSelect(); // Set initial state
+    onSelect();
 
     return () => {
       api.off("select", onSelect);
@@ -121,9 +140,7 @@ export default function FeaturesCarousel() {
     >
       <Noise />
       <div className="container grid gap-8 lg:grid-cols-3">
-        {/* Left Content */}
         <div className="flex flex-col gap-8 lg:col-span-1">
-          {/* Title and Description */}
           <motion.div
             className="space-y-4"
             initial={prefersReducedMotion ? "visible" : "hidden"}
@@ -139,21 +156,19 @@ export default function FeaturesCarousel() {
             </p>
           </motion.div>
 
-          {/* Icon Buttons */}
           <motion.div
-            className="mx-auto hidden max-w-[155px] grid-cols-2 justify-between gap-5 lg:grid"
+            className="mx-auto hidden max-w-38.75 grid-cols-2 justify-between gap-5 lg:grid"
             initial={prefersReducedMotion ? "visible" : "hidden"}
             whileInView="visible"
             viewport={{ once: true, amount: 0.3 }}
             variants={containerVariants}
           >
-            {features.map((feature, index) => {
-              const IconComponent = feature.icon;
+            {products?.map((product, index) => {
               const isActive = index === activeIndex;
 
               return (
                 <motion.button
-                  key={feature.id}
+                  key={product.challenge_info.id}
                   onClick={() => handleFeatureClick(index)}
                   variants={buttonVariants}
                   className={cn(
@@ -161,17 +176,16 @@ export default function FeaturesCarousel() {
                     isActive && "bg-border"
                   )}
                 >
-                  <IconComponent className="size-5" strokeWidth={2.1} />
+                  {product.challenge_info.id}
                 </motion.button>
               );
             })}
           </motion.div>
 
-          {/* Dots Indicator */}
           <div className="mt-6 hidden flex-1 items-end justify-center gap-1 lg:flex">
-            {features.map((_, index) => (
+            {products?.map((product, index) => (
               <button
-                key={index}
+                key={product.challenge_info.id}
                 onClick={() => handleFeatureClick(index)}
                 className={cn(
                   "size-1.5 cursor-pointer rounded-full transition-all duration-300",
@@ -185,7 +199,6 @@ export default function FeaturesCarousel() {
           </div>
         </div>
 
-        {/* Right Content - Carousel Cards */}
         <motion.div
           className="select-none md:mask-r-from-60% md:mask-r-to-100% lg:col-span-2"
           initial={prefersReducedMotion ? "visible" : "hidden"}
@@ -202,31 +215,30 @@ export default function FeaturesCarousel() {
             className="cursor-grab"
           >
             <CarouselContent className="h-full">
-              {features.map((feature) => (
+              {products?.map((product) => (
                 <CarouselItem
-                  key={feature.id}
+                  key={product.challenge_info.id}
                   className="h-full md:basis-[60%]"
                 >
-                  <Link href={`/challenges/${feature.id}`}>
+                  <Link href={`/challenges/${product.challenge_info.id}`}>
                     <Card className="bg-border border-input aspect-284/362 h-full pb-0! transition-all duration-300 hover:shadow-lg lg:aspect-384/562">
                       <CardHeader>
                         <CardTitle className="text-lg leading-tight md:text-2xl lg:text-3xl">
-                          {feature.title}
+                          {product.name}
                         </CardTitle>
                         <CardDescription className="text-sm md:text-lg">
-                          {feature.description}
+                          {product.description}
                         </CardDescription>
                       </CardHeader>
                       <CardContent className="relative h-full">
                         <div className="bg-card dark:bg-card-foreground border-input relative h-full overflow-hidden rounded-lg border">
                           <Image
-                            src={feature.image.src}
-                            alt={feature.image.alt}
+                            src={product.main_image}
+                            alt="Product image"
                             fill
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                             className={cn(
-                              "object-cover transition-transform duration-300 hover:scale-105 p-0!",
-                              feature.image.className
+                              "object-cover transition-transform duration-300 hover:scale-105 p-0!"
                             )}
                           />
                         </div>
@@ -238,7 +250,6 @@ export default function FeaturesCarousel() {
               ))}
             </CarouselContent>
           </Carousel>
-          {/* Icon Buttons */}
           <motion.div
             className="mx-auto my-8 flex max-w-md justify-between gap-4 lg:hidden"
             initial={prefersReducedMotion ? "visible" : "hidden"}
@@ -246,13 +257,12 @@ export default function FeaturesCarousel() {
             viewport={{ once: true, amount: 0.3 }}
             variants={containerVariants}
           >
-            {features.map((feature, index) => {
-              const IconComponent = feature.icon;
+            {products?.map((product, index) => {
               const isActive = index === activeIndex;
 
               return (
                 <motion.button
-                  key={feature.id}
+                  key={product.challenge_info.id}
                   onClick={() => handleFeatureClick(index)}
                   variants={buttonVariants}
                   className={cn(
@@ -260,7 +270,7 @@ export default function FeaturesCarousel() {
                     isActive && "bg-border"
                   )}
                 >
-                  <IconComponent className="size-5" strokeWidth={2.1} />
+                  {product.challenge_info.id}
                 </motion.button>
               );
             })}
@@ -273,7 +283,7 @@ export default function FeaturesCarousel() {
             viewport={{ once: true, amount: 0.3 }}
             variants={containerVariants}
           >
-            {features.map((_, index) => (
+            {products?.map((_, index) => (
               <motion.button
                 key={index}
                 onClick={() => handleFeatureClick(index)}
