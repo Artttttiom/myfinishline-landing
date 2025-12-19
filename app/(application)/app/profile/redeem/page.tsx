@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/app/components/ui/button";
 import {
@@ -16,15 +16,18 @@ import "flag-icons/css/flag-icons.min.css";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { countries } from "@/app/data/countries";
+import axios from "axios";
 
 const Redeem = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
-    fullName: "",
-    mobileNumber: "",
-    shippingCountry: "",
-    zip: "",
+    first_name: "",
+    last_name: "",
+    phone: "",
+    country: "",
+    zip_code: "",
     address: "",
+    email: "",
   });
   const router = useRouter();
 
@@ -32,16 +35,21 @@ const Redeem = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit = async (event: FormEvent) => {
+    event.preventDefault();
     setIsSubmitting(true);
-
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    toast.success("Medal claimed! Your medal is on its way.");
-    router.push("/app/profile/journey");
-
-    setIsSubmitting(false);
+    try {
+      await axios.post("/api/user/redeem-reward", {
+        reward_id: 1,
+        ...formData,
+      });
+      router.push("/app/profile/journey");
+      toast.success("Medal claimed! Your medal is on its way.");
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -64,22 +72,41 @@ const Redeem = () => {
         transition={{ delay: 0.1 }}
         className="mt-8"
       >
-        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+        <form onSubmit={onSubmit} className="flex flex-col gap-6">
+          <div className="flex items-center gap-2 w-full">
+            <RedeemInput
+              id="first_name"
+              label="First name"
+              placeholder="Pedro"
+              delay={0}
+              value={formData.first_name}
+              onChange={handleChange}
+            />
+            <RedeemInput
+              id="last_name"
+              label="Last name"
+              placeholder="Duarte"
+              delay={0}
+              value={formData.last_name}
+              onChange={handleChange}
+            />
+          </div>
+
           <RedeemInput
-            id="fullName"
-            label="Full name"
-            placeholder="Pedro Duarte"
-            delay={0}
-            value={formData.fullName}
+            id="phone"
+            label="Phone number"
+            placeholder="Phone number"
+            delay={0.15}
+            value={formData.phone}
             onChange={handleChange}
           />
 
           <RedeemInput
-            id="mobileNumber"
-            label="Mobile number"
-            placeholder="Shipping mobile number"
+            id="email"
+            label="Email"
+            placeholder="Email"
             delay={0.15}
-            value={formData.mobileNumber}
+            value={formData.email}
             onChange={handleChange}
           />
 
@@ -94,9 +121,9 @@ const Redeem = () => {
             </label>
             <div className="mt-2">
               <Select
-                value={formData.shippingCountry}
+                value={formData.country}
                 onValueChange={(value) => {
-                  setFormData({ ...formData, shippingCountry: value });
+                  setFormData({ ...formData, country: value });
                 }}
                 required
               >
@@ -116,11 +143,11 @@ const Redeem = () => {
           </motion.div>
 
           <RedeemInput
-            id="zip"
-            label="Zip"
+            id="zip_code"
+            label="Zip code"
             placeholder="Zip code"
             delay={0.25}
-            value={formData.zip}
+            value={formData.zip_code}
             onChange={handleChange}
           />
 

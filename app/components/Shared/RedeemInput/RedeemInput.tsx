@@ -23,7 +23,7 @@ const RedeemInput = ({
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: delay }}
-      className="space-y-2"
+      className="space-y-2 w-full"
     >
       <label htmlFor={id} className="text-sm font-medium text-foreground">
         {label}
