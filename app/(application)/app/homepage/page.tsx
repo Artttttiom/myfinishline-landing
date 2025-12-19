@@ -9,17 +9,14 @@ import axios from "axios";
 const page = () => {
   const challenge = useAppSelector((state) => state.challenge);
   const dispatch = useAppDispatch();
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleGetActiveChallenge = async () => {
-    setIsLoading(true);
     try {
       const { data } = await axios.get("/api/user/active-challenge");
       dispatch(setChallenge(data));
     } catch (error) {
       console.log(error);
     } finally {
-      setIsLoading(false);
     }
   };
 
@@ -27,7 +24,7 @@ const page = () => {
     handleGetActiveChallenge();
   }, []);
 
-  return <Map {...challenge} />;
+  if (challenge.status.type === "active") return <Map {...challenge} />;
 };
 
 export default page;
