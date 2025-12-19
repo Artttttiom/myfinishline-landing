@@ -5,12 +5,11 @@ import Link from "next/link";
 import { Input } from "../../components/ui/input";
 import { Button } from "../../components/ui/button";
 import Image from "next/image";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { useAppDispatch } from "@/app/lib/hooks";
 import { setUser } from "@/app/lib/features/user/userSlice";
-import { IUser } from "@/app/types/user";
 import { useRouter } from "next/navigation";
-import instance from "@/app/lib/utils/instance";
+import GoogleLogin from "@/app/components/Shared/GoogleLogin/GoogleLogin";
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -75,7 +74,7 @@ export default function Login() {
   return (
     <section className="grid min-h-svh lg:grid-cols-2">
       <div className="flex items-center justify-center px-2">
-        <div className="max-w-[500px] w-full flex flex-col mx-auto">
+        <div className="max-w-125 w-full flex flex-col mx-auto">
           <h1 className="text-2xl sm:text-3xl font-semibold text-center">
             Welcome back
           </h1>
@@ -148,7 +147,7 @@ export default function Login() {
             Sign in with Strava
           </Button>
 
-          <Button
+          {/* <Button
             variant="outline"
             disabled={formData.isLoading}
             className="w-full mt-2 py-3 px-6 font-semibold cursor-pointer transition-all duration-300 flex items-center justify-center gap-3"
@@ -160,7 +159,8 @@ export default function Login() {
               alt="Google"
             />
             Sign in with Google
-          </Button>
+          </Button> */}
+          <GoogleLogin />
           <div className="mt-6 space-y-3 text-sm">
             <Link
               href="/signup"
