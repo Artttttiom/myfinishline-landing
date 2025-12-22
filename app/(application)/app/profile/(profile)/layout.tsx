@@ -23,7 +23,7 @@ const page = ({
   children: React.ReactNode;
 }>) => {
   return (
-    <main className="py-4 max-w-4xl mx-auto">
+    <main className="max-w-4xl mx-auto">
       <ProfileUserline />
       <div className="mt-4 px-4">
         <ProfileTabs links={profileLinks} layoutId="profile-tab-navigation" />

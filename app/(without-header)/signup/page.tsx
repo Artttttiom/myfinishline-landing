@@ -88,7 +88,7 @@ export default function Register() {
   return (
     <section className="grid min-h-svh lg:grid-cols-2">
       <section className="flex items-center justify-center px-2">
-        <div className="max-w-[500px] w-full flex flex-col mx-auto">
+        <div className="max-w-125 w-full flex flex-col mx-auto">
           <h1 className="text-2xl sm:text-3xl font-semibold text-center">
             Create Account
           </h1>

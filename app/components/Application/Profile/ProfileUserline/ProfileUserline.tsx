@@ -1,6 +1,5 @@
 "use client";
 
-import { Camera } from "lucide-react";
 import Image from "next/image";
 import { motion } from "motion/react";
 import StatBlock from "@/app/components/Shared/StatBlock/StatBlock";
@@ -13,8 +12,20 @@ import { useAppSelector } from "@/app/lib/hooks";
 const ProfileUserline = () => {
   const user = useAppSelector((state) => state.user);
 
+  console.log(user);
+
   return (
-    <section className="flex justify-between px-4">
+    <section
+      style={
+        user.has_strava_connect
+          ? {
+              background:
+                "linear-gradient(180deg, rgba(0, 124, 194, 0.4) 0%, rgba(136, 227, 255, 0.4) 49.62%, rgba(255, 255, 255, 0.4) 100%)",
+            }
+          : undefined
+      }
+      className="flex justify-between px-4 py-8 rounded-tl-xl rounded-tr-xl"
+    >
       <div className="flex gap-4">
         {user?.full_avatar_url ? (
           <Image
@@ -27,8 +38,11 @@ const ProfileUserline = () => {
             alt="Profile image"
           />
         ) : (
-          <div className="border-border shrink-0 border-2 rounded-[20px] w-20 h-20 flex items-center justify-center shadow-inner shadow-accent">
-            <Camera />
+          <div
+            style={{ backgroundColor: user.avatar_color }}
+            className="border-border shrink-0 border-2 rounded-[20px] w-20 h-20 flex items-center justify-center text-3xl font-bold"
+          >
+            {user.avatar_symbol}
           </div>
         )}
         <div>
@@ -67,6 +81,19 @@ const ProfileUserline = () => {
           </div>
         </div>
       </div>
+      {user.has_strava_connect && (
+        <button className="self-start cursor-pointer relative">
+          <Image
+            src="/images/application/talisman.png"
+            alt="Talisman"
+            height={36}
+            width={36}
+          />
+          <div className="z-10 absolute right-0 top-0 w-3 h-3 rounded-full bg-[red] text-[8px] font-medium text-white">
+            2
+          </div>
+        </button>
+      )}
     </section>
   );
 };

@@ -16,4 +16,6 @@ export interface IUser {
   updated_at: string;
   username: string;
   has_strava_connect: boolean;
+  avatar_symbol: string | null;
+  avatar_color: string;
 }

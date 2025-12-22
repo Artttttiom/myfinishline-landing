@@ -19,6 +19,8 @@ const initialState: IUser = {
   updated_at: "",
   username: "",
   has_strava_connect: false,
+  avatar_symbol: "",
+  avatar_color: "#fff",
 };
 
 const userSlice = createSlice({

@@ -1,26 +1,35 @@
 "use client";
 
-import { loadStripe } from "@stripe/stripe-js";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import ChallengesPayment from "@/app/components/ChallengesPayment/ChallengesPayment";
 import Logo from "@/app/components/Shared/Logo/Logo";
-import { useAppSelector } from "@/app/lib/hooks";
-
-const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!,
-  { locale: "en" }
-);
+import { useAppDispatch, useAppSelector } from "@/app/lib/hooks";
+import { IProduct } from "@/app/types";
+import axios from "axios";
+import { setProducts } from "@/app/lib/features/products/productsSlice";
 
 export default function PaymentPage() {
   const [total, setTotal] = useState<number>(0);
   const { products } = useAppSelector((state) => state.products);
+  const dispatch = useAppDispatch();
 
-  const options = {
-    appearance: {
-      theme: "stripe" as const,
-    },
+  const handleLoadProducts = async () => {
+    try {
+      const { data }: { data: IProduct[] } = await axios.get(
+        "/api/payment/products"
+      );
+      dispatch(setProducts(data));
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  useEffect(() => {
+    if (!products.length) {
+      handleLoadProducts();
+    }
+  }, []);
 
   return (
     <div className="min-h-screen">
@@ -40,7 +49,12 @@ export default function PaymentPage() {
           {/* <Elements stripe={stripePromise} options={options}>
             <PaymentForm total={total} />
           </Elements> */}
-          <ChallengesPayment products={products} handleUpdateTotal={setTotal} />
+          {!!products.length && (
+            <ChallengesPayment
+              products={products}
+              handleUpdateTotal={setTotal}
+            />
+          )}
         </div>
       </div>
     </div>
