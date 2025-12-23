@@ -10,9 +10,20 @@ import Clouds from "@/app/components/Map/Clouds/Clouds";
 const Page = () => {
   const challenge = useAppSelector((state) => state.challenge);
   const dispatch = useAppDispatch();
+
   const [isFetching, setIsFetching] = useState(true);
+  const [shouldAnimate, setShouldAnimate] = useState(false);
 
   useEffect(() => {
+    const hasSeenClouds = sessionStorage.getItem("clouds_seen");
+
+    if (hasSeenClouds) {
+      setIsFetching(false);
+      setShouldAnimate(false);
+    } else {
+      setShouldAnimate(true);
+    }
+
     (async () => {
       try {
         const data = await getUserActiveChallenge();
@@ -20,7 +31,7 @@ const Page = () => {
       } catch (error) {
         console.error("Failed to load challenge:", error);
       } finally {
-        // Data is now in Redux; start the cloud exit animation
+        sessionStorage.setItem("clouds_seen", "true");
         setIsFetching(false);
       }
     })();
@@ -29,10 +40,11 @@ const Page = () => {
   const isActive = challenge.status.type === "active";
 
   return (
-    <main className="relative h-screen w-full overflow-hidden ">
-      <Clouds isVisible={isFetching} />
+    <>
+      {" "}
+      {shouldAnimate && <Clouds isVisible={isFetching} />}
       {isActive && <Map {...challenge} />}
-    </main>
+    </>
   );
 };
 
