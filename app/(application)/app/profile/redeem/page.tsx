@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useCallback, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/app/components/ui/button";
 import {
@@ -17,23 +17,25 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { countries } from "@/app/data/countries";
 import axios from "axios";
+import { useAppSelector } from "@/app/lib/hooks";
 
 const Redeem = () => {
+  const { user } = useAppSelector((state) => state.user);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
-    first_name: "",
-    last_name: "",
-    phone: "",
-    country: "",
+    first_name: user.first_name || "",
+    last_name: user.last_name || "",
+    phone: user.phone || "",
+    country: user.country || "",
     zip_code: "",
     address: "",
-    email: "",
+    email: user.email || "",
   });
   const router = useRouter();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  }, []);
 
   const onSubmit = async (event: FormEvent) => {
     event.preventDefault();

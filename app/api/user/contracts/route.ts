@@ -6,7 +6,7 @@ export const GET = async () => {
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get("auth_token")?.value;
-    console.log("token", token);
+
     const { data } = await instance.get("/user/contracts", {
       headers: {
         Authorization: "Bearer " + token,
@@ -14,7 +14,6 @@ export const GET = async () => {
     });
     return NextResponse.json(data);
   } catch (error: any) {
-    console.log(error);
     console.error("API error:", error);
 
     if (error.response) {

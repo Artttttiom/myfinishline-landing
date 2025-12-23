@@ -12,26 +12,49 @@ import {
 import { countries } from "@/app/data/countries";
 import { setUser, updateUser } from "@/app/lib/features/user/userSlice";
 import { useAppDispatch, useAppSelector } from "@/app/lib/hooks";
+import { getCurrentUser } from "@/app/lib/utils/userService";
 import { IUser } from "@/app/types/user";
 import axios from "axios";
 import { Camera, Edit } from "lucide-react";
 import Image from "next/image";
-import { ChangeEvent, FormEvent, useState } from "react";
+import {
+  ChangeEvent,
+  FormEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { toast } from "react-toastify";
 
 const page = () => {
-  const user = useAppSelector((state) => state.user);
+  const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const [data, setData] = useState<IUser>(user);
   const [file, setFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [imageError, setImageError] = useState(false);
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     setData((prevState) => {
       return { ...prevState, [event.target.name]: event.target.value };
     });
+  }, []);
+
+  const handleLoadUser = async () => {
+    try {
+      const data = await getCurrentUser();
+      dispatch(setUser(data));
+      setData(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  useEffect(() => {
+    if (user.id === null) {
+      handleLoadUser();
+    }
+  }, []);
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -82,67 +105,69 @@ const page = () => {
 
   return (
     <form onSubmit={handleSubmit} className="p-4 max-w-4xl mx-auto">
-      <div className="group relative w-20 h-20 flex items-center justify-center border rounded-lg overflow-hidden">
-        {file ? (
-          <Image
-            className="object-cover rounded-lg"
-            src={URL.createObjectURL(file)}
-            alt="Profile Picture"
-            loading="eager"
-            width={80}
-            height={80}
-          />
-        ) : !imageError && data.full_avatar_url ? (
-          <Image
-            className="object-cover rounded-lg"
-            src={data.full_avatar_url}
-            alt="Profile Picture"
-            loading="eager"
-            width={80}
-            height={80}
-            onError={() => {
-              setImageError(true);
-            }}
-          />
-        ) : (
-          <div className="w-full h-full bg-gray-100 rounded-lg flex items-center justify-center">
-            <Camera />
-          </div>
-        )}
+      <div className="flex gap-2">
+        <div className="group relative w-35 h-35 flex items-center justify-center border rounded-lg overflow-hidden shrink-0">
+          {file ? (
+            <Image
+              className="object-cover rounded-lg"
+              src={URL.createObjectURL(file)}
+              alt="Profile Picture"
+              loading="eager"
+              width={140}
+              height={140}
+            />
+          ) : !imageError && data.full_avatar_url ? (
+            <Image
+              className="object-cover w-full h-full rounded-lg"
+              src={data.full_avatar_url}
+              alt="Profile Picture"
+              loading="eager"
+              width={140}
+              height={140}
+              onError={() => {
+                setImageError(true);
+              }}
+            />
+          ) : (
+            <div className="w-full h-full bg-gray-100 rounded-lg flex items-center justify-center">
+              <Camera />
+            </div>
+          )}
 
-        <Edit
-          width={32}
-          height={32}
-          className="absolute text-white bg-gray-700/80 rounded-lg p-1 opacity-0 group-hover:opacity-100 transition-opacity"
-        />
+          <Edit
+            width={32}
+            height={32}
+            className="absolute text-white bg-gray-700/80 rounded-lg p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+          />
 
-        <input
-          className="absolute top-0 left-0 w-full h-full opacity-0 z-10 cursor-pointer"
-          type="file"
-          onChange={handleChangeFile}
-        />
-      </div>
-      <div className="flex w-full gap-2">
-        <label className="block mt-4 w-full">
-          <span className="text-xs">First Name</span>
-          <Input
-            name="first_name"
-            className="mt-px"
-            placeholder="John"
-            value={data.first_name || ""}
-            onChange={handleChange}
+          <input
+            className="absolute top-0 left-0 w-full h-full opacity-0 z-10 cursor-pointer"
+            type="file"
+            onChange={handleChangeFile}
           />
-        </label>
-        <label className="block mt-4 w-full">
-          <span className="text-xs">Last Name</span>
-          <Input
-            name="last_name"
-            className="mt-px"
-            placeholder="Doe"
-            value={data.last_name || ""}
-            onChange={handleChange}
-          />
-        </label>
+        </div>
+        <div className="w-full leading-0">
+          <label className="block w-full">
+            <span className="text-xs">First Name</span>
+            <Input
+              name="first_name"
+              className="mt-px"
+              placeholder="John"
+              value={data.first_name || ""}
+              onChange={handleChange}
+            />
+          </label>
+          <label className="block w-full mt-2">
+            <span className="text-xs">Last Name</span>
+            <Input
+              name="last_name"
+              className="mt-px"
+              placeholder="Doe"
+              value={data.last_name || ""}
+              onChange={handleChange}
+            />
+          </label>
+        </div>
       </div>
 
       <label className="block mt-2">

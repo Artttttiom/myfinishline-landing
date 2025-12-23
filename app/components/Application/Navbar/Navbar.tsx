@@ -54,7 +54,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-40">
+    <motion.div className="fixed bottom-0 left-0 right-0 z-40">
       <div className="bg-background border-t border-navbar-border">
         <nav className="flex items-stretch max-w-4xl mx-auto py-1 px-2">
           {navLinks.map((link) => {
@@ -63,13 +63,15 @@ const Navbar = () => {
               <Link
                 key={link.id}
                 href={link.href}
+                scroll={false}
                 className="relative flex-1 flex flex-col items-center justify-center py-2 rounded-lg nav-transition group"
               >
                 <AnimatePresence>
                   {active && (
                     <motion.div
-                      className="absolute inset-0 bg-sidebar-border rounded-lg"
+                      style={{ originY: "0px" }}
                       layoutId="navbar-active-indicator"
+                      className="absolute inset-0 bg-sidebar-border rounded-lg"
                       transition={{
                         type: "spring",
                         stiffness: 200,
@@ -105,7 +107,7 @@ const Navbar = () => {
       </div>
 
       <div className="h-[env(safe-area-inset-bottom)] bg-navbar" />
-    </div>
+    </motion.div>
   );
 };
 

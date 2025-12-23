@@ -85,7 +85,6 @@ const AccordionContent = ({ list, title, content }: IAccordionContentProps) => {
       <ul className="mt-4">
         {list
           ? list?.map((item) => {
-              console.log(item);
               const isExpanded = expandedBlockId === item.id;
 
               return (

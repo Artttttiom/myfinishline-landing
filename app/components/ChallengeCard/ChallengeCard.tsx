@@ -5,7 +5,7 @@ import CustomModal from "../Shared/CustomModal/CustomModal";
 import { useState } from "react";
 import { motion } from "motion/react";
 
-const ChallengeCard = () => {
+const ChallengeCard = ({ progress = 70 }: { progress?: number }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -45,7 +45,7 @@ const ChallengeCard = () => {
         We are traveling around South America to find some treasures!
       </p>
       <div className="mt-6">
-        <ProgressLine progress={70} />
+        <ProgressLine progress={progress} />
       </div>
       <div className="flex justify-between mt-8">
         <span className="mt-2.5 text-sm font-semibold leading-5 text-[#09090B]">
@@ -66,12 +66,18 @@ const ChallengeCard = () => {
           41.7 hrs
         </span>
       </div>
-      <Link
-        href="/app/profile/redeem"
-        className="block text-center bg-transparent w-full mt-8 border-black py-2 px-4 border text-black text-sm leading-6 font-medium hover:bg-white hover:text-black shadow-xs transition-colors rounded-lg cursor-pointer"
-      >
-        Сlaim medal
-      </Link>
+      {progress < 100 ? (
+        <div className="text-center bg-transparent w-full mt-8 border-black py-2 px-4 border text-black text-sm leading-6 font-medium shadow-xs rounded-lg">
+          In progress
+        </div>
+      ) : (
+        <Link
+          href="/app/profile/redeem"
+          className="block text-center bg-transparent w-full mt-8 border-black py-2 px-4 border text-black text-sm leading-6 font-medium hover:bg-white hover:text-black shadow-xs transition-colors rounded-lg cursor-pointer"
+        >
+          Сlaim medal
+        </Link>
+      )}
       <button
         onClick={handleOpenModal}
         className="underline mt-4 font-semibold text-[10px] text-black block mx-auto cursor-pointer"
@@ -81,12 +87,12 @@ const ChallengeCard = () => {
 
       <CustomModal isOpen={isModalOpen} onClose={handleCloseModal}>
         <motion.div
-          animate={{ rotateY: [20, -20, 20] }} // Animate x position from 0 to 100 and back to 0
+          animate={{ rotateY: [20, -20, 20] }}
           transition={{
-            duration: 10, // Duration of one full cycle (forward and backward)
-            repeat: Infinity, // Repeat indefinitely
-            repeatType: "reverse", // Reverse direction on each repeat
-            ease: "easeInOut", // Easing function for a smooth transition
+            duration: 10,
+            repeat: Infinity,
+            repeatType: "reverse",
+            ease: "easeInOut",
           }}
         >
           <Image

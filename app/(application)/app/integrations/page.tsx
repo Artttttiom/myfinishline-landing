@@ -1,18 +1,18 @@
 "use client";
 
-import { Button } from "@/app/components/ui/button";
-import { updateUser } from "@/app/lib/features/user/userSlice";
 import { useAppDispatch, useAppSelector } from "@/app/lib/hooks";
-import axios from "axios";
+import { updateUser } from "@/app/lib/features/user/userSlice";
+import { Button } from "@/app/components/ui/button";
 import { Suspense } from "react";
+import axios from "axios";
 
 function StravaIntegrationButton() {
-  const user = useAppSelector((state) => state.user);
+  const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
   const handleLogout = async () => {
     try {
-      const response = await axios.get("/api/user/disconnect-strava");
+      await axios.get("/api/user/disconnect-strava");
       dispatch(updateUser({ has_strava_connect: false }));
     } catch (error) {
       console.error("Error logging out from Strava:", error);

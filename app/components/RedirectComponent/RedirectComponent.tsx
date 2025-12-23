@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 
 const RedirectComponent = () => {
   const [isMounted, setIsMounted] = useState(false);
-  const user = useAppSelector((state) => state.user);
+  const { user } = useAppSelector((state) => state.user);
 
   useEffect(() => {
     setIsMounted(true);

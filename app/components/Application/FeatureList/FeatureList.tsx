@@ -1,18 +1,27 @@
-import React from "react";
+import { memo } from "react";
 import Feature from "./Feature/Feature";
-
-export interface IFeature {
-  id: number;
-  title: string;
-  description: string;
-  icon: React.ReactNode;
-}
+import { IContract } from "@/app/types";
 
 interface IFeatureListProps {
-  features: IFeature[];
+  features: IContract[];
 }
 
-const FeatureList = ({ features }: IFeatureListProps) => {
+const areEqual = (
+  prevProps: IFeatureListProps,
+  nextProps: IFeatureListProps
+) => {
+  let prevIdString = "";
+  let nextIdString = "";
+  prevProps.features.forEach((element) => {
+    prevIdString += element;
+  });
+  nextProps.features.forEach((element) => {
+    nextIdString += element;
+  });
+  return prevIdString === nextIdString;
+};
+
+const FeatureList = memo(({ features }: IFeatureListProps) => {
   return (
     <ul className="bg-linear-to-b from-[#F4E8FD] via-white to-[#F4E8FD] p-4 rounded-lg sm:p-8">
       {features.map((feature) => (
@@ -20,6 +29,6 @@ const FeatureList = ({ features }: IFeatureListProps) => {
       ))}
     </ul>
   );
-};
+}, areEqual);
 
 export default FeatureList;

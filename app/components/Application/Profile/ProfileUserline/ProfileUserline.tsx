@@ -13,7 +13,7 @@ import { Camera } from "lucide-react";
 
 const ProfileUserline = () => {
   const [imageError, setImageError] = useState(false);
-  const user = useAppSelector((state) => state.user);
+  const { user } = useAppSelector((state) => state.user);
 
   return (
     <section

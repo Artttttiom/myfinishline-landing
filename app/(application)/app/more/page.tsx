@@ -2,7 +2,7 @@
 
 import { ChevronRight } from "lucide-react";
 import { AnimatePresence, easeInOut, motion } from "motion/react";
-import { FormEvent, JSX, ReactNode, useState } from "react";
+import { FormEvent, useState } from "react";
 import AccordionContent from "@/app/components/Application/More/AccordionContent/AccordionContent";
 import { Button } from "@/app/components/ui/button";
 import { Input } from "@/app/components/ui/input";

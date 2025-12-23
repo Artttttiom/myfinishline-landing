@@ -16,7 +16,7 @@ export default function ApplicationLayout({
 }>) {
   return (
     <>
-      {/* <RedirectComponent /> */}
+      <RedirectComponent />
       <div className="min-h-screen h-full">
         <div className="min-h-screen flex flex-col">
           <AppHeader />

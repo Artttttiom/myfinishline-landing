@@ -1,30 +1,39 @@
 "use client";
 
-import { setChallenge } from "@/app/lib/features/challenge/challengeSlice";
-import { useAppDispatch, useAppSelector } from "@/app/lib/hooks";
 import { useEffect, useState } from "react";
+import { setChallenge } from "@/app/lib/features/challenge/challengeSlice";
+import { getUserActiveChallenge } from "@/app/lib/utils/userService";
+import { useAppDispatch, useAppSelector } from "@/app/lib/hooks";
 import Map from "@/app/components/Map/Map";
-import axios from "axios";
+import Clouds from "@/app/components/Map/Clouds/Clouds";
 
-const page = () => {
+const Page = () => {
   const challenge = useAppSelector((state) => state.challenge);
   const dispatch = useAppDispatch();
-
-  const handleGetActiveChallenge = async () => {
-    try {
-      const { data } = await axios.get("/api/user/active-challenge");
-      dispatch(setChallenge(data));
-    } catch (error) {
-      console.log(error);
-    } finally {
-    }
-  };
+  const [isFetching, setIsFetching] = useState(true);
 
   useEffect(() => {
-    handleGetActiveChallenge();
-  }, []);
+    (async () => {
+      try {
+        const data = await getUserActiveChallenge();
+        dispatch(setChallenge(data));
+      } catch (error) {
+        console.error("Failed to load challenge:", error);
+      } finally {
+        // Data is now in Redux; start the cloud exit animation
+        setIsFetching(false);
+      }
+    })();
+  }, [dispatch]);
 
-  if (challenge.status.type === "active") return <Map {...challenge} />;
+  const isActive = challenge.status.type === "active";
+
+  return (
+    <main className="relative h-screen w-full overflow-hidden ">
+      <Clouds isVisible={isFetching} />
+      {isActive && <Map {...challenge} />}
+    </main>
+  );
 };
 
-export default page;
+export default Page;

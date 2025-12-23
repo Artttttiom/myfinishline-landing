@@ -125,3 +125,14 @@ export interface IReward {
   description: string;
   image_url: string | null;
 }
+
+export interface IContract {
+  id: number;
+  name: string;
+  description: string;
+  image_url: string | null;
+  type: string;
+  badges: any[];
+  banners: any[];
+  frames: any[];
+}
