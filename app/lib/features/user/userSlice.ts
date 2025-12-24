@@ -2,7 +2,11 @@ import { IContract } from "@/app/types";
 import { IUser } from "@/app/types/user";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const initialState: { user: IUser; contracts: IContract[] } = {
+const initialState: {
+  user: IUser;
+  contracts: IContract[];
+  completedContracts: IContract[];
+} = {
   user: {
     avatar_url: null,
     country: null,
@@ -25,6 +29,7 @@ const initialState: { user: IUser; contracts: IContract[] } = {
     avatar_color: "#fff",
   },
   contracts: [],
+  completedContracts: [],
 };
 
 const userSlice = createSlice({
@@ -40,12 +45,20 @@ const userSlice = createSlice({
     setUserContracts: (state, action: PayloadAction<IContract[]>) => {
       state.contracts = action.payload;
     },
+    setUserCompletedContracts: (state, action: PayloadAction<IContract[]>) => {
+      state.completedContracts = action.payload;
+    },
     clearUser: () => {
       return initialState;
     },
   },
 });
 
-export const { setUser, updateUser, setUserContracts, clearUser } =
-  userSlice.actions;
+export const {
+  setUser,
+  updateUser,
+  setUserContracts,
+  setUserCompletedContracts,
+  clearUser,
+} = userSlice.actions;
 export default userSlice.reducer;

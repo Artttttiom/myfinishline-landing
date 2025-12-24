@@ -15,6 +15,11 @@ export const getUserContracts = async () => {
   return data;
 };
 
+export const getUserCompletedContracts = async () => {
+  const { data } = await axios.get("/api/user/completed-contracts");
+  return data;
+};
+
 export const getUserActiveChallenge = async () => {
   const { data } = await axios.get("/api/user/active-challenge");
   return data;

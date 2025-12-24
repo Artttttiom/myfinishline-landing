@@ -2,13 +2,16 @@
 
 import ProfileTabs from "@/app/components/Application/Profile/ProfileTabs/ProfileTabs";
 import ProfileUserline from "@/app/components/Application/Profile/ProfileUserline/ProfileUserline";
-import { setRewards } from "@/app/lib/features/rewards/rewardsSlice";
-import { setUser, setUserContracts } from "@/app/lib/features/user/userSlice";
+import {
+  setUser,
+  setUserCompletedContracts,
+  setUserContracts,
+} from "@/app/lib/features/user/userSlice";
 import { useAppDispatch } from "@/app/lib/hooks";
 import {
   getCurrentUser,
+  getUserCompletedContracts,
   getUserContracts,
-  getUserRewards,
 } from "@/app/lib/utils/userService";
 import { Activity, Award } from "lucide-react";
 import { useEffect } from "react";
@@ -45,11 +48,12 @@ const page = ({
     }
   };
 
-  const handleLoadRewards = async () => {
+  const handleLoadCompletedContracts = async () => {
     try {
-      const data = await getUserRewards();
-      if (data?.data.length) {
-        dispatch(setRewards(data?.data));
+      const data = await getUserCompletedContracts();
+
+      if (data.data?.length) {
+        dispatch(setUserCompletedContracts(data.data));
       }
     } catch (error) {
       console.log(error);
@@ -68,7 +72,7 @@ const page = ({
 
   useEffect(() => {
     handleLoadUser();
-    handleLoadRewards();
+    handleLoadCompletedContracts();
     handleLoadContracts();
   }, []);
 

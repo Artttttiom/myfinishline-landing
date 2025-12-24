@@ -1,13 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Swiper as SwiperType } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Reward from "../Application/Reward/Reward";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import "swiper/css";
-import axios from "axios";
-import { useAppDispatch, useAppSelector } from "@/app/lib/hooks";
-import { setRewards } from "@/app/lib/features/rewards/rewardsSlice";
-import { IReward } from "@/app/types";
+import { useAppSelector } from "@/app/lib/hooks";
 
 const rewards = [
   {
@@ -38,9 +35,7 @@ const rewards = [
 
 const RewardsSwiper = () => {
   const swiperRef = useRef<SwiperType | null>(null);
-  const { rewards }: { rewards: IReward[] } = useAppSelector(
-    (state) => state.rewards
-  );
+  const { completedContracts } = useAppSelector((state) => state.user);
   const [isFirstSlide, setIsFirstSlide] = useState(true);
   const [isLastSlide, setIsLastSlide] = useState(false);
 
@@ -94,12 +89,12 @@ const RewardsSwiper = () => {
           setIsLastSlide(swiper.isEnd);
         }}
       >
-        {(rewards || []).map((reward) => (
-          <SwiperSlide key={reward.id} className="px-4">
+        {completedContracts.map((contract) => (
+          <SwiperSlide key={contract.id} className="px-4">
             <Reward
-              title={reward.name}
-              description={reward.description}
-              image={reward.image_url || ""}
+              title={contract.name}
+              description={contract.description}
+              image={contract.image_url || ""}
             />
           </SwiperSlide>
         ))}

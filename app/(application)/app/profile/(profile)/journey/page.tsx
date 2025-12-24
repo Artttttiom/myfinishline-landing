@@ -18,7 +18,7 @@ import { toast } from "react-toastify";
 
 const Journey = () => {
   const { user, contracts } = useAppSelector((state) => state.user);
-  const { rewards } = useAppSelector((state) => state.rewards);
+  const { completedContracts } = useAppSelector((state) => state.user);
   const searchParams = useSearchParams();
   const dataParam = searchParams.get("data");
   const errorParam = searchParams.get("error");
@@ -51,7 +51,7 @@ const Journey = () => {
       <section className="mt-8 px-4">
         <ChallengeCard />
       </section>
-      {!!rewards.length && <RewardsSwiper />}
+      {!!completedContracts.length && <RewardsSwiper />}
       <section className="py-10 px-4">
         <h4 className="font-bold text-2xl leading-8">Next Goals</h4>
         <p className="mt-4 text-muted-foreground text-base">
