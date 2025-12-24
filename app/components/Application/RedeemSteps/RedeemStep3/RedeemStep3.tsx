@@ -15,7 +15,7 @@ interface IRedeemStep3Props {
   email: string;
   dial_code: string;
   state: string;
-  phone_number: string;
+  isLoading: boolean;
 }
 
 const Label = ({ label, text }: { label: string; text: string }) => {
@@ -39,6 +39,7 @@ const RedeemStep3 = ({
   company_name,
   dial_code,
   state,
+  isLoading,
 }: IRedeemStep3Props) => {
   return (
     <motion.div
@@ -72,7 +73,16 @@ const RedeemStep3 = ({
         <Label label="Mobile Number" text={dial_code + phone} />
         <Label label="Company" text={company_name} />
       </ul>
-      <Button className="mt-8 w-full">Claim medal</Button>
+      <Button className="mt-8 w-full" type="submit">
+        {isLoading ? (
+          <>
+            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+            Claiming medal...
+          </>
+        ) : (
+          "Claim medal"
+        )}
+      </Button>
     </motion.div>
   );
 };

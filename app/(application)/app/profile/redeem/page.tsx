@@ -1,7 +1,7 @@
 "use client";
 
-import { FormEvent, useCallback, useEffect, useState } from "react";
-import { motion, useMotionValue, useTransform } from "framer-motion";
+import { FormEvent, useCallback, useState } from "react";
+import { motion } from "framer-motion";
 import { Button } from "@/app/components/ui/button";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
@@ -17,10 +17,6 @@ const Redeem = () => {
   const { user } = useAppSelector((state) => state.user);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [stepIndex, setStepIndex] = useState(1);
-  const widthNumber = useMotionValue(stepIndex * 33);
-  const width = useTransform(() => {
-    return widthNumber.get() + "%";
-  });
   const [formData, setFormData] = useState({
     first_name: user.first_name || "",
     last_name: user.last_name || "",
@@ -34,20 +30,23 @@ const Redeem = () => {
     email: user.email || "",
     dial_code: "",
     state: "",
-    phone_number: "",
   });
   const router = useRouter();
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    console.log(e.target.name, e.target.value);
+    setFormData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
   }, []);
 
   const handleUpdateCountry = useCallback((value: string) => {
-    setFormData({ ...formData, country: value });
+    setFormData((prevState) => ({ ...prevState, country: value }));
   }, []);
 
   const handleUpdateState = useCallback((value: string) => {
-    setFormData({ ...formData, state: value });
+    setFormData((prevState) => ({ ...prevState, state: value }));
   }, []);
 
   const onSubmit = async (event: FormEvent) => {
@@ -57,6 +56,7 @@ const Redeem = () => {
       await axios.post("/api/user/redeem-reward", {
         reward_id: 1,
         ...formData,
+        address: formData.address_1,
       });
       router.push("/app/profile/journey");
       toast.success("Medal claimed! Your medal is on its way.");
@@ -122,7 +122,7 @@ const Redeem = () => {
               handleUpdateSelect={handleUpdateState}
             />
           ) : (
-            <RedeemStep3 {...formData} />
+            <RedeemStep3 {...formData} isLoading={isSubmitting} />
           )}
           <motion.div
             initial={{ opacity: 0, y: 10 }}

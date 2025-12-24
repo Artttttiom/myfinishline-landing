@@ -153,7 +153,7 @@ const page = () => {
               name="first_name"
               className="mt-px"
               placeholder="John"
-              value={data.first_name || ""}
+              value={data.first_name}
               onChange={handleChange}
             />
           </label>
@@ -163,7 +163,7 @@ const page = () => {
               name="last_name"
               className="mt-px"
               placeholder="Doe"
-              value={data.last_name || ""}
+              value={data.last_name}
               onChange={handleChange}
             />
           </label>
@@ -197,7 +197,10 @@ const page = () => {
       <label className="block mt-2">
         <span className="text-xs">Phone</span>
         <Input
+          name="phone"
           className="mt-px"
+          value={data.phone}
+          onChange={handleChange}
           placeholder="+1 234 567 8901"
           defaultValue="+1 234 567 8901"
         />

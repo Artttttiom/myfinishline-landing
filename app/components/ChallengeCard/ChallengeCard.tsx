@@ -5,7 +5,7 @@ import CustomModal from "../Shared/CustomModal/CustomModal";
 import { useState } from "react";
 import { motion } from "motion/react";
 
-const ChallengeCard = ({ progress = 70 }: { progress?: number }) => {
+const ChallengeCard = ({ progress = 100 }: { progress?: number }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {
