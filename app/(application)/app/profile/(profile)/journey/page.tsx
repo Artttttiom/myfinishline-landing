@@ -1,16 +1,7 @@
 "use client";
 
 import ChallengeCard from "@/app/components/ChallengeCard/ChallengeCard";
-import {
-  ChevronRight,
-  Cloud,
-  Compass,
-  Gift,
-  Shield,
-  Star,
-  Zap,
-} from "lucide-react";
-
+import { ChevronRight } from "lucide-react";
 import FeatureList from "@/app/components/Application/FeatureList/FeatureList";
 import RewardsSwiper from "@/app/components/RewardsSwiper/RewardsSwiper";
 import ChallengesSwiper from "@/app/components/ChallengesSwiper/ChallengesSwiper";
@@ -21,71 +12,19 @@ import { useEffect } from "react";
 import { linkStrava } from "@/app/lib/utils/authWithStrava";
 import { useAppDispatch, useAppSelector } from "@/app/lib/hooks";
 import { setUser } from "@/app/lib/features/user/userSlice";
-
-const features = [
-  {
-    id: 1,
-    title: "Run 10 km",
-    description: "Complete a 10 km run to unlock this goal.",
-    icon: <Star width={20} height={20} />,
-  },
-  {
-    id: 2,
-    title: "Cycle 50 km",
-    description: "Cycle a total of 50 km to achieve this milestone.",
-    icon: <Zap width={20} height={20} />,
-  },
-  {
-    id: 3,
-    title: "Swim 5 km",
-    description: "Swim a total of 5 km to unlock this achievement.",
-    icon: <Shield width={20} height={20} />,
-  },
-  {
-    id: 4,
-    title: "Hike 20 km",
-    description: "Hike a total of 20 km to reach this goal.",
-    icon: <Compass width={20} height={20} />,
-  },
-  {
-    id: 5,
-    title: "Complete a Triathlon",
-    description: "Finish a triathlon event to earn this badge.",
-    icon: <Cloud width={20} height={20} />,
-  },
-  {
-    id: 6,
-    title: "Climb 1000 m",
-    description: "Accumulate a total elevation gain of 1000 m.",
-    icon: <Gift width={20} height={20} />,
-  },
-];
-
 import LeaderboardSwiper from "@/app/components/LeaderboardSwiper/LeaderboardSwiper";
 import { Suspense } from "react";
 import { toast } from "react-toastify";
-import axios from "axios";
-import { setRewards } from "@/app/lib/features/rewards/rewardsSlice";
 
 const Journey = () => {
-  const user = useAppSelector((state) => state.user);
-  const { rewards } = useAppSelector((state) => state.rewards);
+  const { user, contracts } = useAppSelector((state) => state.user);
+  const { completedContracts } = useAppSelector((state) => state.user);
   const searchParams = useSearchParams();
   const dataParam = searchParams.get("data");
   const errorParam = searchParams.get("error");
   const dispatch = useAppDispatch();
 
-  const handleLoadUser = async () => {
-    try {
-      const { data } = await axios.get("/api/user/get-current-user");
-      dispatch(setUser(data));
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
-    handleLoadUser();
     if (errorParam) {
       toast.error("Error linking Strava account " + errorParam);
     }
@@ -104,21 +43,6 @@ const Journey = () => {
     }
   }, []);
 
-  const handleLoadRewards = async () => {
-    try {
-      const { data } = await axios.get("/api/user/rewards");
-      if (data?.data.length) {
-        dispatch(setRewards(data?.data));
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    handleLoadRewards();
-  }, []);
-
   return (
     <section>
       <h2 className="mt-10 font-medium text-3xl leading-9 text-[#09090B] text-center px-4">
@@ -127,14 +51,14 @@ const Journey = () => {
       <section className="mt-8 px-4">
         <ChallengeCard />
       </section>
-      {!!rewards.length && <RewardsSwiper />}
+      {!!completedContracts.length && <RewardsSwiper />}
       <section className="py-10 px-4">
         <h4 className="font-bold text-2xl leading-8">Next Goals</h4>
         <p className="mt-4 text-muted-foreground text-base">
           Here you can see the next route points that await you ahead!
         </p>
         <div className="mt-8">
-          <FeatureList features={features} />
+          <FeatureList features={contracts || []} />
         </div>
       </section>
       <section className="px-4">

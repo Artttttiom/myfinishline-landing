@@ -1,33 +1,51 @@
 "use client";
 
-import { setChallenge } from "@/app/lib/features/challenge/challengeSlice";
-import { useAppDispatch, useAppSelector } from "@/app/lib/hooks";
 import { useEffect, useState } from "react";
+import { setChallenge } from "@/app/lib/features/challenge/challengeSlice";
+import { getUserActiveChallenge } from "@/app/lib/utils/userService";
+import { useAppDispatch, useAppSelector } from "@/app/lib/hooks";
 import Map from "@/app/components/Map/Map";
-import axios from "axios";
+import Clouds from "@/app/components/Map/Clouds/Clouds";
 
-const page = () => {
+const Page = () => {
   const challenge = useAppSelector((state) => state.challenge);
   const dispatch = useAppDispatch();
-  const [isLoading, setIsLoading] = useState(false);
 
-  const handleGetActiveChallenge = async () => {
-    setIsLoading(true);
-    try {
-      const { data } = await axios.get("/api/user/active-challenge");
-      dispatch(setChallenge(data));
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const [isFetching, setIsFetching] = useState(true);
+  const [shouldAnimate, setShouldAnimate] = useState(false);
 
   useEffect(() => {
-    handleGetActiveChallenge();
-  }, []);
+    const hasSeenClouds = sessionStorage.getItem("clouds_seen");
 
-  return <Map {...challenge} />;
+    if (hasSeenClouds) {
+      setIsFetching(false);
+      setShouldAnimate(false);
+    } else {
+      setShouldAnimate(true);
+    }
+
+    (async () => {
+      try {
+        const data = await getUserActiveChallenge();
+        dispatch(setChallenge(data));
+      } catch (error) {
+        console.error("Failed to load challenge:", error);
+      } finally {
+        sessionStorage.setItem("clouds_seen", "true");
+        setIsFetching(false);
+      }
+    })();
+  }, [dispatch]);
+
+  const isActive = challenge.status.type === "active";
+
+  return (
+    <>
+      {" "}
+      {shouldAnimate && <Clouds isVisible={isFetching} />}
+      {isActive && <Map {...challenge} />}
+    </>
+  );
 };
 
-export default page;
+export default Page;

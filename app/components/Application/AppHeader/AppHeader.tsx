@@ -5,10 +5,6 @@ import { usePathname, useRouter } from "next/navigation";
 
 const links = [
   {
-    id: 1,
-    link: "/contracts",
-  },
-  {
     id: 2,
     link: "/settings",
   },

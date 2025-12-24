@@ -6,7 +6,7 @@ export interface IUser {
   first_name: string;
   full_avatar_url: string | null;
   has_activated_code: boolean | null;
-  id: number;
+  id: number | null;
   last_name: string | null;
   phone: string | null;
   strava_id: string | null;
@@ -16,4 +16,6 @@ export interface IUser {
   updated_at: string;
   username: string;
   has_strava_connect: boolean;
+  avatar_symbol: string | null;
+  avatar_color: string;
 }

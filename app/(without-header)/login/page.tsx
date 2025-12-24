@@ -10,6 +10,8 @@ import { useAppDispatch } from "@/app/lib/hooks";
 import { setUser } from "@/app/lib/features/user/userSlice";
 import { useRouter } from "next/navigation";
 import GoogleLogin from "@/app/components/Shared/GoogleLogin/GoogleLogin";
+import instance from "@/app/lib/utils/instance";
+import TermsLine from "@/app/components/Shared/TermsLine/TermsLine";
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -126,6 +128,9 @@ export default function Login() {
               )}
             </Button>
           </form>
+          <div className="mt-2">
+            <TermsLine />
+          </div>
 
           <div className="relative flex items-center my-6">
             <div className="grow border-t border-gray-600"></div>

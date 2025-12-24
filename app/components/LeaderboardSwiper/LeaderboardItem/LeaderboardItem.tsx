@@ -46,7 +46,7 @@ const LeaderboardItem = ({ users, currentUser }: ILeaderboardItemProps) => {
     setIsExpanded((prevState) => !prevState);
   };
 
-  const user = useAppSelector((state) => state.user);
+  const { user } = useAppSelector((state) => state.user);
 
   return (
     <motion.div

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { StoreProvider } from "./StoreProvider";
+import { GoogleTagManager } from "@next/third-parties/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -23,6 +24,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <script src="https://accounts.google.com/gsi/client" async defer />
+        <GoogleTagManager gtmId="G-LYKSZRTMBX" />
       </head>
       <body
         className={`${inter.variable} [--header-height:calc(var(--spacing)*14)] lg:[--header-height:calc(var(--spacing)*23)] antialiased bg-black`}

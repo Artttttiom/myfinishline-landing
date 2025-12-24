@@ -1,6 +1,21 @@
+"use client";
+
 import ProfileTabs from "@/app/components/Application/Profile/ProfileTabs/ProfileTabs";
 import ProfileUserline from "@/app/components/Application/Profile/ProfileUserline/ProfileUserline";
+import {
+  setUser,
+  setUserCompletedContracts,
+  setUserContracts,
+} from "@/app/lib/features/user/userSlice";
+import { useAppDispatch } from "@/app/lib/hooks";
+import {
+  getCurrentUser,
+  getUserCompletedContracts,
+  getUserContracts,
+} from "@/app/lib/utils/userService";
 import { Activity, Award } from "lucide-react";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 const profileLinks = [
   {
@@ -22,8 +37,47 @@ const page = ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
+  const dispatch = useAppDispatch();
+
+  const handleLoadUser = async () => {
+    try {
+      const data = await getCurrentUser();
+      dispatch(setUser(data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleLoadCompletedContracts = async () => {
+    try {
+      const data = await getUserCompletedContracts();
+
+      if (data.data?.length) {
+        dispatch(setUserCompletedContracts(data.data));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleLoadContracts = async () => {
+    try {
+      const data = await getUserContracts();
+      dispatch(setUserContracts(data.data));
+    } catch (error: any) {
+      toast.error("Error loading contracts: ", error.response.data.message);
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    handleLoadUser();
+    handleLoadCompletedContracts();
+    handleLoadContracts();
+  }, []);
+
   return (
-    <main className="py-4 max-w-4xl mx-auto">
+    <main className="max-w-4xl mx-auto">
       <ProfileUserline />
       <div className="mt-4 px-4">
         <ProfileTabs links={profileLinks} layoutId="profile-tab-navigation" />

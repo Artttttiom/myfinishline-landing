@@ -4,8 +4,11 @@ import ActivitiesList from "@/app/components/Application/Stats/ActivitiesList/Ac
 import { Button } from "@/app/components/ui/button";
 import { setActivities } from "@/app/lib/features/activities/activitiesSlice";
 import { useAppDispatch, useAppSelector } from "@/app/lib/hooks";
-import axios from "axios";
-import { Loader2, RefreshCcw, RefreshCw } from "lucide-react";
+import {
+  getUserActivities,
+  updateUserStravaActivities,
+} from "@/app/lib/utils/userService";
+import { Loader2, RefreshCw } from "lucide-react";
 import { AnimatePresence } from "motion/react";
 import { useEffect, useState } from "react";
 
@@ -18,7 +21,7 @@ const page = () => {
   const handleGetActivitiesFromStrava = async () => {
     setIsUpdating(true);
     try {
-      await axios.get("/api/user/refresh-activities");
+      await updateUserStravaActivities();
     } catch (error) {
       console.error("Error fetching activities:", error);
     } finally {
@@ -29,7 +32,7 @@ const page = () => {
   const handleLoadActivities = async () => {
     setIsLoading(true);
     try {
-      const { data } = await axios.get("/api/user/activities");
+      const data = await getUserActivities();
       dispatch(setActivities(data?.data || []));
     } catch (error) {
       console.error("Error fetching activities:", error);

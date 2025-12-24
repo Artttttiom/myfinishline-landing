@@ -6,7 +6,7 @@ import CustomModal from "../../Shared/CustomModal/CustomModal";
 import { useState } from "react";
 
 const Integrations = () => {
-  const user = useAppSelector((state) => state.user);
+  const { user } = useAppSelector((state) => state.user);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useAppDispatch();
