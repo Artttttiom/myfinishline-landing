@@ -138,6 +138,7 @@ export interface IContract {
   badges: any[];
   banners: any[];
   frames: any[];
+  end_date: null | string;
 }
 
 export interface IRewardTicket {
