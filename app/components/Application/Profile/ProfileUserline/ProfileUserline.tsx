@@ -42,14 +42,14 @@ const ProfileUserline = () => {
                   alignItems: "center",
                   justifyContent: "center",
                   background: personalization.frame.color,
-                  borderRadius: 24,
+                  borderRadius: "50%",
                 }
               : {}
           }
         >
           {!imageError && user?.full_avatar_url ? (
             <Image
-              className="rounded-[20px] max-h-20 max-w-20 object-cover"
+              className="rounded-full max-h-20 max-w-20 object-cover"
               src={user.full_avatar_url}
               width={80}
               height={80}
@@ -63,7 +63,7 @@ const ProfileUserline = () => {
           ) : (
             <div
               style={{ backgroundColor: user.avatar_color }}
-              className="border-border shrink-0 border-2 rounded-[20px] w-20 h-20 flex items-center justify-center text-3xl font-bold"
+              className="border-border shrink-0 border-2 rounded-full w-20 h-20 flex items-center justify-center text-3xl font-bold"
             >
               {user.avatar_symbol || <Camera />}
             </div>
