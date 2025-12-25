@@ -104,7 +104,7 @@ const ChallengeCard = () => {
         </span>
       </div>
       {challenge.reward_ticket?.id ? (
-        <div className="mt-8 text-sm grid grid-cols-2 max-w-60">
+        <div className="mt-8 mx-auto text-sm grid grid-cols-2 max-w-full lg:max-w-60">
           <span className="text-[#90909B]">Shipment status:</span>
           <div className="text-end">{challenge.reward_ticket.status.name}</div>
           <span className="text-[#90909B]">Shipment id:</span>
