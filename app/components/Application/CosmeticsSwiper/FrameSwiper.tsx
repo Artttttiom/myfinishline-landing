@@ -105,7 +105,7 @@ const FrameSwiper = ({
         <div className="absolute top-0.5 left-0 w-full flex items-center justify-center z-100 pointer-events-none">
           {user.full_avatar_url ? (
             <Image
-              className="p-0.5 rounded-full"
+              className="p-0.5 rounded-full max-h-15 max-w-15 object-cover"
               src={user.full_avatar_url}
               width={60}
               height={60}
