@@ -49,7 +49,7 @@ const ProfileUserline = () => {
         >
           {!imageError && user?.full_avatar_url ? (
             <Image
-              className="rounded-[20px]"
+              className="rounded-[20px] max-h-20 max-w-20 object-cover"
               src={user.full_avatar_url}
               width={80}
               height={80}
