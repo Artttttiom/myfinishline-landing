@@ -4,7 +4,7 @@ import { FormEvent, useCallback, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/app/components/ui/button";
 import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
 import { useAppSelector } from "@/app/lib/hooks";
 import RedeemStep1 from "@/app/components/Application/RedeemSteps/RedeemStep1/RedeemStep1";
@@ -32,9 +32,10 @@ const Redeem = () => {
     state: "",
   });
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const reward_id = searchParams.get("reward_id");
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.name, e.target.value);
     setFormData((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
@@ -54,7 +55,7 @@ const Redeem = () => {
     setIsSubmitting(true);
     try {
       await axios.post("/api/user/redeem-reward", {
-        reward_id: 1,
+        reward_id,
         ...formData,
         address: formData.address_1,
       });

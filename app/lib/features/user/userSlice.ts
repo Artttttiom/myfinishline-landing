@@ -1,10 +1,11 @@
-import { IContract } from "@/app/types";
+import { IActiveChallenge, IContract } from "@/app/types";
 import { IUser } from "@/app/types/user";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState: {
   user: IUser;
   contracts: IContract[];
+  challenges: IActiveChallenge[];
   completedContracts: IContract[];
   personalization: {
     frame: { id: number; color: string } | null;
@@ -34,6 +35,7 @@ const initialState: {
     avatar_color: "#fff",
   },
   contracts: [],
+  challenges: [],
   completedContracts: [],
   personalization: {
     frame: null,
@@ -58,6 +60,9 @@ const userSlice = createSlice({
     setUserCompletedContracts: (state, action: PayloadAction<IContract[]>) => {
       state.completedContracts = action.payload;
     },
+    setUserChallenges: (state, action: PayloadAction<IActiveChallenge[]>) => {
+      state.challenges = action.payload;
+    },
     updatePersonalization: (
       state,
       action: PayloadAction<{
@@ -80,6 +85,7 @@ export const {
   setUserContracts,
   setUserCompletedContracts,
   updatePersonalization,
+  setUserChallenges,
   clearUser,
 } = userSlice.actions;
 export default userSlice.reducer;
