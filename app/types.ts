@@ -140,6 +140,7 @@ export interface IContract {
   badges: any[];
   banners: any[];
   frames: any[];
+  skins: any[];
   end_date: null | string;
 }
 

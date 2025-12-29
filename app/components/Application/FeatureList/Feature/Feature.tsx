@@ -52,8 +52,9 @@ const Feature = memo(
     badges,
     banners,
     frames,
+    skins,
   }: IContract) => {
-    const rewards = [...badges, ...banners, ...frames];
+    const rewards = [...badges, ...banners, ...frames, ...skins];
     const [isExpanded, setIsExpanded] = useState(false);
 
     const handleGetDays = () => {
