@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from "@/app/lib/hooks";
 import { setUserChallenges } from "@/app/lib/features/user/userSlice";
 import ShipmentStatusBadge from "../Shared/ShipmentStatusBadge/ShipmentStatusBadge";
 import { ShipmentStatuses } from "@/app/types";
+import { sendGTMEvent } from "@next/third-parties/google";
 
 const ChallengeCard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,6 +29,8 @@ const ChallengeCard = () => {
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
+
+    sendGTMEvent({ event: "buttonClicked", value: "medalLook" });
   };
 
   const handleLoadChallenges = async () => {
