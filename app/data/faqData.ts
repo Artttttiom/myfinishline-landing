@@ -1,6 +1,24 @@
-import { CircleQuestionMarkIcon } from "lucide-react";
+import { CircleQuestionMarkIcon, type LucideIcon } from "lucide-react";
 
-export const faqData = [
+interface IVariantsProps {
+  id: number;
+  question: string;
+  sub_answer?: string;
+  answer: {
+    id: number;
+    variant: string;
+  }[];
+}
+
+interface IDataPrpps {
+  id: number;
+  isVisible: boolean;
+  icon: LucideIcon;
+  category: string;
+  variants: IVariantsProps[];
+}
+
+export const faqData: IDataPrpps[] = [
   {
     id: 1,
     isVisible: true,
