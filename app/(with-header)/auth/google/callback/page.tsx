@@ -19,7 +19,6 @@ const Content = () => {
         code,
       });
       dispatch(setUser(data.user));
-      console.log("data from page", data);
 
       if (data.success) {
         setStatus("Signed in successfully! Redirecting to the app");

@@ -73,7 +73,7 @@ const Feature = memo(
   }: IContract) => {
     const rewards = [...badges, ...banners, ...frames, ...skins];
     const [isExpanded, setIsExpanded] = useState(false);
-    console.log(rewards);
+
     const handleGetDays = () => {
       if (end_date) {
         const endDate = new Date(end_date);
@@ -148,7 +148,6 @@ const Feature = memo(
                 {rewards.length ? (
                   <ul className="flex items-center flex-wrap gap-2 mt-2">
                     {rewards.map((reward, index) => {
-                      console.log(reward);
                       return (
                         <li key={index}>
                           {reward.image_url && (

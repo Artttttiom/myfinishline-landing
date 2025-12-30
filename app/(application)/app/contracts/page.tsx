@@ -1,6 +1,5 @@
 "use client";
 
-import Feature from "@/app/components/Application/FeatureList/Feature/Feature";
 import FeatureList from "@/app/components/Application/FeatureList/FeatureList";
 import { setUserContracts } from "@/app/lib/features/user/userSlice";
 import { useAppDispatch, useAppSelector } from "@/app/lib/hooks";

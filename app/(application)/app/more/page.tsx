@@ -13,7 +13,6 @@ import { validate } from "@/app/lib/utils/validate/feedbackValidate";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Loader from "@/app/components/Shared/Loader/Loader";
-import { getCurrentUser } from "@/app/lib/utils/userService";
 import { useAppSelector } from "@/app/lib/hooks";
 
 interface IFormik {

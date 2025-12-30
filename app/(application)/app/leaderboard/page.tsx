@@ -4,37 +4,45 @@ import LeaderboardSwiper from "@/app/components/LeaderboardSwiper/LeaderboardSwi
 import { setUserChallenges } from "@/app/lib/features/user/userSlice";
 import { useAppDispatch, useAppSelector } from "@/app/lib/hooks";
 import { getUserChallenges } from "@/app/lib/utils/userService";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "motion/react";
+import Loader from "@/app/components/Shared/Loader/Loader";
 
 const page = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const { challenges } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
   const handleLoadChallenges = async () => {
+    setIsLoading(true);
     try {
       const data = await getUserChallenges();
       dispatch(setUserChallenges(data.data));
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
     handleLoadChallenges();
   }, []);
-
-  if (challenges.length === 0) return null;
-
   return (
     <section className="max-w-4xl mx-auto p-4">
       <h2 className="font-bold text-2xl leading-8 text-[#09090B]">
         Leaderboard
       </h2>
-      {challenges.length > 0 && (
+      {challenges.length > 0 ? (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
           <LeaderboardSwiper challenges={challenges} />
         </motion.div>
+      ) : isLoading ? (
+        <div className="flex justify-center p-8">
+          <Loader />
+        </div>
+      ) : (
+        <span>No challenges found</span>
       )}
     </section>
   );

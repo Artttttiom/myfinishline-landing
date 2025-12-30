@@ -33,7 +33,6 @@ const BannerSwiper = ({
 
   useEffect(() => {
     if (items.length > 0 && user.selected_banner) {
-      console.log("update");
       const index = items.findIndex(
         (banner) => banner.id === user.selected_banner?.id
       );

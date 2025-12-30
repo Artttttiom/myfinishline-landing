@@ -17,7 +17,7 @@ const FrameSwiper = ({
   const swiperRef = useRef<SwiperType | null>(null);
   const [isFirstSlide, setIsFirstSlide] = useState(true);
   const [isLastSlide, setIsLastSlide] = useState(false);
-  const { user, personalization } = useAppSelector((state) => state.user);
+  const { user } = useAppSelector((state) => state.user);
 
   const handleGoNext = () => {
     if (swiperRef.current) {
@@ -39,8 +39,6 @@ const FrameSwiper = ({
       swiperRef.current?.slideTo(index);
     }
   }, [items.length]);
-
-  console.log("personalization", personalization);
 
   return (
     <section className="mt-8 pb-4">
