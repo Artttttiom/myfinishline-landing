@@ -52,23 +52,8 @@ const Journey = () => {
         <ChallengeCard />
       </section>
       {!!completedContracts.length && <RewardsSwiper />}
-      <section className="py-10 px-4">
-        <h4 className="font-bold text-2xl leading-8">Contracts</h4>
-        <p className="mt-4 text-muted-foreground text-base">
-          Here you can see the next route points that await you ahead!
-        </p>
-        <div className="mt-8">
-          <FeatureList features={contracts.slice(0, 5) || []} />
-        </div>
-        <Link
-          className="ml-auto mr-0 w-fit block font-semibold text-sm underline py-4"
-          href="/app/contracts"
-        >
-          See All
-        </Link>
-      </section>
 
-      <section>
+      <section className="mt-10">
         <h4 className="font-medium text-3xl text-center leading-9">
           Explore Challenges
         </h4>
