@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
+        hostname: "images.unsplash.com",
+      },
+      {
+        protocol: "https",
         hostname: "lh3.googleusercontent.com",
         port: "",
         pathname: "/**",
@@ -89,11 +93,6 @@ const nextConfig: NextConfig = {
       {
         source: "/app/profile",
         destination: "/app/profile/journey",
-        permanent: true,
-      },
-      {
-        source: "/app/store",
-        destination: "/app/store/booster",
         permanent: true,
       },
     ];

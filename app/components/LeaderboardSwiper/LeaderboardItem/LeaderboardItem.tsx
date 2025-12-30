@@ -8,6 +8,7 @@ import { getLeaderboard } from "@/app/lib/utils/leaderboardService";
 import { setLeaderboard } from "@/app/lib/features/leaderboard/leaderboardSlice";
 import CurrentUserLine from "./CurrentUserLine/CurrentUserLine";
 import LeaderboardUser from "./LeaderboardUser/LeaderboardUser";
+import Loader from "../../Shared/Loader/Loader";
 
 interface ILeaderboardItemProps {
   challengeId: number;
@@ -28,15 +29,18 @@ const LeaderboardItem = ({ challengeId }: ILeaderboardItemProps) => {
   const { leaderboards, current_user } = useAppSelector(
     (state) => state.leaderboard
   );
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useAppDispatch();
-  console.log("leaderboard", leaderboards);
 
   const handleLoadLeaderboard = async () => {
+    setIsLoading(true);
     try {
       const data = await getLeaderboard(challengeId);
       dispatch(setLeaderboard(data));
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -52,21 +56,29 @@ const LeaderboardItem = ({ challengeId }: ILeaderboardItemProps) => {
     >
       <motion.ul initial="collapsed" className="overflow-hidden">
         <AnimatePresence>
-          {leaderboards?.map((item, index) => {
-            const color =
-              item.user_id === current_user.user.id &&
-              current_user.position <= 4
-                ? positionColors[item.position as 1 | 2 | 3]
-                : "";
-            return (
-              <LeaderboardUser
-                {...item.user}
-                position={item.position}
-                color={color}
-                isCurrentUser={item.user_id === current_user.user.id}
-              />
-            );
-          })}
+          {leaderboards.length > 0 ? (
+            leaderboards?.map((item) => {
+              const color =
+                item.user_id === current_user.user.id &&
+                current_user.position <= 4
+                  ? positionColors[item.position as 1 | 2 | 3]
+                  : "";
+              return (
+                <LeaderboardUser
+                  {...item.user}
+                  position={item.position}
+                  color={color}
+                  isCurrentUser={item.user_id === current_user.user.id}
+                />
+              );
+            })
+          ) : isLoading ? (
+            <div className="flex items-center justify-center p-4">
+              <Loader />
+            </div>
+          ) : (
+            "No data available"
+          )}
         </AnimatePresence>
       </motion.ul>
       {current_user?.position > 10 && (

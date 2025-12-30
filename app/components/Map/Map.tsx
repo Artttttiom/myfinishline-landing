@@ -8,6 +8,8 @@ import { Xwrapper } from "react-xarrows";
 import StoryModal from "../Shared/StoryList/StoryList";
 import { IActiveChallenge, IStep } from "@/app/types";
 import MapStats from "./MapStats/MapStats";
+import { Crosshair } from "lucide-react";
+import { motion } from "motion/react";
 
 const Map = ({
   background_images,
@@ -24,27 +26,27 @@ const Map = ({
 
   const stepsAmount = steps.length;
 
+  const handleScrollToActiveStep = () => {
+    const activeStep = steps.find((step) => step.active && !step.completed);
+    if (activeStep) {
+      const element = document.getElementById("step-" + activeStep.index);
+      element?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+        inline: "center",
+      });
+    } else {
+      const element = document.getElementById("step-" + steps.length);
+      element?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+        inline: "center",
+      });
+    }
+  };
+
   useLayoutEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
-
-    const scrollToActiveStep = () => {
-      const activeStep = steps.find((step) => step.active && !step.completed);
-      if (activeStep) {
-        const element = document.getElementById("step-" + activeStep.index);
-        element?.scrollIntoView({
-          behavior: "smooth",
-          block: "center",
-          inline: "center",
-        });
-      } else {
-        const element = document.getElementById("step-" + steps.length);
-        element?.scrollIntoView({
-          behavior: "smooth",
-          block: "center",
-          inline: "center",
-        });
-      }
-    };
 
     const scrollToBottom = () => {
       window.scrollTo({
@@ -57,7 +59,7 @@ const Map = ({
     const isAllCompleted = is_completed;
 
     if (hasActiveStep || isAllCompleted) {
-      timer = setTimeout(scrollToActiveStep, 100);
+      timer = setTimeout(handleScrollToActiveStep, 100);
     } else {
       timer = setTimeout(scrollToBottom, 100);
     }
@@ -209,7 +211,16 @@ const Map = ({
           </div>
         </div>
 
-        <div className="fixed bottom-18 right-6 z-30">
+        <div className="fixed bottom-18 left-2 z-30">
+          <motion.button
+            whileTap={{ scale: 0.9 }}
+            className="bg-white rounded-full p-2 shadow-lg"
+            onClick={handleScrollToActiveStep}
+          >
+            <Crosshair />
+          </motion.button>
+        </div>
+        <div className="fixed bottom-18 right-2 z-30">
           <MapStats
             distance={total_distance}
             completedDistance={user_distance}

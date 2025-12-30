@@ -62,7 +62,7 @@ const Journey = () => {
         </div>
         <Link
           className="ml-auto mr-0 w-fit block font-semibold text-sm underline py-4"
-          href="/app/profile/contracts"
+          href="/app/contracts"
         >
           See All
         </Link>

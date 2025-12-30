@@ -197,7 +197,7 @@ const Page = () => {
                     <p className="text-sm leading-5 text-[#71717A]">
                       Opt-in to receive updates and news about the sidebar.
                     </p>
-                    <div className="flex flex-col gap-[2px]">
+                    <div className="flex flex-col gap-0.5">
                       <Input
                         required
                         name="email"
@@ -214,7 +214,7 @@ const Page = () => {
                         </span>
                       )}
                     </div>
-                    <div className="flex flex-col gap-[2px]">
+                    <div className="flex flex-col gap-0.5">
                       <Textarea
                         name="question"
                         required
@@ -276,7 +276,6 @@ const Page = () => {
                       initial="collapsed"
                       animate="expanded"
                       exit="collapsed"
-                      className="px-4 pb-6"
                     >
                       <AccordionContent
                         title={link.title || ""}

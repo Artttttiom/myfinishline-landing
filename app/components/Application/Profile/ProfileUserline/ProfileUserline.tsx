@@ -32,7 +32,7 @@ const ProfileUserline = () => {
           <div className="relative z-10 flex items-center justify-center">
             {user?.full_avatar_url && !imageError ? (
               <Image
-                className="rounded-full h-16 w-16 object-cover p-0.5 shrink-0"
+                className="rounded-full h-16 w-16 object-cover p-0.75 shrink-0"
                 src={user.full_avatar_url}
                 width={80}
                 height={80}
@@ -46,7 +46,7 @@ const ProfileUserline = () => {
             ) : (
               <div
                 style={{ backgroundColor: user.avatar_color }}
-                className="border-border shrink-0 border-2 rounded-full w-20 h-20 flex items-center justify-center text-3xl font-bold"
+                className="border-border shrink-0 border-2 rounded-full w-16 h-16 flex items-center justify-center text-3xl font-bold"
               >
                 {user.avatar_symbol || <Camera />}
               </div>

@@ -1,5 +1,6 @@
 import { handleConvertTimeShort } from "@/app/lib/utils/convertData";
 import { IUser } from "@/app/types/user";
+import { motion } from "motion/react";
 import { Star } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
@@ -25,13 +26,15 @@ const LeaderboardUser = ({
   const [imageError, setImageError] = useState(false);
 
   return (
-    <li
+    <motion.li
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       key={id}
       style={{
         backgroundColor: color,
       }}
       className={
-        "flex items-center justify-between p-4 border-b border-[#DADADA]" +
+        "flex items-center justify-between p-4 not:last:border-b  not:last:border-[#DADADA]" +
         color
       }
     >
@@ -81,7 +84,7 @@ const LeaderboardUser = ({
           {handleConvertTimeShort(total_moving_time_hours)}
         </span>
       </div>
-    </li>
+    </motion.li>
   );
 };
 

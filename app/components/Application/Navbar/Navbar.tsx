@@ -1,6 +1,6 @@
 "use client";
 
-import { Map, MoreHorizontal, Store, Trophy, User } from "lucide-react";
+import { BookCheck, Map, MoreHorizontal, Trophy, User } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -15,10 +15,10 @@ const navLinks = [
   },
   {
     id: 2,
-    name: "Store",
-    href: "/app/store",
-    parent: "store",
-    Icon: Store,
+    name: "Contracts",
+    href: "/app/contracts",
+    parent: "contracts",
+    Icon: BookCheck,
   },
   {
     id: 3,

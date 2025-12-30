@@ -1,6 +1,5 @@
 import SearchIcon from "@/public/icons/faq/search.svg";
 import Image from "next/image";
-import banner from "@/public/images/faq/header.webp";
 
 export const FaqBanner = ({
   search,

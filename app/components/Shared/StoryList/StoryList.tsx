@@ -138,7 +138,9 @@ const StoryList = ({
         <Image
           className="fixed object-cover z-50 w-full h-full blur-xl opacity-50"
           src={currentStory?.image_url}
+          quality={40}
           fill
+          sizes="100vw"
           alt="Story background"
           priority
         />
@@ -200,7 +202,6 @@ const StoryList = ({
                 className="w-full h-full object-contain"
                 src={currentStory?.image_url}
                 fill
-                quality={75}
                 alt="Story"
                 priority
                 sizes="(max-width: 1080px) 100vw, 1080px"

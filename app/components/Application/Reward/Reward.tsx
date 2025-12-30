@@ -23,10 +23,8 @@ const Reward = ({ title, description, image }: IRewardProps) => {
           <Medal width={42} height={42} />
         )}
       </div>
-      <span className="block mt-4 text-xl leading-7 font-medium">{title}</span>
-      <p className="mt-2 text-muted-foreground leading-7 text-base max-w-60">
-        {description}
-      </p>
+      <span className="block mt-4 text-md leading-7 font-medium">{title}</span>
+      <p className="mt-2 text-[#71717A] text-sm max-w-60">{description}</p>
     </div>
   );
 };
