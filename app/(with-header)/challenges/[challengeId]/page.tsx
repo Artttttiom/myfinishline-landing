@@ -41,6 +41,7 @@ const page = ({ params }: IChallengesPageProps) => {
     ],
     stripe_product_id: "",
     challenge_info: {
+      completed_at: "",
       is_completed: false,
       background_images: [
         {

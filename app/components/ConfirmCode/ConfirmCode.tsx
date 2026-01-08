@@ -120,60 +120,94 @@ const ConfirmCode = () => {
   };
 
   return (
-    <div className="fixed z-9999 w-screen h-screen top-0 left-0 bg-black/20 backdrop-blur-3xl flex items-center justify-center">
-      <div className="fixed bg-white p-4 rounded-lg">
-        <span>Please enter activation code</span>
-        <form className="mt-4" onSubmit={handleSubmit}>
-          <div className="flex justify-center space-x-2">
-            {code.map((digit, index) => (
-              <Input
-                key={index}
-                ref={(el) => {
-                  if (inputRefs.current) {
-                    inputRefs.current[index] = el;
-                  }
-                }}
-                id={`code-${index}`}
-                type="text"
-                inputMode="numeric"
-                maxLength={1}
-                className="w-12 h-12 text-center text-xl font-semibold border rounded-lg focus:outline-none focus:border-orange-400 focus:ring-1 focus:ring-orange-400"
-                value={digit}
-                onChange={(e) => handleChange(index, e.target.value)}
-                onKeyDown={(e) => handleKeyDown(index, e)}
-                onPaste={index === 0 ? handlePaste : undefined}
-                disabled={loading}
-              />
-            ))}
-          </div>
-
-          <span className="mt-2 text-red-500">{error}</span>
-
-          <Button
-            type="submit"
-            disabled={loading}
-            className="group mt-2 relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          >
-            {loading ? (
-              <div className="flex items-center gap-2">
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                Loading
-              </div>
-            ) : (
-              "Confirm"
-            )}
-          </Button>
-
-          <Button
-            type="button"
-            onClick={handleLogout}
-            variant="outline"
-            className="group mt-2 relative w-full flex justify-center py-3 px-4 text-sm font-medium rounded-lg cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          >
-            Logout
-          </Button>
-        </form>
+    <div className="fixed bg-white p-4 rounded-lg">
+      <span className="text-center text-3xl font-medium">
+        Enter your challenge code below
+      </span>
+      <div className="mt-10 flex items-center">
+        <div className="h-px w-full bg-neutral-300" />
+        <p className="block w-full mx-4 whitespace-nowrap font-medium text-lg tracking-tight">
+          Please enter it here
+        </p>
+        <div className="h-px w-full bg-neutral-300" />
       </div>
+      <form className="mt-4" onSubmit={handleSubmit}>
+        <div className="flex justify-center">
+          {code.map((digit, index) => {
+            if (index === 2) {
+              return (
+                <>
+                  <Input
+                    key={index}
+                    ref={(el) => {
+                      if (inputRefs.current) {
+                        inputRefs.current[index] = el;
+                      }
+                    }}
+                    id={`code-${index}`}
+                    type="text"
+                    inputMode="numeric"
+                    maxLength={1}
+                    className="w-9 h-9 rounded-none first:rounded-tl-lg first:rounded-bl-lg last:rounded-tr-lg last:rounded-br-lg text-center text-xl font-semibold border focus:outline-none focus:border-orange-400 focus:ring-1 focus:ring-orange-400"
+                    value={digit}
+                    onChange={(e) => handleChange(index, e.target.value)}
+                    onKeyDown={(e) => handleKeyDown(index, e)}
+                    disabled={loading}
+                  />
+                  <div className="w-4 h-0.5 bg-[#09090B] mx-2 my-auto rounded-lg"></div>
+                </>
+              );
+            } else {
+              return (
+                <Input
+                  key={index}
+                  ref={(el) => {
+                    if (inputRefs.current) {
+                      inputRefs.current[index] = el;
+                    }
+                  }}
+                  id={`code-${index}`}
+                  type="text"
+                  inputMode="numeric"
+                  maxLength={1}
+                  className="w-9 h-9 rounded-none first:rounded-tl-lg first:rounded-bl-lg last:rounded-tr-lg last:rounded-br-lg text-center text-xl font-semibold border focus:outline-none focus:border-orange-400 focus:ring-1 focus:ring-orange-400"
+                  value={digit}
+                  onChange={(e) => handleChange(index, e.target.value)}
+                  onKeyDown={(e) => handleKeyDown(index, e)}
+                  onPaste={index === 0 ? handlePaste : undefined}
+                  disabled={loading}
+                />
+              );
+            }
+          })}
+        </div>
+
+        <span className="mt-2 text-red-500">{error}</span>
+
+        <Button
+          type="submit"
+          disabled={loading}
+          className="group mt-2 relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        >
+          {loading ? (
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+              Loading
+            </div>
+          ) : (
+            "Confirm"
+          )}
+        </Button>
+
+        <Button
+          type="button"
+          onClick={handleLogout}
+          variant="outline"
+          className="group mt-2 relative w-full flex justify-center py-3 px-4 text-sm font-medium rounded-lg cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        >
+          Logout
+        </Button>
+      </form>
     </div>
   );
 };

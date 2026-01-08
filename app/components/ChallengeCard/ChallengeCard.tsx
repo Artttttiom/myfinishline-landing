@@ -8,8 +8,7 @@ import { getUserChallenges } from "@/app/lib/utils/userService";
 import { useAppDispatch, useAppSelector } from "@/app/lib/hooks";
 import { setUserChallenges } from "@/app/lib/features/user/userSlice";
 import ShipmentStatusBadge from "../Shared/ShipmentStatusBadge/ShipmentStatusBadge";
-import { ShipmentStatuses } from "@/app/types";
-import { sendGTMEvent } from "@next/third-parties/google";
+import { calculateHoursBetweenDates } from "@/app/lib/utils/convertData";
 
 const ChallengeCard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,14 +23,13 @@ const ChallengeCard = () => {
     },
   };
 
+  const hours = calculateHoursBetweenDates(
+    challenge.activate_date,
+    challenge.completed_at
+  );
+
   const progress =
     (challenge?.user_distance / +challenge?.total_distance) * 100;
-
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-
-    sendGTMEvent({ event: "buttonClicked", value: "medalLook" });
-  };
 
   const handleLoadChallenges = async () => {
     try {
@@ -69,15 +67,9 @@ const ChallengeCard = () => {
             {challenge.name}
           </h5>
           <div className="w-full flex items-center justify-between">
-            <span className="text-[10px] text-muted-foreground">
+            <span className="text-[13px] text-muted-foreground">
               {challenge.total_distance} km
             </span>
-            <Link
-              href="/app/homepage"
-              className="underline font-semibold text-[10px] text-black"
-            >
-              Go to map
-            </Link>
           </div>
         </div>
       </div>
@@ -88,7 +80,7 @@ const ChallengeCard = () => {
         <ProgressLine progress={progress} />
       </div>
       <div className="flex justify-between mt-8">
-        <span className="mt-2.5 text-sm font-semibold leading-5 text-[#09090B]">
+        <span className="mt-2.5 text-lg font-semibold leading-5 text-[#09090B]">
           {challenge.user_distance} km
         </span>
         {challenge.reward?.image_url && (
@@ -104,8 +96,8 @@ const ChallengeCard = () => {
             </div>
           </div>
         )}
-        <span className="mt-2.5 text-sm font-semibold leading-5 text-[#09090B]">
-          41.7 hrs
+        <span className="mt-2.5 text-lg font-semibold leading-5 text-[#09090B]">
+          {(hours || 0)?.toFixed(1)}hrs
         </span>
       </div>
       {challenge.reward_ticket?.id ? (
@@ -127,12 +119,6 @@ const ChallengeCard = () => {
       ) : (
         ""
       )}
-      <button
-        onClick={handleOpenModal}
-        className="underline mt-4 font-semibold text-[10px] text-black block mx-auto cursor-pointer"
-      >
-        Look at the medal
-      </button>
 
       <CustomModal isOpen={isModalOpen} onClose={handleCloseModal}>
         <motion.div

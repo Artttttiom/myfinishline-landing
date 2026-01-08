@@ -1,63 +1,61 @@
 import { IContract } from "@/app/types";
-import { AnimatePresence, easeInOut, motion } from "motion/react";
-import { ChevronRight, Star } from "lucide-react";
+import { motion } from "motion/react";
+import { Star } from "lucide-react";
 import Image from "next/image";
-import { memo, useState } from "react";
-
-const variants = {
-  expanded: {},
-  collapsed: {},
-};
+import { memo } from "react";
+import { cn } from "@/app/lib/utils";
 
 const areEqual = (prevProps: IContract, nextProps: IContract) => {
   return prevProps.id === nextProps.id;
 };
 
-const contentVariants = {
-  expanded: {
-    height: "auto",
-    opacity: 1,
-    transition: {
-      height: {
-        duration: 0.3,
-        ease: easeInOut,
-      },
-      opacity: {
-        duration: 0.2,
-        delay: 0.05,
-      },
-    },
-  },
-  collapsed: {
-    height: 0,
-    opacity: 0,
-    transition: {
-      height: {
-        duration: 0.3,
-        ease: easeInOut,
-      },
-      opacity: {
-        duration: 0.1,
-      },
-    },
-  },
+const IconType = ({
+  type,
+}: {
+  type: "skin" | "banner" | "frame" | "badge";
+}) => {
+  switch (type) {
+    case "skin": {
+      return (
+        <Image src="/icons/racoon.svg" alt="Racoon" width={20} height={20} />
+      );
+    }
+    case "banner": {
+      return (
+        <Image src="/icons/banner.svg" alt="Banner" width={20} height={20} />
+      );
+    }
+    case "frame": {
+      return (
+        <Image src="/icons/frame.svg" alt="Frame" width={20} height={20} />
+      );
+    }
+    case "badge": {
+      return (
+        <Image src="/icons/badge.svg" alt="Badge" width={20} height={20} />
+      );
+    }
+    default: {
+      return <Star />;
+    }
+  }
 };
 
-const arrowVariants = {
-  expanded: {
-    rotate: 90,
-    transition: {
-      duration: 0.3,
-      ease: easeInOut,
-    },
-  },
-  collapsed: {
-    rotate: 0,
-    transition: {
-      duration: 0.3,
-      ease: easeInOut,
-    },
-  },
+const handleGetStyle = (
+  is_completed: boolean,
+  rareness: "common" | "legendary"
+) => {
+  const style = {
+    background: "#fff",
+    border: "",
+  };
+  if (is_completed) {
+    style.background = "linear-gradient(180deg, #fff 20%, #9ef097 90%)";
+  }
+  if (rareness === "legendary") {
+    style.border = "1px solid #FFD700";
+  }
+  return style;
 };
 
 const Feature = memo(
@@ -70,9 +68,11 @@ const Feature = memo(
     banners,
     frames,
     skins,
+    reward_type,
+    is_completed,
+    rare,
   }: IContract) => {
     const rewards = [...badges, ...banners, ...frames, ...skins];
-    const [isExpanded, setIsExpanded] = useState(false);
 
     const handleGetDays = () => {
       if (end_date) {
@@ -87,19 +87,13 @@ const Feature = memo(
       }
     };
 
-    const handleToggleIsExpanded = () => {
-      setIsExpanded((prevState) => !prevState);
-    };
-
     return (
       <motion.li
-        onClick={handleToggleIsExpanded}
-        variants={variants}
-        animate={isExpanded ? "expanded" : "collapsed"}
+        style={handleGetStyle(is_completed, rare.type)}
         className="bg-white mt-1 rounded-xl cursor-pointer overflow-hidden border border-border"
       >
         <div className="flex gap-4 p-4 justify-between">
-          <div className="flex gap-4 items-center">
+          <div className="flex gap-4">
             <div>
               <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-white shrink-0 border border-[#F4E8FD]">
                 {image_url ? (
@@ -110,9 +104,10 @@ const Feature = memo(
                     height={40}
                   />
                 ) : (
-                  <Star width={20} height={20} />
+                  <IconType type={reward_type} />
                 )}
               </div>
+              <div className="text-xs text-center">{reward_type}</div>
               {end_date && (
                 <div className="mx-auto mt-2 w-fit p-1 py-px bg-[#FFA600] rounded-lg font-medium text-[8px] text-center text-white">
                   {handleGetDays()}
@@ -128,53 +123,31 @@ const Feature = memo(
               </p>
             </div>
           </div>
-          <motion.button variants={arrowVariants}>
-            <ChevronRight />
-          </motion.button>
-        </div>
-        <AnimatePresence mode="wait">
-          {isExpanded && (
-            <motion.div
-              layout
-              className="overflow-hidden"
-              variants={contentVariants}
-              initial="collapsed"
-              animate="expanded"
-              exit="collapsed"
-            >
-              <div className="p-4">
-                <span>Rewards</span>
-
-                {rewards.length ? (
-                  <ul className="flex items-center flex-wrap gap-2 mt-2">
-                    {rewards.map((reward, index) => {
-                      return (
-                        <li key={index}>
-                          {reward.image_url && (
-                            <Image
-                              className="w-18 h-18 object-cover rounded-lg"
-                              src={reward.image_url}
-                              width={72}
-                              height={72}
-                              alt="Reward"
-                            />
-                          )}
-                          <span className="block text-center text-xs text-[#09090B]">
-                            {reward.title}
-                          </span>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                ) : (
-                  <span className="block text-sm text-[#71717A]">
-                    No rewards given
-                  </span>
-                )}
-              </div>
-            </motion.div>
+          {rewards.length ? (
+            <ul className="flex items-center flex-col gap-2 mt-2">
+              {rewards.map((reward, index) => {
+                return (
+                  <li className="shrink-0" key={index}>
+                    {reward.image_url && (
+                      <Image
+                        className="w-18 h-18 object-cover shrink-0 rounded-lg"
+                        src={reward.image_url}
+                        width={72}
+                        height={72}
+                        alt="Reward"
+                      />
+                    )}
+                    <span className="block text-center text-xs text-[#09090B]">
+                      {reward.title}
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
+          ) : (
+            ""
           )}
-        </AnimatePresence>
+        </div>
       </motion.li>
     );
   },

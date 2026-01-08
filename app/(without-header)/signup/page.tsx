@@ -1,88 +1,88 @@
 "use client";
 
+import GoogleLogin from "@/app/components/Shared/GoogleLogin/GoogleLogin";
+import TermsLine from "@/app/components/Shared/TermsLine/TermsLine";
+import { authWithStrava } from "@/app/lib/utils/authWithStrava";
+import { Button } from "@/app/components/ui/button";
+import { Input } from "@/app/components/ui/input";
+import { useAppDispatch } from "@/app/lib/hooks";
+import { useRouter } from "next/navigation";
+import { validate } from "./validate";
+import { useFormik } from "formik";
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { Input } from "@/app/components/ui/input";
-import { Button } from "@/app/components/ui/button";
 import axios from "axios";
-import { useRouter } from "next/navigation";
-import { useAppDispatch } from "@/app/lib/hooks";
+import PasswordValidator from "@/app/components/PasswordValidator/PasswordValidator";
 import { setUser } from "@/app/lib/features/user/userSlice";
-import { authWithStrava } from "@/app/lib/utils/authWithStrava";
-import TermsLine from "@/app/components/Shared/TermsLine/TermsLine";
-import GoogleLogin from "@/app/components/Shared/GoogleLogin/GoogleLogin";
+
+interface IFormik {
+  email: string;
+  password: string;
+  repeatPassword: string;
+  code: string;
+  error: string;
+}
 
 export default function Register() {
   const [loading, setLoading] = useState(false);
   const [isCodeRevealed, setIsCodeRevealed] = useState(false);
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    confirmPassword: "",
-    code: "",
-    error: "",
-  });
   const router = useRouter();
   const dispatch = useAppDispatch();
 
+  const {
+    values,
+    errors,
+    touched,
+    handleSubmit,
+    handleBlur,
+    setFieldValue,
+    isSubmitting,
+  } = useFormik<IFormik>({
+    validate,
+    initialValues: {
+      email: "",
+      password: "",
+      repeatPassword: "",
+      code: "",
+      error: "",
+    },
+    onSubmit: async (values) => {
+      if (isCodeRevealed) {
+        try {
+          const { data } = await axios.post("/api/auth/register", {
+            email: values.email,
+            password: values.password,
+            confirmPassword: values.repeatPassword,
+            code: +values.code,
+          });
+          dispatch(setUser(data.user));
+          router.replace("/app");
+        } catch (error: any) {
+          setFieldValue("error", error.response.data.message);
+          console.error("Registration error:", error);
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        handleSendCode();
+      }
+    },
+  });
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    setFormData((prevState) => {
-      return { ...prevState, error: "" };
-    });
-
-    e.preventDefault();
-    setLoading(true);
-
-    if (formData.password !== formData.confirmPassword) {
-      setFormData((prevState) => {
-        return { ...prevState, error: "Passwords do not match" };
-      });
-      setLoading(false);
-      return;
-    }
-
-    if (formData.password.length < 6) {
-      setFormData((prevState) => {
-        return {
-          ...prevState,
-          error: "Password should contain at least 6 characters",
-        };
-      });
-      setLoading(false);
-      return;
-    }
-
-    try {
-      const { data } = await axios.post("/api/auth/register", formData);
-      dispatch(setUser(data.user));
-      router.replace("/app");
-    } catch (error: any) {
-      console.error("Registration error:", error);
-      setFormData((prevState) => {
-        return { ...prevState, error: error.response?.data.message };
-      });
-    } finally {
-      setLoading(false);
-    }
+    setFieldValue(e.target.name, e.target.value);
   };
 
   const handleSendCode = async () => {
     try {
-      const { data } = await axios.post("/api/auth/send-code", {
-        email: formData.email,
+      setFieldValue("error", "");
+      await axios.post("/api/auth/send-code", {
+        email: values.email,
       });
       setIsCodeRevealed(true);
-      console.log(data);
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
+      setFieldValue("error", error.response.data.message);
     }
   };
 
@@ -102,42 +102,47 @@ export default function Register() {
               id="email"
               name="email"
               type="email"
-              required
-              className="w-full py-3 px-4"
               placeholder="Enter your email"
-              value={formData.email}
+              value={values.email}
               onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.email ? errors.email : ""}
             />
-
             <Input
               id="password"
               name="password"
               type="password"
-              required
-              className="w-full py-3 px-4 mt-2"
+              className="mt-2"
               placeholder="Create a password"
-              value={formData.password}
+              value={values.password}
               onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.password ? errors.password : ""}
             />
+            {!isCodeRevealed && (
+              <div className="mt-2">
+                <PasswordValidator password={values.password} />
+              </div>
+            )}
             <Input
-              id="confirmPassword"
-              name="confirmPassword"
+              id="repeatPassword"
+              name="repeatPassword"
               type="password"
-              required
-              className="w-full py-3 px-4 mt-2"
+              className="mt-2"
               placeholder="Repeat your password"
-              value={formData.confirmPassword}
+              value={values.repeatPassword}
               onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.repeatPassword ? errors.repeatPassword : ""}
             />
             {isCodeRevealed && (
               <label className="block mt-2" htmlFor="code">
                 <Input
                   id="code"
                   name="code"
-                  required
                   className="w-full py-3 px-4"
                   placeholder="123456"
-                  value={formData.code}
+                  value={values.code}
                   onChange={handleChange}
                 />
                 <span className="block leading-4 text-xs">
@@ -145,12 +150,6 @@ export default function Register() {
                 </span>
               </label>
             )}
-            {formData.error && (
-              <span className="block text-center w-fit text-red-400 pl-4 mt-2">
-                {formData.error}
-              </span>
-            )}
-
             {isCodeRevealed && (
               <Button
                 type="submit"
@@ -169,18 +168,21 @@ export default function Register() {
                 )}
               </Button>
             )}
-
+            {values.error && (
+              <span className="text-red-400 text-xs leading-0">
+                {values.error}
+              </span>
+            )}
             {!isCodeRevealed && (
               <Button
                 variant="outline"
-                type="button"
-                onClick={handleSendCode}
-                disabled={loading}
+                type="submit"
+                disabled={isSubmitting}
                 className={`mt-2 w-full py-3 px-6 text-base font-semibold cursor-pointer transition-all duration-300 flex items-center justify-center gap-2
-              ${loading && "opacity-70 cursor-not-allowed"}
+              ${isSubmitting && "opacity-70 cursor-not-allowed"}
             `}
               >
-                {loading ? (
+                {isSubmitting ? (
                   <>
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                     Sending code...

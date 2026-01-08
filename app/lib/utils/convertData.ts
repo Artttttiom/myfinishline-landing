@@ -66,3 +66,21 @@ export const handleConvertDate = (dateString: string) => {
     year: "numeric",
   });
 };
+
+export const calculateHoursBetweenDates = (
+  creationDate: string,
+  completionDate: string
+) => {
+  const start = new Date(creationDate);
+  const end = new Date(completionDate);
+
+  if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+    return "";
+  }
+
+  const diffInMs = end.getTime() - start.getTime();
+
+  const hours = diffInMs / (1000 * 60 * 60);
+
+  return hours;
+};

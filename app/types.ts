@@ -47,6 +47,7 @@ export interface IActiveChallenge {
   activate_date: string;
   user_distance: number;
   is_completed: boolean;
+  completed_at: string;
   reward?: IReward;
   reward_ticket?: IRewardTicket;
 }
@@ -142,6 +143,13 @@ export interface IContract {
   frames: any[];
   skins: any[];
   end_date: null | string;
+  reward_type: "badge" | "frame" | "skin" | "banner";
+  is_completed: boolean;
+  rare: {
+    id: number;
+    name: string;
+    type: "common" | "legendary";
+  };
 }
 
 export interface IRewardTicket {

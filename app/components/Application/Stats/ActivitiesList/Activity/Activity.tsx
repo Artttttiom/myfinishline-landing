@@ -1,7 +1,6 @@
 import { IActivity } from "@/app/types";
 import { motion } from "motion/react";
 import Image from "next/image";
-import Link from "next/link";
 import {
   handleConvertDate,
   handleConvertDistance,
@@ -95,19 +94,6 @@ const Activity = ({
               </div>
             </div>
           </div>
-        </div>
-        <div className="mt-3 flex items-end justify-between">
-          <Link href="#" className="underline font-semibold text-[10px]">
-            Go to Journey
-          </Link>
-          <button className="p-2">
-            <Image
-              src="/icons/share.svg"
-              width={18}
-              height={16}
-              alt="Arrow right"
-            />
-          </button>
         </div>
       </div>
     </motion.li>

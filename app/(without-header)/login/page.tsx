@@ -4,13 +4,11 @@ import { useState } from "react";
 import Link from "next/link";
 import { Input } from "../../components/ui/input";
 import { Button } from "../../components/ui/button";
-import Image from "next/image";
 import axios from "axios";
 import { useAppDispatch } from "@/app/lib/hooks";
 import { setUser } from "@/app/lib/features/user/userSlice";
 import { useRouter } from "next/navigation";
 import GoogleLogin from "@/app/components/Shared/GoogleLogin/GoogleLogin";
-import instance from "@/app/lib/utils/instance";
 import TermsLine from "@/app/components/Shared/TermsLine/TermsLine";
 
 export default function Login() {

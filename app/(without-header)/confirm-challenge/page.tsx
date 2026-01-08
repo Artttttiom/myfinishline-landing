@@ -5,12 +5,14 @@ import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
 import { useAppDispatch } from "@/app/lib/hooks";
 import { setUser } from "@/app/lib/features/user/userSlice";
+import Link from "next/link";
+import ConfirmCode from "@/app/components/ConfirmCode/ConfirmCode";
 
 const Content = () => {
   const router = useRouter();
   const params = useSearchParams();
   const code = params.get("code");
-  const [status, setStatus] = useState("Signing in with Google…");
+  const [status, setStatus] = useState("Signed in successfully");
   const dispatch = useAppDispatch();
 
   const handleLogin = async () => {
@@ -46,12 +48,12 @@ const Content = () => {
   }, [code, router]);
 
   return (
-    <div
-      style={{ height: "calc(100vh - 513px)" }}
-      className="w-full flex justify-center items-center font-bold"
-    >
-      {status}
-    </div>
+    <section className="grid min-h-svh lg:grid-cols-2">
+      <div className="flex items-center justify-center">
+        <ConfirmCode />
+      </div>
+      <div className="relative hidden bg-[url(/images/gradient.webp)] bg-cover bg-center bg-no-repeat lg:block dark:bg-[url(/images/gradient-dark.webp)]"></div>
+    </section>
   );
 };
 

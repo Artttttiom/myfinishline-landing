@@ -89,7 +89,7 @@ const AccordionContent = ({ list, title, content }: IAccordionContentProps) => {
   };
 
   return (
-    <>
+    <section className="mx-4">
       {title && (
         <span className="block mt-7 text-3xl font-semibold leading-9 text-[#09090B]">
           {title}
@@ -152,7 +152,7 @@ const AccordionContent = ({ list, title, content }: IAccordionContentProps) => {
             })
           : content()}
       </ul>
-    </>
+    </section>
   );
 };
 

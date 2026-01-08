@@ -13,6 +13,7 @@ const initialState: IActiveChallenge = {
   user_distance: 0,
   activate_date: "",
   is_completed: false,
+  completed_at: "",
 };
 
 const challengeSlice = createSlice({
