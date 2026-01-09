@@ -5,6 +5,7 @@ import { CurrencieSymbols, IProduct } from "@/app/types";
 import { useSearchParams } from "next/navigation";
 import { Button } from "../ui/button";
 import axios from "axios";
+import ImageBadge from "./ImageBadge/ImageBadge";
 
 interface IChallengesPaymentProps {
   products: IProduct[];
@@ -213,6 +214,48 @@ const Content = ({ products, handleUpdateTotal }: IChallengesPaymentProps) => {
           "Order"
         )}
       </Button>
+      <section className="flex space-x-4 mx-auto w-fit mt-10">
+        <ImageBadge
+          imageSrc="/images/payment/badge1.png"
+          text="We protect & respect your privacy"
+        />
+        <ImageBadge
+          imageSrc="/images/payment/badge2.png"
+          text="Your information is secure"
+        />
+        <ImageBadge
+          imageSrc="/images/payment/badge3.png"
+          text="Award winning service"
+        />
+      </section>
+      <section className="mt-4 border-t border-neutral-200 pt-4 w-full gap-4">
+        <div className="flex flex-col max-w-fit mx-auto gap-4">
+          <div className="flex gap-2">
+            <Image
+              src="/icons/email.svg"
+              width={24}
+              height={24}
+              alt="Email"
+              color="bg-accent"
+            />
+            <div>
+              <p className="text-xs font-bold">Email support</p>
+              <a className="block text-xs" href="mailto:myfinishline@gmail.com">
+                myfinishline@gmail.com
+              </a>
+            </div>
+          </div>
+          {/* <div className="flex gap-2">
+            <Image src="/icons/chat.svg" width={24} height={24} alt="Email" />
+            <div>
+              <p className="text-xs font-bold">Chat with us</p>
+              <p className="block text-xs">
+                Click the chat widget at the bottom right
+              </p>
+            </div>
+          </div> */}
+        </div>
+      </section>
     </section>
   );
 };
