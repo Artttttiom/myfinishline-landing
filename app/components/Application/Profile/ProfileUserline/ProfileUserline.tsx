@@ -60,7 +60,7 @@ const ProfileUserline = () => {
             )}
           </div>
         </div>
-        <div>
+        <div className="flex flex-col justify-between">
           <div>
             <motion.span
               initial={{ opacity: 0 }}
