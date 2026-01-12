@@ -5,6 +5,7 @@ import Reward from "../Application/Reward/Reward";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import "swiper/css";
 import { useAppSelector } from "@/app/lib/hooks";
+import Link from "next/link";
 
 const rewards = [
   {
@@ -52,11 +53,11 @@ const RewardsSwiper = () => {
   };
 
   return (
-    <section className="bg-[#F4F4F5] py-10 mt-14">
+    <section className="bg-[#F4F4F5] pt-10 mt-14">
       <section className="max-w-4xl mx-auto">
         <div className="flex items-center justify-between">
           <h4 className="font-medium text-3xl leading-9 text-[#09090B] px-4">
-            My Rewards
+            Contracts
           </h4>
           {completedContracts.length > 2 && (
             <div>
@@ -100,6 +101,12 @@ const RewardsSwiper = () => {
             </SwiperSlide>
           ))}
         </Swiper>
+        <Link
+          href="/app/contracts/all"
+          className="underline block p-4 text-right text-sm text-[#71717A]"
+        >
+          See All
+        </Link>
       </section>
     </section>
   );
