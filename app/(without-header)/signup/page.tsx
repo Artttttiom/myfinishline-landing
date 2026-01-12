@@ -25,7 +25,6 @@ interface IFormik {
 
 export default function Register() {
   const [loading, setLoading] = useState(false);
-  const [isCodeRevealed, setIsCodeRevealed] = useState(false);
   const router = useRouter();
   const dispatch = useAppDispatch();
 
@@ -47,24 +46,20 @@ export default function Register() {
       error: "",
     },
     onSubmit: async (values) => {
-      if (isCodeRevealed) {
-        try {
-          const { data } = await axios.post("/api/auth/register", {
-            email: values.email,
-            password: values.password,
-            confirmPassword: values.repeatPassword,
-            code: +values.code,
-          });
-          dispatch(setUser(data.user));
-          router.replace("/app");
-        } catch (error: any) {
-          setFieldValue("error", error.response.data.message);
-          console.error("Registration error:", error);
-        } finally {
-          setLoading(false);
-        }
-      } else {
-        handleSendCode();
+      try {
+        const { data } = await axios.post("/api/auth/register", {
+          email: values.email,
+          password: values.password,
+          confirmPassword: values.repeatPassword,
+          code: +values.code,
+        });
+        dispatch(setUser(data.user));
+        router.replace("/app");
+      } catch (error: any) {
+        setFieldValue("error", error.response.data.message);
+        console.error("Registration error:", error);
+      } finally {
+        setLoading(false);
       }
     },
   });
@@ -73,18 +68,7 @@ export default function Register() {
     setFieldValue(e.target.name, e.target.value);
   };
 
-  const handleSendCode = async () => {
-    try {
-      setFieldValue("error", "");
-      await axios.post("/api/auth/send-code", {
-        email: values.email,
-      });
-      setIsCodeRevealed(true);
-    } catch (error: any) {
-      console.log(error);
-      setFieldValue("error", error.response.data.message);
-    }
-  };
+  console.log(values);
 
   return (
     <section className="grid min-h-svh lg:grid-cols-2">
@@ -119,11 +103,6 @@ export default function Register() {
               onBlur={handleBlur}
               error={touched.password ? errors.password : ""}
             />
-            {!isCodeRevealed && (
-              <div className="mt-2">
-                <PasswordValidator password={values.password} />
-              </div>
-            )}
             <Input
               id="repeatPassword"
               name="repeatPassword"
@@ -135,62 +114,39 @@ export default function Register() {
               onBlur={handleBlur}
               error={touched.repeatPassword ? errors.repeatPassword : ""}
             />
-            {isCodeRevealed && (
-              <label className="block mt-2" htmlFor="code">
-                <Input
-                  id="code"
-                  name="code"
-                  className="w-full py-3 px-4"
-                  placeholder="123456"
-                  value={values.code}
-                  onChange={handleChange}
-                />
-                <span className="block leading-4 text-xs">
-                  Enter code that was send to your email
-                </span>
-              </label>
-            )}
-            {isCodeRevealed && (
-              <Button
-                type="submit"
-                disabled={loading}
-                className={`mt-2 w-full border-none py-3 px-6 text-base font-semibold cursor-pointer transition-all duration-300 flex items-center justify-center gap-2
+            <div className="mt-2">
+              <PasswordValidator password={values.password} />
+            </div>
+            <Input
+              id="code"
+              name="code"
+              className="mt-2"
+              placeholder="Challenge activation code"
+              value={values.code}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.code ? errors.code : ""}
+            />
+            <Button
+              type="submit"
+              disabled={loading}
+              className={`mt-2 w-full border-none py-3 px-6 text-base font-semibold cursor-pointer transition-all duration-300 flex items-center justify-center gap-2
               ${loading && "opacity-70 cursor-not-allowed"}
             `}
-              >
-                {loading ? (
-                  <>
-                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    Creating Account...
-                  </>
-                ) : (
-                  "Create Account"
-                )}
-              </Button>
-            )}
+            >
+              {loading ? (
+                <>
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  Creating Account...
+                </>
+              ) : (
+                "Create Account"
+              )}
+            </Button>
             {values.error && (
               <span className="text-red-400 text-xs leading-0">
                 {values.error}
               </span>
-            )}
-            {!isCodeRevealed && (
-              <Button
-                variant="outline"
-                type="submit"
-                disabled={isSubmitting}
-                className={`mt-2 w-full py-3 px-6 text-base font-semibold cursor-pointer transition-all duration-300 flex items-center justify-center gap-2
-              ${isSubmitting && "opacity-70 cursor-not-allowed"}
-            `}
-              >
-                {isSubmitting ? (
-                  <>
-                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    Sending code...
-                  </>
-                ) : (
-                  "Send code"
-                )}
-              </Button>
             )}
           </form>
           <div className="mt-2">

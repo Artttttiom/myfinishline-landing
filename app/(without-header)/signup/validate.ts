@@ -1,9 +1,11 @@
 import { emailRegex, passwordRegex } from "@/app/lib/utils/regex";
+const codeRegex = /^[0-9]{1,5}$/;
 
 interface IValuesProps {
   email: string;
   password: string;
   repeatPassword: string;
+  code: string;
 }
 
 type Errors = Partial<IValuesProps>;
@@ -23,6 +25,10 @@ export const validate = (values: IValuesProps) => {
     errors.password = "Enter password that matches the rules";
   } else if (values.password !== values.repeatPassword) {
     errors.repeatPassword = "Passwords do not match";
+  }
+
+  if (!values.code || codeRegex.test(values.code)) {
+    errors.code = "Enter valid activation code";
   }
 
   return errors;
