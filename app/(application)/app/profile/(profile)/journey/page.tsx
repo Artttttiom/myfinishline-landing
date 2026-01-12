@@ -52,20 +52,21 @@ const Journey = () => {
       </div>
       {!!completedContracts.length && <RewardsSwiper />}
 
-      <section className="mt-10 max-w-4xl mx-auto">
-        <h4 className="font-medium text-3xl text-center leading-9">
-          Explore Challenges
-        </h4>
-        <div className="mt-8">
-          <ChallengesSwiper />
-        </div>
-        <Link
-          href="#"
-          className="block mt-7 underline font-semibold text-[10px] text-center"
-        >
-          See All Challenges
-        </Link>
-      </section>
+      {/* <section className="mt-10">
+          <h4 className="font-medium text-3xl text-center leading-9">
+            Explore Challenges
+          </h4>
+          <div className="mt-8">
+            <ChallengesSwiper />
+          </div>
+          <Link
+            href="#"
+            className="block mt-7 underline font-semibold text-[10px] text-center"
+          >
+            See All Challenges
+          </Link>
+        </section> */}
+
       <section className="px-4 w-full mt-20 border-t border-[#DADADA] pt-11">
         <div className="max-w-4xl mx-auto">
           <h4 className="font-medium leading-7 text-xl text-center text-[#71717A]">
