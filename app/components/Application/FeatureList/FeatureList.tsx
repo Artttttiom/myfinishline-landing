@@ -1,6 +1,6 @@
-import { memo } from "react";
 import Feature from "./Feature/Feature";
 import { IContract } from "@/app/types";
+import { memo } from "react";
 
 interface IFeatureListProps {
   features: IContract[];
@@ -22,7 +22,6 @@ const areEqual = (
 };
 
 const FeatureList = memo(({ features }: IFeatureListProps) => {
-  console.log(features);
   return (
     <ul className="border border-border bg-linear-to-b from-[#F4E8FD] via-white to-[#F4E8FD] p-4 rounded-xl">
       {features.map((feature) => (

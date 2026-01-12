@@ -92,8 +92,8 @@ const Feature = memo(
         style={handleGetStyle(is_completed, rare.type)}
         className="bg-white mt-1 rounded-xl cursor-pointer overflow-hidden border border-border"
       >
-        <div className="flex gap-4 p-4 justify-between">
-          <div className="flex gap-4">
+        <div className="flex flex-col gap-4 justify-between">
+          <div className="flex gap-4 px-4 pt-4">
             <div>
               <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-white shrink-0 border border-[#F4E8FD]">
                 {image_url ? (
@@ -124,20 +124,20 @@ const Feature = memo(
             </div>
           </div>
           {rewards.length ? (
-            <ul className="flex items-center flex-col gap-2 mt-2">
+            <ul className="flex items-center flex-col gap-2 mt-2 bg-linear-to-b from-[#F4E8FD00] to-[#C3B7E2] p-4">
               {rewards.map((reward, index) => {
                 return (
                   <li className="shrink-0" key={index}>
                     {reward.image_url && (
                       <Image
-                        className="w-18 h-18 object-cover shrink-0 rounded-lg"
+                        className="w-32 h-32 object-cover shrink-0 rounded-lg"
                         src={reward.image_url}
-                        width={72}
-                        height={72}
+                        width={128}
+                        height={128}
                         alt="Reward"
                       />
                     )}
-                    <span className="block text-center text-xs text-[#09090B]">
+                    <span className="block mt-1 text-center text-xs text-[#09090B]">
                       {reward.title}
                     </span>
                   </li>

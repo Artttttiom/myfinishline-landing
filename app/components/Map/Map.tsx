@@ -153,7 +153,7 @@ const Map = ({
                 <img
                   src={image.image_url}
                   alt=""
-                  className="w-full h-auto block"
+                  className="object-cover w-full h-auto block"
                 />
               </li>
             ))}

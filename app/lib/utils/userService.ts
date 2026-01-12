@@ -10,8 +10,17 @@ export const getUserRewards = async () => {
   return data;
 };
 
-export const getUserContracts = async () => {
-  const { data } = await axios.get("/api/user/contracts");
+export const getUserContracts = async (
+  queryString: "completed" | "not_completed" | "" = ""
+) => {
+  let query = "";
+  if (queryString === "completed") {
+    query = "?type=completed";
+  }
+  if (queryString === "not_completed") {
+    query = "?type=not_completed";
+  }
+  const { data } = await axios.get("/api/user/contracts" + query);
   return data;
 };
 

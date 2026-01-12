@@ -1,13 +1,24 @@
 import instance from "@/app/lib/utils/instance";
 import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export const GET = async () => {
+export const GET = async (req: NextRequest) => {
   try {
+    const { searchParams } = new URL(req.url);
+    const type = searchParams.get("type");
+
     const cookieStore = await cookies();
     const token = cookieStore.get("auth_token")?.value;
 
-    const { data } = await instance.get("/user/contracts", {
+    let query = "";
+    if (type === "completed") {
+      query = "?type=completed";
+    }
+    if (type === "not_completed") {
+      query = "?type=not_completed";
+    }
+
+    const { data } = await instance.get("/user/contracts" + query, {
       headers: {
         Authorization: "Bearer " + token,
       },

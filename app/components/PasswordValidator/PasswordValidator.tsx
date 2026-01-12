@@ -1,5 +1,5 @@
 import { Check } from "lucide-react";
-import React, { useState } from "react";
+import React from "react";
 
 interface Props {
   password: string;
@@ -9,7 +9,7 @@ const PasswordValidator: React.FC<Props> = ({ password }) => {
   const validationRules = [
     {
       id: "length",
-      label: "At least 8 characters",
+      label: "At least 8 latin characters",
       regex: /^.{8,32}$/,
       isValid: (pwd: string) => /^.{8,32}$/.test(pwd),
     },
@@ -44,9 +44,6 @@ const PasswordValidator: React.FC<Props> = ({ password }) => {
       isValid: (pwd: string) => pwd === "" || /^[A-Za-z\d@$!%*?&]+$/.test(pwd),
     },
   ];
-
-  const fullRegex =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,32}$/;
 
   const getRuleStatus = (rule: (typeof validationRules)[0]) => {
     if (password.length === 0) return "pending";

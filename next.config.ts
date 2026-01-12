@@ -70,6 +70,11 @@ const nextConfig: NextConfig = {
         pathname: "/**",
       },
       {
+        hostname: "i.postimg.cc",
+        port: "",
+        pathname: "/**",
+      },
+      {
         protocol: "https",
         hostname: "i.ibb.co",
         port: "",
@@ -93,6 +98,11 @@ const nextConfig: NextConfig = {
       {
         source: "/app/profile",
         destination: "/app/profile/journey",
+        permanent: true,
+      },
+      {
+        source: "/app/contracts",
+        destination: "/app/contracts/all",
         permanent: true,
       },
       {
