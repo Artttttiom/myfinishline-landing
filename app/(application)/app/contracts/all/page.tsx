@@ -6,23 +6,44 @@ import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { getUserContracts } from "@/app/lib/utils/userService";
 import { toast } from "react-toastify";
+import { Loader2 } from "lucide-react";
 
 const page = () => {
   const [contracts, setContracts] = useState<IContract[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLoadContracts = async () => {
+    setIsLoading(true);
     try {
       const data = await getUserContracts();
       setContracts(data.data);
     } catch (error: any) {
       toast.error("Error loading contracts: ", error.response.data.message);
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
     handleLoadContracts();
   }, []);
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center mt-8">
+        <Loader2 width={48} height={48} className="animate-spin" />
+      </div>
+    );
+  }
+
+  if (!isLoading && !contracts.length) {
+    return (
+      <span className="mt-2 block text-center text-neutral-400 text-md">
+        No contracts found
+      </span>
+    );
+  }
 
   return (
     contracts.length > 0 && (

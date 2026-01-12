@@ -65,7 +65,7 @@ const ChallengeCard = () => {
 
   return (
     <div className="p-6 border border-[#e4e4e7] rounded-xl bg-linear-to-b from-[#C3B7E2] via-[#FBFBFB] to-[#F4E8FD]">
-      <div className="flex gap-3">
+      <div className="flex gap-3 items-start">
         {/*@ts-ignore */}
         {challenge.image_url && (
           <Image
@@ -78,7 +78,7 @@ const ChallengeCard = () => {
           />
         )}
         <div className="w-full flex flex-col justify-between">
-          <h5 className="mt-2.5 text-lg font-medium leading-7 text-[#09090B]">
+          <h5 className="text-lg font-medium leading-7 text-[#09090B]">
             {challenge.name}
           </h5>
           <div className="w-full flex items-center justify-between">
@@ -87,6 +87,17 @@ const ChallengeCard = () => {
             </span>
           </div>
         </div>
+
+        {challenge.reward_ticket?.id && (
+          <div>
+            <div className="ml-auto mr-0">
+              <ShipmentStatusBadge {...challenge.reward_ticket.status} />
+            </div>
+            <div className="text-[13px] text-muted-foreground mt-1">
+              Shipment ID {challenge.reward_ticket.id}
+            </div>
+          </div>
+        )}
       </div>
       <p className="mt-8 text-sm leading-5 text-muted-foreground">
         {challenge.description}
@@ -118,16 +129,7 @@ const ChallengeCard = () => {
           {(hours || 0)?.toFixed(1)}hrs
         </span>
       </div>
-      {challenge.reward_ticket?.id ? (
-        <div className="mt-8 mx-auto text-sm grid grid-cols-2 max-w-full lg:max-w-80 items-center">
-          <span className="text-[#90909B]">Shipment status:</span>
-          <div className="ml-auto mr-0">
-            <ShipmentStatusBadge {...challenge.reward_ticket.status} />
-          </div>
-          <span className="text-[#90909B]">Shipment ID:</span>
-          <div className="text-end">{challenge.reward_ticket.id}</div>
-        </div>
-      ) : challenge.is_completed ? (
+      {!challenge.is_completed ? (
         <Link
           href={`/app/profile/redeem?reward_id=${challenge.reward?.id}`}
           className="block text-center bg-transparent w-full mt-8 border-black py-2 px-4 border text-black text-sm leading-6 font-medium hover:bg-white hover:text-black shadow-xs transition-colors rounded-lg cursor-pointer"
@@ -137,7 +139,6 @@ const ChallengeCard = () => {
       ) : (
         ""
       )}
-
       <CustomModal isOpen={isModalOpen} onClose={handleCloseModal}>
         <motion.div
           animate={{ rotateY: [20, -20, 20] }}

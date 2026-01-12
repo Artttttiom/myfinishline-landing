@@ -53,52 +53,54 @@ const RewardsSwiper = () => {
 
   return (
     <section className="bg-[#F4F4F5] py-10 mt-14">
-      <div className="flex items-center justify-between">
-        <h4 className="font-medium text-3xl leading-9 text-[#09090B] px-4">
-          My Rewards
-        </h4>
-        {completedContracts.length > 2 && (
-          <div>
-            <button
-              className="px-4 cursor-pointer"
-              onClick={handleGoPrev}
-              disabled={isFirstSlide}
-            >
-              <ArrowLeft color={isFirstSlide ? "#797979" : "black"} />
-            </button>
-            <button
-              className="px-4 cursor-pointer"
-              onClick={handleGoNext}
-              disabled={isLastSlide}
-            >
-              <ArrowRight color={isLastSlide ? "#797979" : "black"} />
-            </button>
-          </div>
-        )}
-      </div>
+      <section className="max-w-4xl mx-auto">
+        <div className="flex items-center justify-between">
+          <h4 className="font-medium text-3xl leading-9 text-[#09090B] px-4">
+            My Rewards
+          </h4>
+          {completedContracts.length > 2 && (
+            <div>
+              <button
+                className="px-4 cursor-pointer"
+                onClick={handleGoPrev}
+                disabled={isFirstSlide}
+              >
+                <ArrowLeft color={isFirstSlide ? "#797979" : "black"} />
+              </button>
+              <button
+                className="px-4 cursor-pointer"
+                onClick={handleGoNext}
+                disabled={isLastSlide}
+              >
+                <ArrowRight color={isLastSlide ? "#797979" : "black"} />
+              </button>
+            </div>
+          )}
+        </div>
 
-      <Swiper
-        onSwiper={(swiper) => {
-          swiperRef.current = swiper;
-        }}
-        className="mt-8 pb-4"
-        spaceBetween={16}
-        slidesPerView={2}
-        onSlideChange={(swiper) => {
-          setIsFirstSlide(swiper.isBeginning);
-          setIsLastSlide(swiper.isEnd);
-        }}
-      >
-        {completedContracts.map((contract) => (
-          <SwiperSlide key={contract.id} className="px-4">
-            <Reward
-              title={contract.name}
-              description={contract.description}
-              image={contract.image_url || ""}
-            />
-          </SwiperSlide>
-        ))}
-      </Swiper>
+        <Swiper
+          onSwiper={(swiper) => {
+            swiperRef.current = swiper;
+          }}
+          className="mt-8 pb-4"
+          spaceBetween={16}
+          slidesPerView={2}
+          onSlideChange={(swiper) => {
+            setIsFirstSlide(swiper.isBeginning);
+            setIsLastSlide(swiper.isEnd);
+          }}
+        >
+          {completedContracts.map((contract) => (
+            <SwiperSlide key={contract.id} className="px-4">
+              <Reward
+                title={contract.name}
+                description={contract.description}
+                image={contract.image_url || ""}
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </section>
     </section>
   );
 };

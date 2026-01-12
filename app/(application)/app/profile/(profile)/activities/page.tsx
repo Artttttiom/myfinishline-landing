@@ -127,7 +127,7 @@ const Page = () => {
   ]);
 
   return (
-    <main className="relative px-4">
+    <main className="relative px-4 max-w-4xl mx-auto">
       <div className="mt-10 flex items-center justify-between">
         <div className="flex-1"></div>
         <h4 className="text-3xl text-center font-medium leading-9 text-[#09090B] flex-1">

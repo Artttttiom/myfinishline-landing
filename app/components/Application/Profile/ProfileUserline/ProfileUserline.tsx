@@ -13,7 +13,7 @@ const ProfileUserline = () => {
   const { user } = useAppSelector((state) => state.user);
 
   return (
-    <section className="flex justify-between px-4 py-8 rounded-tl-xl rounded-tr-xl relative">
+    <section className="flex justify-between px-4 py-8 rounded-tl-xl rounded-tr-xl relative max-w-4xl mx-auto">
       {user.selected_banner && (
         <div className="absolute top-0 left-0 w-full h-full rounded-b-lg overflow-hidden">
           <Image
@@ -25,7 +25,7 @@ const ProfileUserline = () => {
         </div>
       )}
       <div className="flex gap-4 relative">
-        <div className="relative w-16 h-16">
+        <div className="relative w-24 h-24">
           {user.selected_frame && (
             <div className="absolute left-0 top-0 h-full w-full">
               <Image
@@ -39,7 +39,7 @@ const ProfileUserline = () => {
           <div className="relative z-10 flex items-center justify-center">
             {user?.full_avatar_url && !imageError ? (
               <Image
-                className="rounded-full h-16 w-16 object-cover p-0.75 shrink-0"
+                className="rounded-full h-24 w-24 object-cover p-0.75 shrink-0"
                 src={user.full_avatar_url}
                 width={80}
                 height={80}
