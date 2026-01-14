@@ -49,7 +49,11 @@ const Page = () => {
       {shouldAnimate && <Clouds isVisible={isFetching} />}
       {isActive ? (
         <>
-          <MapHeader challengeName={challenge.name} />
+          <MapHeader
+            challengeName={challenge.name}
+            startDate={challenge.activate_date}
+            totalDistance={challenge.user_distance}
+          />
           <Map {...challenge} />
         </>
       ) : (

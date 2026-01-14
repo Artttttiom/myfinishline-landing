@@ -109,7 +109,7 @@ const page = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-4xl py-4 mx-auto">
+    <form onSubmit={handleSubmit} className="max-w-4xl pt-18 pb-4 mx-auto">
       <div className="px-4">
         <span className="text-base leading-6 font-semibold text-[#09090B]">
           Edit profile

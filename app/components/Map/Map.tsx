@@ -231,14 +231,14 @@ const Map = ({
             <Crosshair />
           </motion.button>
         </div>
-        <div className="fixed bottom-18 right-2 z-30">
-          <MapStats
+        {/* <div className="fixed bottom-18 right-2 z-30">
+           <MapStats
             distance={total_distance}
             completedDistance={user_distance}
             steps={steps}
             startDate={activate_date}
-          />
-        </div>
+          /> 
+        </div> */}
       </div>
 
       <AnimatePresence>

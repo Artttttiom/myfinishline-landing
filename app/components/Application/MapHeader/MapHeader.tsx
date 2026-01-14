@@ -7,10 +7,22 @@ import Image from "next/image";
 
 interface IMapHeaderProps {
   challengeName: string;
+  startDate: string;
+  totalDistance: number;
 }
 
-const MapHeader = ({ challengeName }: IMapHeaderProps) => {
+const MapHeader = ({
+  challengeName,
+  startDate,
+  totalDistance,
+}: IMapHeaderProps) => {
   const { user } = useAppSelector((state) => state.user);
+
+  const createdDate = new Date(startDate);
+  const currentDate = new Date();
+
+  const d = 24 * 60 * 60 * 1000;
+  const daysOnTrack = (Number(currentDate) - Number(createdDate)) / d;
 
   return (
     <header className="fixed z-100 w-full ">
@@ -20,8 +32,14 @@ const MapHeader = ({ challengeName }: IMapHeaderProps) => {
           <div>
             <h2 className="font-medium text-lg">{challengeName}</h2>
             <div className="mt-3 flex items gap-4">
-              <StatBlock label="Total distance" value="12.09 km" />
-              <StatBlock label="Total hours" value="5.36 hrs" />
+              <StatBlock
+                label="Total distance"
+                value={String(totalDistance) + " km"}
+              />
+              <StatBlock
+                label="Days on track"
+                value={daysOnTrack?.toFixed(1)}
+              />
             </div>
           </div>
           <div className="w-24 h-24 relative rounded-full flex items-center justify-center">
