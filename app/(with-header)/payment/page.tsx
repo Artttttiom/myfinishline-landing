@@ -1,19 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Image from "next/image";
+import { Suspense, useEffect, useState } from "react";
 import ChallengesPayment from "@/app/components/ChallengesPayment/ChallengesPayment";
-import Logo from "@/app/components/Shared/Logo/Logo";
 import { useAppDispatch, useAppSelector } from "@/app/lib/hooks";
 import { IProduct } from "@/app/types";
 import axios from "axios";
 import { setProducts } from "@/app/lib/features/products/productsSlice";
-import { useSearchParams } from "next/navigation";
-import { redirect } from "next/navigation";
 
 export default function PaymentPage() {
-  const searchParams = useSearchParams();
-  const challengeId = searchParams.get("challenge_id");
   const [total, setTotal] = useState<number>(0);
   const { products } = useAppSelector((state) => state.products);
   const dispatch = useAppDispatch();
@@ -35,29 +29,27 @@ export default function PaymentPage() {
     }
   }, []);
 
-  if (!challengeId) {
-    redirect("/#features-carousel");
-  }
-
   return (
-    <div className="min-h-screen mt-[96px] bg-gradient-to-b from-indigo-white via-[#C3B7E2] to-pink-white">
-      <div className="relative flex flex-col gap-[40px] z-10 container mx-auto px-4 max-w-7xl mt-4">
-        <div className="flex flex-col gap-[12px]">
-          <h1 className="text-5xl">Sign Up for your Challenge</h1>
-          <p className="text-lg">All transactions are secure and encrypted</p>
-        </div>
-        <div className="flex pb-[20px] w-full">
-          {/* <Element stripe={stripePromise} options={options}>
+    <Suspense>
+      <div className="min-h-screen mt-[96px] bg-gradient-to-b from-indigo-white via-[#C3B7E2] to-pink-white">
+        <div className="relative flex flex-col gap-[40px] z-10 container mx-auto px-4 max-w-7xl mt-4">
+          <div className="flex flex-col gap-[12px]">
+            <h1 className="text-5xl">Sign Up for your Challenge</h1>
+            <p className="text-lg">All transactions are secure and encrypted</p>
+          </div>
+          <div className="flex pb-[20px] w-full">
+            {/* <Element stripe={stripePromise} options={options}>
             <PaymentForm total={total} />
-          </Element> */}
-          {!!products.length && (
-            <ChallengesPayment
-              products={products}
-              handleUpdateTotal={setTotal}
-            />
-          )}
+            </Element> */}
+            {!!products.length && (
+              <ChallengesPayment
+                products={products}
+                handleUpdateTotal={setTotal}
+              />
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </Suspense>
   );
 }

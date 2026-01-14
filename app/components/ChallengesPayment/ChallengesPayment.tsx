@@ -7,6 +7,7 @@ import { Button } from "../ui/button";
 import axios from "axios";
 import ImageBadge from "./ImageBadge/ImageBadge";
 import { Payment } from "../Payment/Payment";
+import { redirect } from "next/navigation";
 
 interface IChallengesPaymentProps {
   products: IProduct[];
@@ -84,6 +85,10 @@ const Content = ({ products, handleUpdateTotal }: IChallengesPaymentProps) => {
   useEffect(() => {
     handleUpdateTotal(total);
   }, [total]);
+
+  if (!challengeId) {
+    redirect("/#features-carousel");
+  }
 
   return (
     <section className="w-full">
