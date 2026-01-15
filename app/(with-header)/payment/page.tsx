@@ -31,13 +31,13 @@ export default function PaymentPage() {
 
   return (
     <Suspense>
-      <div className="min-h-screen mt-[96px] bg-gradient-to-b from-indigo-white via-[#C3B7E2] to-pink-white">
-        <div className="relative flex flex-col gap-[40px] z-10 container mx-auto px-4 max-w-7xl mt-4">
-          <div className="flex flex-col gap-[12px]">
+      <div className="min-h-screen mt-24 bg-linear-to-b from-indigo-white via-[#C3B7E2] to-pink-white">
+        <div className="relative flex flex-col gap-10 z-10 container mx-auto px-6 max-w-7xl mt-4">
+          <div className="flex flex-col gap-3">
             <h1 className="text-5xl">Sign Up for your Challenge</h1>
             <p className="text-lg">All transactions are secure and encrypted</p>
           </div>
-          <div className="flex pb-[20px] w-full">
+          <div className="flex pb-5 w-full">
             {/* <Element stripe={stripePromise} options={options}>
             <PaymentForm total={total} />
             </Element> */}

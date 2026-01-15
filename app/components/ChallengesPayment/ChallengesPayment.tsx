@@ -62,7 +62,7 @@ const Content = ({ products, handleUpdateTotal }: IChallengesPaymentProps) => {
   // };
 
   const totalChallengeCost =
-    selectedChallenge.prices?.[0].amount * Number(orderAmount);
+    selectedChallenge.prices?.amount * Number(orderAmount);
   const total = useMemo(
     () => totalChallengeCost + (isAddonChecked ? addon.price : 0),
     [totalChallengeCost, isAddonChecked]

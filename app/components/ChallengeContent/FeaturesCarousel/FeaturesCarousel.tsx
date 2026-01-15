@@ -1,6 +1,6 @@
 "use client";
 
-import { BarChart3, Clock, Filter, Link as LucideLink } from "lucide-react";
+import { initializePaddle } from "@paddle/paddle-js";
 import { motion } from "motion/react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -27,6 +27,7 @@ import axios from "axios";
 import { IProduct } from "@/app/types";
 import { useAppDispatch, useAppSelector } from "@/app/lib/hooks";
 import { setProducts } from "@/app/lib/features/products/productsSlice";
+import { paddleInstance } from "@/app/lib/utils/instance";
 
 export default function FeaturesCarousel() {
   const prefersReducedMotion = usePrefersReducedMotion();
@@ -139,68 +140,16 @@ export default function FeaturesCarousel() {
       className="section-padding relative overflow-x-hidden"
     >
       <Noise />
-      <div className="container grid gap-8 lg:grid-cols-3">
-        <div className="flex flex-col gap-8 lg:col-span-1">
-          <motion.div
-            className="space-y-4"
-            initial={prefersReducedMotion ? "visible" : "hidden"}
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            variants={headerVariants}
-          >
-            <h2 className="text-4xl tracking-tight text-balance lg:text-5xl">
-              {content.challenges.title}
-            </h2>
-            <p className="text-muted-foreground text-lg leading-snug">
-              {content.challenges.description}
-            </p>
-          </motion.div>
-
-          <motion.div
-            className="mx-auto hidden max-w-38.75 grid-cols-2 justify-between gap-5 lg:grid"
-            initial={prefersReducedMotion ? "visible" : "hidden"}
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            variants={containerVariants}
-          >
-            {products?.map((product, index) => {
-              const isActive = index === activeIndex;
-
-              return (
-                <motion.button
-                  key={product.challenge_info.id}
-                  onClick={() => handleFeatureClick(index)}
-                  variants={buttonVariants}
-                  className={cn(
-                    `border-input hover:bg-border/50 flex h-16 w-16 cursor-pointer items-center justify-center rounded-sm border transition-all duration-300`,
-                    isActive && "bg-border"
-                  )}
-                >
-                  {product.challenge_info.id}
-                </motion.button>
-              );
-            })}
-          </motion.div>
-
-          <div className="mt-6 hidden flex-1 items-end justify-center gap-1 lg:flex">
-            {products?.map((product, index) => (
-              <button
-                key={product.challenge_info.id}
-                onClick={() => handleFeatureClick(index)}
-                className={cn(
-                  "size-1.5 cursor-pointer rounded-full transition-all duration-300",
-                  index === activeIndex
-                    ? "bg-foreground"
-                    : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
-                )}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
-          </div>
-        </div>
+      <div className="container gap-8 lg:grid-cols-3">
+        <h2 className="text-4xl tracking-tight text-balance">
+          {content.challenges.title}
+        </h2>
+        <p className="block mt-4 text-muted-foreground text-lg leading-snug">
+          {content.challenges.description}
+        </p>
 
         <motion.div
-          className="select-none md:mask-r-from-60% md:mask-r-to-100% lg:col-span-2"
+          className="mt-4 select-none md:mask-r-from-60% md:mask-r-to-100% lg:col-span-2"
           initial={prefersReducedMotion ? "visible" : "hidden"}
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
@@ -215,43 +164,72 @@ export default function FeaturesCarousel() {
             className="cursor-grab"
           >
             <CarouselContent className="h-full">
-              {products?.map((product) => (
-                <CarouselItem
-                  key={product.challenge_info.id}
-                  className="h-full md:basis-[60%]"
-                >
-                  <Link href={`/challenges/${product.challenge_info.id}`}>
-                    <Card className="bg-border border-input aspect-284/362 h-full pb-0! transition-all duration-300 hover:shadow-lg lg:aspect-384/562">
-                      <CardHeader>
-                        <CardTitle className="text-lg leading-tight md:text-2xl lg:text-3xl">
-                          {product.name}
-                        </CardTitle>
-                        <CardDescription className="text-sm md:text-lg">
-                          {product.description}
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent className="relative h-full">
-                        <div className="bg-card dark:bg-card-foreground border-input relative h-full overflow-hidden rounded-lg border">
-                          <Image
-                            src={product.main_image}
-                            alt="Product image"
-                            fill
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                            className={cn(
-                              "object-cover transition-transform duration-300 hover:scale-105 p-0!"
-                            )}
-                          />
-                        </div>
-                        <div className="to-chart-4 absolute inset-0 bg-linear-to-b from-transparent from-70%"></div>
-                      </CardContent>
-                    </Card>
-                  </Link>
-                </CarouselItem>
-              ))}
+              {products?.map((product) => {
+                console.log(product);
+                return (
+                  <CarouselItem
+                    key={product.challenge_info.id}
+                    className="h-full md:basis-[40%]"
+                  >
+                    <Link href={`/challenges/${product.challenge_info.id}`}>
+                      <Card className="bg-border border-input aspect-284/362 h-full pb-0! transition-all duration-300 hover:shadow-lg lg:aspect-384/562">
+                        <CardHeader>
+                          <CardTitle className="text-lg leading-tight md:text-2xl lg:text-3xl">
+                            {product.name}
+                          </CardTitle>
+                          <CardDescription className="text-sm md:text-lg">
+                            {product.description}
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent className="relative h-full">
+                          <div className="bg-card dark:bg-card-foreground border-input relative h-full overflow-hidden rounded-lg border">
+                            <Image
+                              src={product.main_image}
+                              alt="Product image"
+                              fill
+                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                              className={cn(
+                                "object-cover transition-transform duration-300 hover:scale-105 p-0!"
+                              )}
+                            />
+                          </div>
+                          <div className="to-chart-4 absolute inset-0 bg-linear-to-b from-transparent from-70%"></div>
+                        </CardContent>
+                      </Card>
+                    </Link>
+                  </CarouselItem>
+                );
+              })}
             </CarouselContent>
           </Carousel>
+          <div className="flex flex-col gap-8 lg:col-span-1">
+            <div className="mt-6 hidden flex-1 items-end justify-center gap-1 lg:flex">
+              {products?.map((product, index) => (
+                <button
+                  key={product.challenge_info.id}
+                  onClick={() => handleFeatureClick(index)}
+                  className={cn(
+                    "size-1.5 cursor-pointer rounded-full transition-all duration-300",
+                    index === activeIndex
+                      ? "bg-foreground"
+                      : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                  )}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
+              ))}
+            </div>
+          </div>
+
           <motion.div
-            className="mx-auto my-8 flex max-w-md justify-between gap-4 lg:hidden"
+            className="space-y-4"
+            initial={prefersReducedMotion ? "visible" : "hidden"}
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            variants={headerVariants}
+          ></motion.div>
+
+          <motion.div
+            className="mt-2 w-fit mx-auto flex justify-between gap-2"
             initial={prefersReducedMotion ? "visible" : "hidden"}
             whileInView="visible"
             viewport={{ once: true, amount: 0.3 }}
@@ -270,7 +248,7 @@ export default function FeaturesCarousel() {
                     isActive && "bg-border"
                   )}
                 >
-                  {product.challenge_info.id}
+                  {index + 1}
                 </motion.button>
               );
             })}

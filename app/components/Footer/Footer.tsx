@@ -102,7 +102,7 @@ const Footer = () => {
           </div>
 
           {/* Right side - Lumen branding and social */}
-          <div className="flex w-fit flex-col items-start justify-self-end md:col-span-1">
+          <div className="flex w-fit flex-col items-start md:col-span-1">
             <Logo />
             <div className="mt-4 space-y-3 md:mt-8">
               {SOCIAL_LINKS.map((link, index) => (

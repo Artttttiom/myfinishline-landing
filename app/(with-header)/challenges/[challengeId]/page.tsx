@@ -32,14 +32,13 @@ const page = ({ params }: IChallengesPageProps) => {
     images: [],
     main_image: "",
     content: [],
-    prices: [
-      {
-        amount: 0,
-        currency: Currencies.EUR,
-        stripe_price_id: "",
-      },
-    ],
-    stripe_product_id: "",
+    prices: {
+      amount: 0,
+      currency: Currencies.EUR,
+      paddle_price_id: "",
+    },
+
+    paddle_product_id: "",
     challenge_info: {
       completed_at: "",
       is_completed: false,
@@ -116,7 +115,7 @@ const page = ({ params }: IChallengesPageProps) => {
         <div className="relative w-full py-10 flex items-center justify-center">
           <PurchaseChallenge
             title={product.name}
-            price={product.prices?.[0]}
+            price={product.prices}
             id={product.challenge_info.id}
             imageSrc={product.main_image}
           />
