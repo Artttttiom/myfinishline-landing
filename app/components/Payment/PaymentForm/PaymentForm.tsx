@@ -55,17 +55,15 @@ const PaymentForm = ({ product }: { product: IProduct }) => {
     if (!paddle) return;
 
     paddle.Checkout.open({
-      items: [{ priceId: product.prices.paddle_price_id, quantity: 1 }],
+      items: [{ priceId: "pri_01kegz1p156e7pn4zzwn110hps", quantity: 1 }],
     });
   };
 
+  console.log(product.prices.paddle_price_id);
+
   return (
     <>
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col justify-between gap-7.5 w-full"
-      >
-        <Button onClick={openCheckout}>Open checkout</Button>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-7.5 w-full">
         <div className="flex flex-col gap-3 p-6 rounded-3xl border border-[#C3B7E2] bg-white">
           <p className="font-bold text-[22px]">Your details</p>
           <div className="flex gap-5">
@@ -107,10 +105,8 @@ const PaymentForm = ({ product }: { product: IProduct }) => {
             <span className="w-[50%]" />
           </div>
         </div>
+        <Button onClick={openCheckout}>Open checkout</Button>
       </form>
-      <div className="relative flex flex-col gap-3 p-6 rounded-3xl border border-[#C3B7E2] bg-white">
-        <div id="checkout-container" className="checkout-container"></div>
-      </div>
     </>
   );
 };

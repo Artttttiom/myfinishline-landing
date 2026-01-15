@@ -30,7 +30,7 @@ const page = ({
   const pathname = usePathname();
 
   return (
-    <main className="max-w-4xl mx-auto pt-18">
+    <main className="max-w-4xl mx-auto pt-18 px-4">
       <h2 className="text-3xl">Personalization</h2>
 
       <nav className="mt-2 flex items-center gap-1 overflow-hidden border-b">
