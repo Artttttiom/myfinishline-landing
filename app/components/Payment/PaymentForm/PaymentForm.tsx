@@ -55,7 +55,7 @@ const PaymentForm = ({ product }: { product: IProduct }) => {
     if (!paddle) return;
 
     paddle.Checkout.open({
-      items: [{ priceId: "pri_01kegz1p156e7pn4zzwn110hps", quantity: 1 }],
+      items: [{ priceId: product.prices.paddle_price_id, quantity: 1 }],
     });
   };
 

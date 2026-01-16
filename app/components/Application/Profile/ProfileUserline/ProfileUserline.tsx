@@ -13,18 +13,19 @@ const ProfileUserline = () => {
   const { user } = useAppSelector((state) => state.user);
 
   return (
-    <section className="flex justify-between px-2 py-8 rounded-tl-xl rounded-tr-xl relative max-w-4xl mx-auto">
+    <section className="flex justify-between px-2 pt-12 pb-4 rounded-tl-xl rounded-tr-xl relative max-w-4xl mx-auto">
       {user.selected_banner && (
-        <div className="absolute top-0 left-0 w-full h-full rounded-b-lg overflow-hidden">
+        <div className="inset-0 absolute top-0 left-0 w-full h-full rounded-b-lg overflow-hidden">
           <Image
             className="object-cover"
             src={user.selected_banner?.image_url}
             alt="Banner"
             fill
           />
+          <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-black/10" />
         </div>
       )}
-      <div className="flex gap-4 relative">
+      <div className="flex gap-4 relative items-end">
         <div className="flex items-center justify-center relative w-32 h-32">
           {user.selected_frame && (
             <div className="absolute left-0 top-0 h-full w-full">
@@ -36,7 +37,7 @@ const ProfileUserline = () => {
               />
             </div>
           )}
-          <div className="relative z-10 flex items-center justify-center">
+          <div className="relative z-10 flex items-end justify-center">
             {user?.full_avatar_url && !imageError ? (
               <Image
                 style={
@@ -65,36 +66,48 @@ const ProfileUserline = () => {
             )}
           </div>
         </div>
-        <div className="flex flex-col justify-between">
+        <div className="flex flex-col justify-end gap-2">
           <div>
             <motion.span
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="font-medium"
+              className="font-medium text-white"
             >
               {user.first_name} {user.last_name}
             </motion.span>
             <motion.span
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="block font-medium text-muted-foreground text-sm"
+              className="block font-medium text-neutral-300 text-sm"
             >
               @{user.username}
             </motion.span>
           </div>
-          <div className="flex items-start gap-3">
-            <StatBlock
-              label="Total distance"
-              value={handleConvertDistance(user.total_distance) || "0"}
-            />
-            <StatBlock
-              label="Total hours"
-              value={user.total_moving_time_hours?.toFixed(1) + " h"}
-            />
-            <StatBlock
-              label="Total runs"
-              value={user.total_activities_count?.toString() || "0"}
-            />
+          <div className="flex items-stretch">
+            <div className="border-r border-neutral-400 px-2">
+              <StatBlock
+                valueClassName="block text-white text-center"
+                labelClassName="text-center text-neutral-400 text-[10px]!"
+                label="Distance"
+                value={handleConvertDistance(user.total_distance) || "0"}
+              />
+            </div>
+            <div className="border-r border-neutral-400 px-2">
+              <StatBlock
+                valueClassName="block text-white text-center"
+                labelClassName="text-center text-neutral-400 text-[10px]!"
+                label="Hours"
+                value={user.total_moving_time_hours?.toFixed(1) + " h"}
+              />
+            </div>
+            <div className="px-2">
+              <StatBlock
+                valueClassName="block text-white text-center"
+                labelClassName="text-center text-neutral-400 text-[10px]!"
+                label="Runs"
+                value={user.total_activities_count?.toString() || "0"}
+              />
+            </div>
           </div>
         </div>
       </div>
