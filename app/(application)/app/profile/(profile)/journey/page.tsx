@@ -46,7 +46,7 @@ const Journey = () => {
         <h2 className="mt-10 font-medium text-3xl leading-9 text-[#09090B] text-center px-4">
           My Journey
         </h2>
-        <section className="mt-8 px-4">
+        <section className="my-8 px-4">
           <ChallengeCard />
         </section>
       </div>

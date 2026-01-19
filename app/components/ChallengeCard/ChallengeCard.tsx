@@ -15,7 +15,9 @@ const getTimePassed = (
   endDate: string | Date = new Date(),
 ) => {
   const start = new Date(startDate);
-  const end = new Date(endDate);
+  const end = endDate ? new Date(endDate) : new Date();
+
+  console.log(end);
 
   const diffMs = Math.abs(end.getTime() - start.getTime());
 
@@ -44,6 +46,8 @@ const ChallengeCard = () => {
       image_url: "",
     },
   };
+
+  console.log(challenge);
 
   const hours = getTimePassed(challenge.activate_date, challenge.completed_at);
 

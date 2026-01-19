@@ -31,7 +31,7 @@ const RewardsSwiper = () => {
   };
 
   return (
-    <section className="bg-[#F4F4F5] pt-10 mt-14">
+    <section className="bg-[#F4F4F5] pt-10">
       <section className="max-w-4xl mx-auto">
         <div className="flex items-center justify-between">
           <h4 className="font-medium text-3xl leading-9 text-[#09090B] px-4">
