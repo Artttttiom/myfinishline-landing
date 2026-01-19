@@ -120,8 +120,6 @@ const Map = ({ background_images, steps, is_completed }: IActiveChallenge) => {
     setIsStoriesOpen(false);
   };
 
-  console.log(steps);
-
   return (
     <>
       <div className="relative w-full min-h-screen bg-slate-900">
@@ -159,7 +157,7 @@ const Map = ({ background_images, steps, is_completed }: IActiveChallenge) => {
                 {steps.map((step, index) => (
                   <div
                     key={step.id}
-                    id={`step-${step.id}`}
+                    id={`step-${step.index}`}
                     className="absolute transform -translate-x-1/2 -translate-y-1/2"
                     style={{
                       left: `${step.x_coordinate}px`,
@@ -205,6 +203,8 @@ const Map = ({ background_images, steps, is_completed }: IActiveChallenge) => {
                         x={step.x_coordinate}
                         distanceLeft={1}
                         isNext={step.next}
+                        index={step.index}
+                        isViewed={step.is_viewed}
                       />
                     </div>
                   </div>
@@ -239,6 +239,8 @@ const Map = ({ background_images, steps, is_completed }: IActiveChallenge) => {
       <AnimatePresence>
         {isStoriesOpen && (
           <StoryModal
+            stepId={activeStep?.id || 0}
+            isViewed={activeStep?.is_viewed || false}
             stories={activeStep?.story || []}
             onClose={handleCloseStories}
           />

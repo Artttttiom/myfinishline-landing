@@ -4,12 +4,20 @@ import { AnimatePresence, motion, useAnimation } from "motion/react";
 import Image from "next/image";
 import StoryShadow from "./StoryShadow/StoryShadow";
 import { IStory } from "@/app/types";
+import axios from "axios";
+import { useAppDispatch } from "@/app/lib/hooks";
+import { setViewedStory } from "@/app/lib/features/challenge/challengeSlice";
+import { Button } from "../../ui/button";
 
 const StoryList = ({
   stories,
+  stepId,
+  isViewed,
   onClose,
 }: {
   stories: IStory[];
+  stepId: number;
+  isViewed: boolean;
   onClose: () => void;
 }) => {
   const [activeStoryIndex, setActiveStoryIndex] = useState<number>(0);
@@ -19,12 +27,27 @@ const StoryList = ({
   const controls = useAnimation();
   const animationDuration = 10;
   const HOLD_DELAY = 150;
+  const dispatch = useAppDispatch();
+
+  const handleViewStories = async () => {
+    if (isViewed) {
+      return;
+    }
+
+    try {
+      axios.post("/api/user/view-story", { step_id: stepId });
+      dispatch(setViewedStory(stepId));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleGoToNextStory = () => {
     setActiveStoryIndex((prevIndex) => {
       if (stories[prevIndex + 1]) {
         return prevIndex + 1;
       } else {
+        handleViewStories();
         onClose();
         return prevIndex;
       }
@@ -89,7 +112,7 @@ const StoryList = ({
 
       if (activeBar) {
         const progressFill = activeBar.querySelector(
-          ".progress-fill"
+          ".progress-fill",
         ) as HTMLElement;
         if (progressFill) {
           const parentWidth = activeBar.clientWidth;
@@ -147,6 +170,12 @@ const StoryList = ({
       )}
 
       <div className="top-0 h-screen z-100 max-w-270 w-full mx-auto relative">
+        <Button
+          className="text-white z-200 absolute top-2 right-2"
+          onClick={onClose}
+        >
+          Skip
+        </Button>
         <div className="absolute top-0 left-0 w-full z-50 flex gap-1">
           {stories.map((story, index) => {
             const isActive = index === activeStoryIndex;
@@ -211,7 +240,7 @@ const StoryList = ({
         </AnimatePresence>
       </div>
 
-      {currentStory && currentStory.content && (
+      {/* {currentStory && currentStory.content && (
         <div className="absolute bottom-0 z-100 left-0 right-0 bg-black/75 backdrop-blur-md">
           <div className="relative block h-full max-w-270 mx-auto pt-2 px-2 pb-9">
             <div className="absolute bottom-1 right-2 w-fit z-100 flex gap-1 bg-black/50 px-3 py-1.5 rounded-full text-white text-xs">
@@ -222,16 +251,20 @@ const StoryList = ({
             </p>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };
 
 const StoryModal = ({
   stories,
+  stepId,
+  isViewed,
   onClose,
 }: {
   stories: IStory[];
+  stepId: number;
+  isViewed: boolean;
   onClose: () => void;
 }) => {
   return createPortal(
@@ -241,9 +274,14 @@ const StoryModal = ({
       exit={{ opacity: 0 }}
       className="z-100 relative"
     >
-      <StoryList stories={stories} onClose={onClose} />
+      <StoryList
+        stepId={stepId}
+        stories={stories}
+        isViewed={isViewed}
+        onClose={onClose}
+      />
     </motion.div>,
-    document.body
+    document.body,
   );
 };
 

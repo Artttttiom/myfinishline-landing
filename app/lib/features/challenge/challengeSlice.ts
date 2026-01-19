@@ -25,9 +25,18 @@ const challengeSlice = createSlice({
     },
     updateChallenge: (
       state,
-      action: PayloadAction<Partial<IActiveChallenge>>
+      action: PayloadAction<Partial<IActiveChallenge>>,
     ) => {
       state = { ...state, ...action.payload };
+    },
+    setViewedStory: (state, action: PayloadAction<number>) => {
+      state.steps = state.steps.map((step) => {
+        if (step.id === action.payload) {
+          return { ...step, is_viewed: true };
+        } else {
+          return step;
+        }
+      });
     },
     clearChallenge: () => {
       return initialState;
@@ -35,6 +44,6 @@ const challengeSlice = createSlice({
   },
 });
 
-export const { setChallenge, updateChallenge, clearChallenge } =
+export const { setChallenge, updateChallenge, clearChallenge, setViewedStory } =
   challengeSlice.actions;
 export default challengeSlice.reducer;

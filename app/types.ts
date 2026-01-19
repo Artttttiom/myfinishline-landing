@@ -36,6 +36,7 @@ export interface IStep {
   next: boolean;
   distance_to_reach_step: string;
   user_distance_reach: string;
+  is_viewed: boolean;
 }
 
 export interface IActiveChallenge {

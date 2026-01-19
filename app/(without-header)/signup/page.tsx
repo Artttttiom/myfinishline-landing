@@ -68,8 +68,6 @@ export default function Register() {
     setFieldValue(e.target.name, e.target.value);
   };
 
-  console.log(values);
-
   return (
     <section className="grid min-h-svh lg:grid-cols-2">
       <section className="flex items-center justify-center px-2">

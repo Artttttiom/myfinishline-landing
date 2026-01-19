@@ -16,21 +16,23 @@ interface StepProps {
   userDistance: number;
   distanceLeft: number | null;
   userDistanceReached: number;
+  isViewed: boolean;
   x: string;
+  index: number;
 }
 
 const Step = memo(
   ({
     id,
+    index,
     title,
     stepsAmount,
     completed,
     progress,
-    distance,
     userDistanceReached,
     isActive = false,
-    distanceLeft = 0,
     isNext,
+    isViewed,
     x,
   }: StepProps) => {
     const isLast = id === stepsAmount;
@@ -46,17 +48,21 @@ const Step = memo(
         return "bg-white text-[#A88BFA] border-3 border-[#A88BFA]";
       }
       if (completed) {
-        return "bg-[#8D5DF8] text-white outline-2 outline-[#8D5DF8] outline-offset-2";
+        return `bg-[#8D5DF8] text-white outline-2 outline-offset-2 ${
+          isViewed ? "outline-[#8D5DF8]" : "outline-white"
+        }`;
       }
       if (isActive) {
-        return "bg-gradient-to-br bg-[#8D5DF8] text-white outline-2 outline-white outline-offset-2";
+        return `bg-gradient-to-br bg-[#8D5DF8] text-white outline-2 outline-offset-2  ${
+          isViewed ? "outline-[#8D5DF8]" : "outline-white"
+        }`;
       }
       return "bg-[#F4F4F5] text-[#DADADA]";
     };
 
     return (
       <div
-        id={`step-${id}`}
+        id={`step-${index}`}
         className="relative flex items-center z-20 justify-center"
       >
         {isLast && (
@@ -71,7 +77,7 @@ const Step = memo(
           ${completed ? "cursor-pointer" : "cursor-default"}
         `}
         >
-          {id}
+          {index}
         </div>
 
         {(completed || isActive) && (
@@ -81,7 +87,7 @@ const Step = memo(
                 ? { right: "100%", transform: "translateX(-8px)" }
                 : { left: "100%", transform: "translateX(8px)" }
             }
-            className="absolute z-20"
+            className="absolute z-30"
           >
             <div
               className={`
@@ -90,8 +96,8 @@ const Step = memo(
             completed
               ? "bg-[#A88BFA] text-white"
               : isActive
-              ? "bg-[#A88BFA] text-white"
-              : "bg-[#F4F4F5] text-[#DADADA]"
+                ? "bg-[#A88BFA] text-white"
+                : "bg-[#F4F4F5] text-[#DADADA]"
           }
           transition-all duration-300
         `}
@@ -113,7 +119,7 @@ const Step = memo(
                 ? { right: "100%", transform: "translateX(-8px)" }
                 : { left: "100%", transform: "translateX(8px)" }
             }
-            className="absolute z-20"
+            className="absolute z-30"
           >
             <div
               className={`
@@ -127,14 +133,14 @@ const Step = memo(
           </div>
         )}
 
-        {id + 1 <= stepsAmount && (
+        {index + 1 <= stepsAmount && (
           <>
             <div className="relative z-10">
               <Xarrow
                 dashness
                 color="gray"
-                start={"step-" + id}
-                end={"step-" + (id + 1)}
+                start={"step-" + index}
+                end={"step-" + (index + 1)}
                 showHead={false}
                 strokeWidth={4}
               />
@@ -143,8 +149,8 @@ const Step = memo(
               <ProgressArrow
                 dashness
                 color={completed ? "#8D5DF8" : "#6d63ff"}
-                start={"step-" + id}
-                end={"step-" + (id + 1)}
+                start={"step-" + index}
+                end={"step-" + (index + 1)}
                 showHead={false}
                 progress={progress}
                 strokeWidth={4}
@@ -154,7 +160,7 @@ const Step = memo(
         )}
       </div>
     );
-  }
+  },
 );
 
 export default Step;

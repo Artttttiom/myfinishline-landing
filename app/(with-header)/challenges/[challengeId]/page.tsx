@@ -18,8 +18,6 @@ const page = () => {
   const { products } = useAppSelector((state) => state.products);
   const dispatch = useAppDispatch();
 
-  console.log(challengeId);
-
   const product: IProduct = products.find(
     (product) => product.challenge_info.id === Number(challengeId),
   ) || {

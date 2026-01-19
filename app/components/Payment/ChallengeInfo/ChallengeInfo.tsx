@@ -3,7 +3,6 @@ import { IProduct } from "@/app/types";
 import Image from "next/image";
 
 export const ChallengeInfo = ({ product }: { product: IProduct }) => {
-  console.log(product);
   return (
     <div className="flex flex-col gap-7.5 justify-between p-[20px_30px] pb-7.5 rounded-3xl border-1px bg-linear-to-b from-[#C3B7E2] to-[#917DC2] md:w-[40%] w-full">
       <div className="flex gap-7.25 items-start justify-between">

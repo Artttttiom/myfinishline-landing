@@ -165,7 +165,6 @@ export default function FeaturesCarousel() {
           >
             <CarouselContent className="h-full">
               {products?.map((product) => {
-                console.log(product);
                 return (
                   <CarouselItem
                     key={product.challenge_info.id}
