@@ -14,6 +14,7 @@ import Link from "next/link";
 import axios from "axios";
 import PasswordValidator from "@/app/components/PasswordValidator/PasswordValidator";
 import { setUser } from "@/app/lib/features/user/userSlice";
+import ChallengesSwiper from "@/app/components/ChallengesSwiper/ChallengesSwiper";
 
 interface IFormik {
   email: string;
@@ -190,7 +191,11 @@ export default function Register() {
           </p>
         </div>
       </section>
-      <div className="relative hidden bg-[url(/images/gradient.webp)] bg-cover bg-center bg-no-repeat lg:block dark:bg-[url(/images/gradient-dark.webp)]"></div>
+      <div className="relative bg-[url(/images/gradient.webp)] bg-cover bg-center bg-no-repeat dark:bg-[url(/images/gradient-dark.webp)] ">
+        <div className="py-2 flex items-center justify-center h-full w-full">
+          <ChallengesSwiper />
+        </div>
+      </div>
     </section>
   );
 }

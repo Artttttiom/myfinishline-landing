@@ -10,6 +10,7 @@ import { setUser } from "@/app/lib/features/user/userSlice";
 import { useRouter } from "next/navigation";
 import GoogleLogin from "@/app/components/Shared/GoogleLogin/GoogleLogin";
 import TermsLine from "@/app/components/Shared/TermsLine/TermsLine";
+import ChallengesSwiper from "@/app/components/ChallengesSwiper/ChallengesSwiper";
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -76,7 +77,7 @@ export default function Login() {
   };
 
   return (
-    <section className="grid min-h-svh lg:grid-cols-2">
+    <section className="grid min-h-svh grid-cols-1 grid-rows-2 lg:grid-rows-1 lg:grid-cols-2">
       <div className="flex items-center justify-center px-2">
         <div className="max-w-125 w-full flex flex-col mx-auto">
           <h1 className="text-2xl sm:text-3xl font-semibold text-center">
@@ -170,7 +171,11 @@ export default function Login() {
           </div>
         </div>
       </div>
-      <div className="relative hidden bg-[url(/images/gradient.webp)] bg-cover bg-center bg-no-repeat lg:block dark:bg-[url(/images/gradient-dark.webp)]"></div>
+      <div className="relative bg-[url(/images/gradient.webp)] bg-cover bg-center bg-no-repeat dark:bg-[url(/images/gradient-dark.webp)] ">
+        <div className="py-2 flex items-center justify-center h-full w-full">
+          <ChallengesSwiper />
+        </div>
+      </div>
     </section>
   );
 }
