@@ -1,13 +1,12 @@
-import Image from "next/image";
-import { ChangeEvent, Suspense, useEffect, useMemo, useState } from "react";
-import ChallengeSelect from "./ChallengeSelect/ChallengeSelect";
-import { CurrencieSymbols, IProduct } from "@/app/types";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { Button } from "../ui/button";
-import axios from "axios";
 import ImageBadge from "./ImageBadge/ImageBadge";
 import { Payment } from "../Payment/Payment";
 import { redirect } from "next/navigation";
+import { IProduct } from "@/app/types";
+import Image from "next/image";
+import axios from "axios";
+import { Button } from "../ui/button";
 
 interface IChallengesPaymentProps {
   products: IProduct[];
@@ -26,12 +25,11 @@ const Content = ({ products, handleUpdateTotal }: IChallengesPaymentProps) => {
   const challengeId = searchParams.get("challenge_id");
   const [selectedChallenge, setSelectedChallenge] = useState<IProduct>(
     products?.find(
-      (product) => product.challenge_info.id === Number(challengeId)
-    ) || products?.[0]
+      (product) => product.challenge_info.id === Number(challengeId),
+    ) || products?.[0],
   );
   const [isAddonChecked, setIsAddonChecked] = useState<boolean>(false);
   const [orderAmount, setOrderAmount] = useState<string>("1");
-  const [isLoading, setIsLoading] = useState(false);
 
   // const handlePressCheckbox = (event: ChangeEvent<HTMLInputElement>) => {
   //   setIsAddonChecked(event.target.checked);
@@ -62,10 +60,10 @@ const Content = ({ products, handleUpdateTotal }: IChallengesPaymentProps) => {
   // };
 
   const totalChallengeCost =
-    selectedChallenge.prices?.amount * Number(orderAmount);
+    selectedChallenge.prices?.[0].amount * Number(orderAmount);
   const total = useMemo(
     () => totalChallengeCost + (isAddonChecked ? addon.price : 0),
-    [totalChallengeCost, isAddonChecked]
+    [totalChallengeCost, isAddonChecked],
   );
 
   // const handleOrder = async () => {
@@ -181,19 +179,6 @@ const Content = ({ products, handleUpdateTotal }: IChallengesPaymentProps) => {
           </section>
         </section>
       </section> */}
-      {/* <Button
-        className="w-full mt-4 uppercase text-2xl py-6"
-        onClick={handleOrder}
-      >
-        {isLoading ? (
-          <>
-            <div className="w-5 h-5 border-2 border-t-transparent rounded-full animate-spin"></div>
-            Forming order link...
-          </>
-        ) : (
-          "Order"
-        )}
-      </Button> */}
       <section className="flex space-x-4 mx-auto w-fit mt-10">
         <ImageBadge
           imageSrc="/images/payment/badge1.png"

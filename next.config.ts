@@ -53,12 +53,6 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "i.postimg.cc",
-        port: "",
-        pathname: "/**",
-      },
-      {
-        protocol: "https",
         hostname: "files.stripe.com",
         port: "",
         pathname: "/**",
@@ -91,6 +85,10 @@ const nextConfig: NextConfig = {
         hostname: "img.freepik.com",
         port: "",
         pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "example.com",
       },
     ],
   },

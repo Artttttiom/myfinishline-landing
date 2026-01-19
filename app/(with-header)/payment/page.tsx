@@ -15,7 +15,7 @@ export default function PaymentPage() {
   const handleLoadProducts = async () => {
     try {
       const { data }: { data: IProduct[] } = await axios.get(
-        "/api/payment/products"
+        "/api/payment/products",
       );
       dispatch(setProducts(data));
     } catch (error) {

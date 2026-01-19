@@ -108,16 +108,16 @@ export enum CurrencieSymbols {
 export interface IPrice {
   amount: number;
   currency: Currencies;
-  paddle_price_id: string;
+  stripe_price_id: string;
 }
 
 // Product from landing page
 export interface IProduct {
   name: string;
   description: string;
-  images: string[];
   main_image: string;
-  prices: IPrice;
+  images: string[];
+  prices: IPrice[];
   paddle_product_id: string;
   challenge_info: IActiveChallenge;
   content: {

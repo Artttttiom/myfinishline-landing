@@ -13,30 +13,28 @@ import { useEffect } from "react";
 import { setProducts } from "@/app/lib/features/products/productsSlice";
 import axios from "axios";
 
-interface IChallengesPageProps {
-  params: {
-    challengeId: string;
-  };
-}
-
-const page = ({ params }: IChallengesPageProps) => {
+const page = () => {
   const { challengeId } = useParams();
   const { products } = useAppSelector((state) => state.products);
   const dispatch = useAppDispatch();
 
+  console.log(challengeId);
+
   const product: IProduct = products.find(
-    (product) => product.challenge_info.id === Number(challengeId)
+    (product) => product.challenge_info.id === Number(challengeId),
   ) || {
     name: "",
     description: "",
     images: [],
     main_image: "",
     content: [],
-    prices: {
-      amount: 0,
-      currency: Currencies.EUR,
-      paddle_price_id: "",
-    },
+    prices: [
+      {
+        amount: 0,
+        currency: Currencies.EUR,
+        stripe_price_id: "",
+      },
+    ],
 
     paddle_product_id: "",
     challenge_info: {
@@ -68,7 +66,7 @@ const page = ({ params }: IChallengesPageProps) => {
   const handleLoadProducts = async () => {
     try {
       const { data }: { data: IProduct[] } = await axios.get(
-        "/api/payment/products"
+        "/api/payment/products",
       );
       dispatch(setProducts(data));
     } catch (error) {
@@ -90,7 +88,7 @@ const page = ({ params }: IChallengesPageProps) => {
           title={product.name}
           description={product.description}
           image={product.main_image}
-          distance={product.challenge_info.total_distance}
+          distance={product.name}
         />
       </LumenBackgroundBlock>
       <section className="mt-40">
@@ -102,20 +100,20 @@ const page = ({ params }: IChallengesPageProps) => {
           <div
             className={cn(
               "bg-chart-2 absolute size-full rounded-full blur-3xl will-change-transform",
-              "top-0 left-0 -translate-y-1/3 md:-translate-x-1/3 md:translate-y-0"
+              "top-0 left-0 -translate-y-1/3 md:-translate-x-1/3 md:translate-y-0",
             )}
           />
           <div
             className={cn(
               "bg-chart-3 absolute size-full rounded-full blur-3xl will-change-transform",
-              "right-0 bottom-0 translate-y-1/3 md:top-0 md:translate-x-1/3 md:translate-y-0"
+              "right-0 bottom-0 translate-y-1/3 md:top-0 md:translate-x-1/3 md:translate-y-0",
             )}
           />
         </div>
         <div className="relative w-full py-10 flex items-center justify-center">
           <PurchaseChallenge
             title={product.name}
-            price={product.prices}
+            price={product.prices?.[0]}
             id={product.challenge_info.id}
             imageSrc={product.main_image}
           />

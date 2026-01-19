@@ -105,7 +105,7 @@ export default function FeaturesCarousel() {
   const handleGetProducts = async () => {
     try {
       const data: { data: IProduct[] } = await axios.get(
-        "/api/payment/products"
+        "/api/payment/products",
       );
       if (data.data.length) {
         dispatch(setProducts(data.data));
@@ -189,7 +189,7 @@ export default function FeaturesCarousel() {
                               fill
                               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                               className={cn(
-                                "object-cover transition-transform duration-300 hover:scale-105 p-0!"
+                                "object-cover transition-transform duration-300 hover:scale-105 p-0!",
                               )}
                             />
                           </div>
@@ -212,7 +212,7 @@ export default function FeaturesCarousel() {
                     "size-1.5 cursor-pointer rounded-full transition-all duration-300",
                     index === activeIndex
                       ? "bg-foreground"
-                      : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                      : "bg-muted-foreground/30 hover:bg-muted-foreground/50",
                   )}
                   aria-label={`Go to slide ${index + 1}`}
                 />
@@ -245,7 +245,7 @@ export default function FeaturesCarousel() {
                   variants={buttonVariants}
                   className={cn(
                     `border-input hover:bg-border/50 flex h-16 w-16 cursor-pointer items-center justify-center rounded-sm border transition-all duration-300`,
-                    isActive && "bg-border"
+                    isActive && "bg-border",
                   )}
                 >
                   {index + 1}
@@ -270,7 +270,7 @@ export default function FeaturesCarousel() {
                   "size-1.5 cursor-pointer rounded-full transition-all duration-300",
                   index === activeIndex
                     ? "bg-foreground"
-                    : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                    : "bg-muted-foreground/30 hover:bg-muted-foreground/50",
                 )}
                 aria-label={`Go to slide ${index + 1}`}
               />

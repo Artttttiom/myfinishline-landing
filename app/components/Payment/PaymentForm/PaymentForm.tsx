@@ -12,6 +12,7 @@ import { validate } from "@/app/lib/utils/validate/paymentValidate";
 import { initializePaddle, Paddle } from "@paddle/paddle-js";
 import { useEffect, useState } from "react";
 import { IProduct } from "@/app/types";
+import axios from "axios";
 
 const PaymentForm = ({ product }: { product: IProduct }) => {
   const {
@@ -35,31 +36,46 @@ const PaymentForm = ({ product }: { product: IProduct }) => {
     },
     validate,
     onSubmit: (values) => {
-      openCheckout();
+      handleOrder();
     },
   });
   const [paddle, setPaddle] = useState<Paddle>();
+  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    initializePaddle({
-      environment: "production",
-      token: process.env.NEXT_PUBLIC_PADDLE_CLIENT_SIDE_TOKEN!,
-    }).then((paddleInstance: Paddle | undefined) => {
-      if (paddleInstance) {
-        setPaddle(paddleInstance);
-      }
-    });
-  }, []);
-
-  const openCheckout = () => {
-    if (!paddle) return;
-
-    paddle.Checkout.open({
-      items: [{ priceId: product.prices.paddle_price_id, quantity: 1 }],
-    });
+  const handleOrder = async () => {
+    setIsLoading(true);
+    try {
+      const { data } = await axios.post("/api/payment/order", {
+        stripe_price_id: product.prices?.[0].stripe_price_id,
+      });
+      window.location.href = data.payment_url;
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  console.log(product.prices.paddle_price_id);
+  console.log(errors);
+
+  // useEffect(() => {
+  //   initializePaddle({
+  //     environment: "production",
+  //     token: process.env.NEXT_PUBLIC_PADDLE_CLIENT_SIDE_TOKEN!,
+  //   }).then((paddleInstance: Paddle | undefined) => {
+  //     if (paddleInstance) {
+  //       setPaddle(paddleInstance);
+  //     }
+  //   });
+  // }, []);
+
+  // const openCheckout = () => {
+  //   if (!paddle) return;
+
+  //   paddle.Checkout.open({
+  //     items: [{ priceId: product.prices.paddle_price_id, quantity: 1 }],
+  //   });
+  // };
 
   return (
     <>
@@ -105,7 +121,16 @@ const PaymentForm = ({ product }: { product: IProduct }) => {
             <span className="w-[50%]" />
           </div>
         </div>
-        <Button onClick={openCheckout}>Open checkout</Button>
+        <Button className="w-full mt-4 uppercase text-2xl py-6" type="submit">
+          {isLoading ? (
+            <>
+              <div className="w-5 h-5 border-2 border-t-transparent rounded-full animate-spin"></div>
+              Forming order link...
+            </>
+          ) : (
+            "Order"
+          )}
+        </Button>
       </form>
     </>
   );
