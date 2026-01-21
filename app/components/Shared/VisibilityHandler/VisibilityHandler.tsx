@@ -1,4 +1,3 @@
-// components/VisibilityHandler.tsx
 "use client";
 
 import axios from "axios";
