@@ -114,10 +114,10 @@ const ChallengeCard = () => {
             </div>
             {challenge.reward_ticket.status.type !==
               ShipmentStatuses.received && (
-              <div className="text-[13px] text-muted-foreground mt-1">
-                Shipment ID {challenge.reward_ticket.id}
-              </div>
-            )}
+                <div className="text-[13px] text-muted-foreground mt-1">
+                  Shipment ID {challenge.reward_ticket.id}
+                </div>
+              )}
           </div>
         )}
       </div>
