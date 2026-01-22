@@ -114,10 +114,10 @@ const ChallengeCard = () => {
             </div>
             {challenge.reward_ticket.status.type !==
               ShipmentStatuses.received && (
-                <div className="text-[13px] text-muted-foreground mt-1">
-                  Shipment ID {challenge.reward_ticket.id}
-                </div>
-              )}
+              <div className="text-[13px] text-muted-foreground mt-1">
+                Shipment ID {challenge.reward_ticket.id}
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -153,7 +153,7 @@ const ChallengeCard = () => {
       </div>
       {challenge.is_completed ? (
         <Link
-          href={`/app/profile/redeem?reward_id=${challenge.reward?.id}`}
+          href={`/app/profile/redeem?reward_id=${challenge.reward?.id}&challenge_name=${challenge.name}`}
           className="block text-center bg-transparent w-full mt-8 border-black py-2 px-4 border text-black text-sm leading-6 font-medium hover:bg-white hover:text-black shadow-xs transition-colors rounded-lg cursor-pointer"
         >
           Claim medal

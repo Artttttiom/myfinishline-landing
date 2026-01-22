@@ -8,6 +8,8 @@ import {
 } from "@/app/components/ui/select";
 import { motion } from "framer-motion";
 import { countries } from "@/app/data/countries";
+import { useMemo } from "react";
+import countryList from "react-select-country-list";
 
 interface IRedeemStep1Props {
   first_name: string;
@@ -30,6 +32,8 @@ const RedeemStep1 = ({
   handleChange,
   handleUpdateCountry,
 }: IRedeemStep1Props) => {
+  const options = useMemo(() => countryList().getLabels(), []);
+
   return (
     <>
       <RedeemInput
@@ -71,10 +75,9 @@ const RedeemStep1 = ({
               <SelectValue placeholder="Select country" />
             </SelectTrigger>
             <SelectContent>
-              {countries.map((country) => (
-                <SelectItem key={country.id} value={country.name}>
-                  {country.flag}
-                  {country.name}
+              {options.map((country) => (
+                <SelectItem key={country} value={country}>
+                  {country}
                 </SelectItem>
               ))}
             </SelectContent>

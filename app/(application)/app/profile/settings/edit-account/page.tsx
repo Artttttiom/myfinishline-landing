@@ -105,8 +105,6 @@ const page = () => {
     }
   };
 
-  console.log(options);
-
   return (
     <form onSubmit={handleSubmit} className="max-w-4xl pt-18 pb-4 mx-auto">
       <div className="px-4">

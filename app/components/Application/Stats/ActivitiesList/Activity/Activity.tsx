@@ -33,15 +33,15 @@ const Activity = ({
       className="group shadow-md border border-[#E4E4E7] overflow-hidden rounded-lg"
     >
       <div className="px-4 pt-4 pb-2.5 flex items-center justify-between bg-[#F4E8FD]">
-        <div className="flex items-center gap-2.5 font-semibold text-sm leading-5 text-[#09090B]">
+        <div className="flex flex-1 items-center gap-2.5 font-semibold text-sm leading-5 text-[#09090B]">
           <Route color="#C3B7E2" width={16} height={16} />{" "}
           {handleConvertDistance(Number(progress))}
         </div>
-        <div className="flex items-center gap-2.5 font-semibold text-sm leading-5 text-[#09090B]">
+        <div className="flex justify-center flex-1 text-center items-center gap-2.5 font-semibold text-sm leading-5 text-[#09090B]">
           <Clock color="#C3B7E2" width={16} height={16} />{" "}
           {handleConvertTimeShort(activity_time)}
         </div>
-        <div className="flex items-center gap-2.5 font-semibold text-sm leading-5 text-[#09090B]">
+        <div className="flex justify-end flex-1 items-center gap-2.5 font-semibold text-sm leading-5 text-[#09090B]">
           <Image
             src="/icons/average-time.svg"
             alt="Average speed"

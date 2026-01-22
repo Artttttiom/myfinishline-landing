@@ -12,6 +12,7 @@ import RedeemStep2 from "@/app/components/Application/RedeemSteps/RedeemStep2/Re
 import RedeemStep3 from "@/app/components/Application/RedeemSteps/RedeemStep3/RedeemStep3";
 
 import "flag-icons/css/flag-icons.min.css";
+import PageContainer from "@/app/components/Application/PageContainer/PageContainer";
 
 const Content = () => {
   const { user } = useAppSelector((state) => state.user);
@@ -34,6 +35,7 @@ const Content = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const reward_id = searchParams.get("reward_id");
+  const challenge_name = searchParams.get("challenge_name");
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prevState) => ({
@@ -77,77 +79,70 @@ const Content = () => {
   };
 
   return (
-    <div className="p-4 pt-20 max-w-4xl mx-auto">
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-      >
-        <h1 className="text-2xl text-center font-semibold text-foreground">
-          Amazonia Route
-        </h1>
-        <p className="text-sm text-center text-muted-foreground mt-1">
-          Congratulations! You have completed you challenge, now claim your
-          medal!
-        </p>
-      </motion.div>
-
-      <div className="mt-4">
-        <span className="block text-center text-sm leading-5 text-[#71717A]">
-          Step {stepIndex} of 3
-        </span>
-        <div className="h-1 mt-2 bg-[#dadada] w-full rounded-2xl overflow-hidden">
-          <motion.div
-            style={{ width: stepIndex * 33.3 + "%" }}
-            className="h-full bg-black"
-          />
+    <PageContainer
+      title={challenge_name || "Claim your medal"}
+      description="Congratulations! You have completed you challenge, now claim your
+            medal!"
+    >
+      <div className="px-4">
+        <div className="mt-4">
+          <span className="block text-center text-sm leading-5 text-[#71717A]">
+            Step {stepIndex} of 3
+          </span>
+          <div className="h-1 mt-2 bg-[#dadada] w-full rounded-2xl overflow-hidden">
+            <motion.div
+              style={{ width: stepIndex * 33.3 + "%" }}
+              className="h-full bg-black"
+            />
+          </div>
         </div>
-      </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 }}
-        className="mt-8"
-      >
-        <form onSubmit={onSubmit} className="flex flex-col gap-3">
-          {stepIndex === 1 ? (
-            <RedeemStep1
-              {...formData}
-              handleChange={handleChange}
-              handleUpdateCountry={handleUpdateCountry}
-            />
-          ) : stepIndex === 2 ? (
-            <RedeemStep2
-              {...formData}
-              handleChange={handleChange}
-              handleUpdateSelect={handleUpdateState}
-            />
-          ) : (
-            <RedeemStep3 {...formData} isLoading={isSubmitting} />
-          )}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.35 }}
-            className="flex flex-col gap-3 mt-2"
-          >
-            {stepIndex !== 3 && (
-              <Button type="button" className="flex-1" onClick={handleGoNext}>
-                Next
-              </Button>
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="mt-8"
+        >
+          <form onSubmit={onSubmit} className="flex flex-col gap-3">
+            {stepIndex === 1 ? (
+              <RedeemStep1
+                {...formData}
+                handleChange={handleChange}
+                handleUpdateCountry={handleUpdateCountry}
+              />
+            ) : stepIndex === 2 ? (
+              <RedeemStep2
+                {...formData}
+                handleChange={handleChange}
+                handleUpdateSelect={handleUpdateState}
+              />
+            ) : (
+              <RedeemStep3 {...formData} isLoading={isSubmitting} />
             )}
-            <Button
-              variant="outline"
-              type="button"
-              className="flex-1"
-              onClick={handleGoToProfile}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.35 }}
+              className="flex flex-col gap-3 mt-2"
             >
-              Close
-            </Button>
-          </motion.div>
-        </form>
-      </motion.div>
-    </div>
+              {stepIndex !== 3 && (
+                <Button type="button" className="flex-1" onClick={handleGoNext}>
+                  Next
+                </Button>
+              )}
+              <Button
+                variant="outline"
+                type="button"
+                className="flex-1"
+                onClick={handleGoToProfile}
+              >
+                Close
+              </Button>
+            </motion.div>
+          </form>
+        </motion.div>
+      </div>
+    </PageContainer>
   );
 };
 
