@@ -13,6 +13,8 @@ const ConnectionToast = () => {
         autoClose: false,
         draggable: false,
       });
+    } else {
+      toast.dismiss();
     }
   }, [user.has_strava_connect]);
 
