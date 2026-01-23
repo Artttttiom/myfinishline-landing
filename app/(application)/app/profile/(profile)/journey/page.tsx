@@ -78,10 +78,10 @@ const Journey = () => {
             style={
               user.has_strava_connect
                 ? {
-                  cursor: "default",
-                  backgroundColor: "#FC4C02",
-                  color: "#FFF",
-                }
+                    cursor: "default",
+                    backgroundColor: "#FC4C02",
+                    color: "#FFF",
+                  }
                 : {}
             }
             className="mt-5 w-full h-14 cursor-pointer flex border text-[#777777] font-medium border-[#f9f3f3] items-center justify-between shadow-sm rounded-2xl overflow-hidden"
@@ -105,18 +105,33 @@ const Journey = () => {
             )}
           </button>
           <button
+            style={
+              user.has_fitbit_connect
+                ? {
+                    cursor: "default",
+                    backgroundColor: "#4cafbb",
+                    color: "#FFF",
+                  }
+                : {}
+            }
             className="w-full h-14 mt-5 cursor-pointer border text-[#777777] font-medium border-[#f9f3f3] flex items-center justify-between shadow-sm rounded-2xl overflow-hidden"
             onClick={linkFitbit}
           >
-            <Image
-              className="rounded-2xl h-full"
-              src="/images/fitbit.png"
-              width={54}
-              height={54}
-              alt="FitBit"
-            />
-            Connect FitBit
-            <ChevronRight />
+            {user.has_fitbit_connect ? (
+              <div className="text-center mx-auto">Connected to Fitbit</div>
+            ) : (
+              <>
+                <Image
+                  className="rounded-2xl h-full"
+                  src="/images/fitbit.png"
+                  width={54}
+                  height={54}
+                  alt="FitBit"
+                />
+                Connect Fitbit
+                <ChevronRight />
+              </>
+            )}
           </button>
         </div>
       </section>
