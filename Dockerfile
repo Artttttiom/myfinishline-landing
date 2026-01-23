@@ -12,6 +12,8 @@ FROM node:20-alpine
 WORKDIR /app
 
 COPY --from=builder /app/package.json ./
+COPY --from=builder /app/next.config.js ./
+
 RUN npm install
 
 COPY --from=builder /app/.next .next
