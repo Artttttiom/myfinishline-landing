@@ -1,12 +1,9 @@
 export const linkFitbit = () => {
-  const clientId = process.env.NEXT_PUBLIC_FITBIT_CLIENT_ID;
-  const redirectUri = encodeURIComponent(
-    process.env.NEXT_PUBLIC_FITBIT_REDIRECT_URI!,
-  );
+  const clientId = process.env.NEXT_PUBLIC_FITBIT_CLIENT_ID || "23TW5R";
 
-  console.log(process.env.NEXT_PUBLIC_FITBIT_REDIRECT_URI);
+  const redirectUri = "http://localhost:3000/auth/fitbit/callback";
 
-  const fitbitAuthUrl = `https://www.fitbit.com/oauth2/authorize?response_type=code&client_id=23TMMY&redirect_uri=${encodeURIComponent("https://dev.myfinishline.io/auth/fitbit/callback")}&scope=activity%20heartrate%20sleep`;
+  const fitbitAuthUrl = `https://www.fitbit.com/oauth2/authorize?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=activity%20heartrate%20sleep%20profile`;
 
   window.location.href = fitbitAuthUrl;
 };

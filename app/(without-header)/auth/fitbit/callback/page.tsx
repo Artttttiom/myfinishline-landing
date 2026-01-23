@@ -3,54 +3,68 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { useAppDispatch } from "@/app/lib/hooks";
+import { setUser } from "@/app/lib/features/user/userSlice";
+import Link from "next/link";
 
 const FitBitCallbackPage = () => {
-  const [token, setToken] = useState<string>("");
+  const [status, setStatus] = useState<string>(
+    "Processing Fitbit authorization...",
+  );
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
-  const handleSendFitbit = async (token: string) => {
+  const exchangeCodeForToken = async (code: string) => {
     try {
       const { data } = await axios.post("/api/fitbit/connect", {
-        token,
+        code,
+        grant_type: "authorization_code",
+        redirect_uri: `${window.location.origin}/auth/fitbit/callback`,
       });
-    } catch (error) {
-      console.log(error);
+
+      dispatch(setUser(data.user));
+
+      if (data.status === 200) {
+        setStatus(data.message);
+
+        setTimeout(() => {
+          router.push("/app/homepage");
+        }, 3000);
+      }
+    } catch (error: any) {
+      console.error("Failed to exchange code:", error.response.data.message);
+      setStatus(`Error: ${error.response?.data?.message || error.message}`);
     }
   };
 
   useEffect(() => {
-    const hash = window.location.hash.substring(1);
-    const params = new URLSearchParams(hash);
-    const accessToken = params.get("access_token");
+    const searchParams = new URLSearchParams(window.location.search);
+    const code = searchParams.get("code");
 
-    if (accessToken) {
-      setToken(accessToken);
-      handleSendFitbit(accessToken);
-
-      // Store token in localStorage or send to your backend
-      localStorage.setItem("fitbit_token", accessToken);
-    } else {
-      console.error("No access token found");
-    }
+    exchangeCodeForToken(code!);
   }, []);
 
   return (
-    <div style={{ padding: 50 }}>
-      <h1>Fitbit Connected!</h1>
-      {token ? (
-        <>
-          <p>
-            Access Token:{" "}
-            <code style={{ wordBreak: "break-all" }}>{token}</code>
-          </p>
-          <button onClick={() => router.push("/")} style={{ marginTop: 20 }}>
-            Go Home
-          </button>
-        </>
-      ) : (
-        <p>Loading...</p>
-      )}
-    </div>
+    <section className="grid min-h-svh lg:grid-cols-2">
+      <div className="flex items-center justify-center flex-col">
+        <h1 className="text-2xl font-bold mb-4">Fitbit Authorization</h1>
+        <p>{status}</p>
+        {status.includes("successfully") && (
+          <>
+            <p className="block mt-4 text-gray-600">
+              Redirecting to homepage...
+            </p>
+            <p className="block mt-4 text-gray-600">
+              If you are not being redirected automatically, click{" "}
+              <Link href="/app/homepage" className="underline">
+                here
+              </Link>
+            </p>
+          </>
+        )}
+      </div>
+      <div className="relative hidden bg-[url(/images/gradient.webp)] bg-cover bg-center bg-no-repeat lg:block dark:bg-[url(/images/gradient-dark.webp)]"></div>
+    </section>
   );
 };
 

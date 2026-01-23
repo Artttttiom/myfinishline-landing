@@ -7,7 +7,6 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const cookieStore = await cookies();
-    const token = cookieStore.get("auth_token")?.value;
 
     if (body.token) {
       return NextResponse.json({
@@ -56,50 +55,30 @@ export async function POST(request: NextRequest) {
           path: "/",
         });
 
-        if (token) {
-          const { data: linkData } = await instance.post(
-            "/user/fitbit/connect",
-            {
-              access_token: data.access_token,
-              refresh_token: data.refresh_token,
-            },
-            {
-              headers: {
-                Authorization: "Bearer " + token,
-              },
-            },
-          );
-          return NextResponse.json({
+        const { data: connectData } = await instance.post(
+          "/user/fitbit/connect",
+          {
             access_token: data.access_token,
             refresh_token: data.refresh_token,
-            expires_in: data.expires_in,
-            message: "FitBit connected successfully",
-            status: 200,
-            user: linkData,
-          });
-        } else {
-          const { data: connectData } = await instance.post("/social-login", {
-            provider: "fitbit",
-            access_token: data.access_token,
-            refresh_token: data.refresh_token,
-          });
-
-          if (connectData.bearer_token) {
-            cookieStore.set("auth_token", connectData.bearer_token, {
-              httpOnly: true,
-              secure: process.env.NODE_ENV === "production",
-              sameSite: "lax",
-              maxAge: 60 * 60 * 24 * 7,
-              path: "/",
-            });
-
-            return NextResponse.json({
-              status: 200,
-              message: "Logged in successfully",
-              user: connectData.user,
-            });
-          }
-        }
+          },
+        );
+        cookieStore.set("auth_token", connectData.bearer_token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "lax",
+          maxAge: 60 * 60 * 24 * 7,
+          path: "/",
+        });
+        return NextResponse.json({
+          success: true,
+          data: connectData.user,
+          message: "Successfuly logged in with FitBit!",
+        });
+      } else {
+        return NextResponse.json(
+          { error: data.errors || "Failed to get token" },
+          { status: 400 },
+        );
       }
     }
 
@@ -108,9 +87,9 @@ export async function POST(request: NextRequest) {
       { status: 400 },
     );
   } catch (error: any) {
-    console.error("Fitbit connect error:", error.response.data);
+    console.error("Fitbit connect error:", error);
     return NextResponse.json(
-      { error: error.response.data.message || "Server error" },
+      { error: error.message || "Server error" },
       { status: 500 },
     );
   }
