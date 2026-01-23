@@ -1,4 +1,4 @@
-export const sendGTMEvent = (data) => {
+export const sendGTMEvent = (data: any) => {
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push(data);
 
