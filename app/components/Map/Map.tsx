@@ -318,7 +318,7 @@ const Map = ({ background_images, steps, is_completed, route_data }: IActiveChal
           <motion.button
             whileTap={{ scale: 0.9 }}
             className="bg-white rounded-full p-2 shadow-lg"
-            onClick={handleScrollToActiveStep}
+            onClick={() => handleScrollToActiveStep()}
           >
             <Crosshair />
           </motion.button>
