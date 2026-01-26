@@ -50,17 +50,15 @@ const Map = ({
 
   const stepsAmount = steps.length;
 
-  // Map dimensions - same as admin
-  const MAP_WIDTH = 672; // max-w-2xl
+  const MAP_WIDTH = 672;
   const DEFAULT_MAP_HEIGHT = 5354;
-  const CONTENT_WIDTH = MAP_WIDTH - 64; // 608px after px-8 padding
+  const CONTENT_WIDTH = MAP_WIDTH - 64;
   const maxYCoordinate =
     steps.length > 0
       ? Math.max(...steps.map((s) => Number(s.y_coordinate)))
       : 0;
   const MAP_HEIGHT = Math.max(maxYCoordinate + 200, DEFAULT_MAP_HEIGHT);
 
-  // Check if we should use saved routes (must have routes with actual points)
   const hasRouteData =
     route_data &&
     route_data.routes &&
@@ -68,11 +66,10 @@ const Map = ({
     route_data.routes.some((r) => r.points && r.points.length >= 2);
 
   const handleScrollToActiveStep = (animate: boolean = true) => {
-    const activeStep = steps.find((step) => step.active);
     const behavior = animate ? "smooth" : "instant";
 
-    if (activeStep) {
-      const element = document.getElementById("step-" + activeStep.index);
+    const element = document.getElementById("user-progress-icon");
+    if (element) {
       element?.scrollIntoView({
         behavior,
         block: "center",
@@ -91,7 +88,6 @@ const Map = ({
   useLayoutEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
 
-    // Check if user has already seen the scroll animation this session
     const SESSION_KEY = "map_scroll_animated";
     const hasSeenAnimation = sessionStorage.getItem(SESSION_KEY) === "true";
 
@@ -107,10 +103,8 @@ const Map = ({
 
     if (hasActiveStep || isAllCompleted) {
       if (hasSeenAnimation) {
-        // Instant scroll - no animation
         timer = setTimeout(() => handleScrollToActiveStep(false), 10);
       } else {
-        // First visit - animate and save to session
         timer = setTimeout(() => {
           handleScrollToActiveStep(true);
           sessionStorage.setItem(SESSION_KEY, "true");
@@ -295,7 +289,7 @@ const Map = ({
                     >
                       <Step
                         id={step.id}
-                        title={step.title || "Test"}
+                        title={step.title || "Step"}
                         stepsAmount={stepsAmount}
                         completed={step.completed}
                         isActive={step.active}

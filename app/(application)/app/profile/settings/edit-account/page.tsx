@@ -9,11 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/app/components/ui/select";
-import {
-  setUser,
-  updateUser,
-  updateUserSex,
-} from "@/app/lib/features/user/userSlice";
+import { setUser, updateUser } from "@/app/lib/features/user/userSlice";
 import { useAppDispatch, useAppSelector } from "@/app/lib/hooks";
 import { getCurrentUser } from "@/app/lib/utils/userService";
 import { IUser } from "@/app/types/user";
@@ -35,6 +31,12 @@ import BirthDateWheelPicker from "@/app/components/Shared/WheelDateBirthPicker/W
 import CustomWheelPicker from "@/app/components/Shared/CustomWheelPicker/CustomWheelPicker";
 import SheetContainer from "@/app/components/SheetContainer/SheetContainer";
 import { format } from "date-fns";
+
+const sexOptions = [
+  { label: "Male", value: "M" },
+  { label: "Female", value: "F" },
+  { label: "Prefer not to say", value: null },
+];
 
 const page = () => {
   const { user } = useAppSelector((state) => state.user);
@@ -127,7 +129,7 @@ const page = () => {
             ? { username: data.username }
             : {}),
           ...(data.country ? { country: data.country } : {}),
-          ...(data.sex ? { sex: data.sex } : {}),
+          ...(data.sex ? { sex: data.sex.toLowerCase() } : {}),
           birth_date: birthDate,
           phone: data.phone,
           ...(data.full_avatar_url
@@ -217,7 +219,7 @@ const page = () => {
                 type="button"
                 onClick={handleOpenGenderSheet}
               >
-                {data.sex}
+                {sexOptions.find((option) => option.value === data.sex)?.label}
               </Button>
             </label>
 
@@ -338,11 +340,7 @@ const page = () => {
         >
           <div className="pb-20 max-w-4xl mx-auto">
             <CustomWheelPicker
-              options={[
-                { label: "Male", value: "Male" },
-                { label: "Female", value: "Female" },
-                { label: "Prefer not to say", value: "Prefer not to say" },
-              ]}
+              options={sexOptions}
               value={data.sex}
               onChange={handleChangeSex}
             />

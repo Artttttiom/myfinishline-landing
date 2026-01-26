@@ -38,6 +38,7 @@ const Step = memo(
     hideArrows = false,
   }: StepProps) => {
     const isLast = id === stepsAmount;
+    console.log("rerendered " + id);
 
     const options = {
       animationData: crown,
@@ -50,13 +51,13 @@ const Step = memo(
         return "bg-white text-[#A88BFA] border-3 border-[#A88BFA]";
       }
       if (completed) {
-        return `bg-[#8D5DF8] text-white outline-2 outline-offset-2 ${
-          isViewed ? "outline-[#8D5DF8]" : "outline-white"
+        return `bg-[#8D5DF8] text-white ${
+          isViewed ? "" : "ring-[#BFC0CC] ring-2"
         }`;
       }
       if (isActive) {
-        return `bg-gradient-to-br bg-[#8D5DF8] text-white outline-2 outline-offset-2  ${
-          isViewed ? "outline-[#8D5DF8]" : "outline-white"
+        return `bg-gradient-to-br bg-[#8D5DF8] text-white  ${
+          isViewed ? "" : "ring-[#BFC0CC] ring-2"
         }`;
       }
       return "bg-[#F4F4F5] text-[#DADADA]";
