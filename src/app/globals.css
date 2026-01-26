@@ -1,0 +1,182 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #09090b;
+  --primary: #18181b;
+  --primary-foreground: #fafafa;
+  --muted-foreground: #71717a;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom gradient text class */
+.gradient-text {
+  background: linear-gradient(131deg, rgb(59, 85, 157) 47.5%, rgb(102, 175, 105) 64%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Remove default button styles */
+button {
+  cursor: pointer;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1;
+}
+
+/* Hide scrollbar utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Testimonials marquee animations */
+@keyframes marquee-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-50% - 12px));
+  }
+}
+
+@keyframes marquee-right {
+  0% {
+    transform: translateX(calc(-50% - 12px));
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.marquee-row-left {
+  animation: marquee-left 50s linear infinite;
+  width: max-content;
+}
+
+.marquee-row-right {
+  animation: marquee-right 50s linear infinite;
+  width: max-content;
+}
+
+/* Pause animation on hover */
+.marquee-row-left:hover,
+.marquee-row-right:hover {
+  animation-play-state: paused;
+}
+
+/* Hero raccoon animations */
+@keyframes raccoonBounce {
+  0% {
+    transform: translateY(30px) scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(-10px) scale(1.05);
+  }
+  70% {
+    transform: translateY(5px) scale(0.98);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes mapReveal {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes bubblePop {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) translateY(10px);
+  }
+  70% {
+    transform: scale(1.1) translateY(-2px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes textFadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.animate-raccoon-bounce {
+  animation: raccoonBounce 0.6s ease-out forwards;
+}
+
+.animate-map-reveal {
+  animation: mapReveal 1s ease-out forwards;
+}
+
+.animate-bubble-pop {
+  animation: bubblePop 0.5s ease-out forwards;
+}
+
+.animate-text-fade {
+  animation: textFadeIn 0.5s ease-out forwards;
+}
+
+/* FAQ accordion fade in */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.7s ease-in-out;
+}
