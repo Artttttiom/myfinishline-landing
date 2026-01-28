@@ -35,10 +35,10 @@ export default function ContractHeader({ title, subtitle }: ContractHeaderProps)
           background: "linear-gradient(to bottom, #7b9fe0, #a8c4ea)",
         }}
       >
-        <h1 className="text-white text-3xl md:text-4xl font-bold mb-2">
+        <h1 className="text-white text-3xl md:text-4xl font-bold mb-2 drop-shadow-md">
           {title}
         </h1>
-        <p className="text-white/80 text-base md:text-lg">
+        <p className="text-white text-base md:text-lg drop-shadow-sm">
           {subtitle}
         </p>
       </div>
