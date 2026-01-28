@@ -37,3 +37,12 @@ Thumbs.db
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
+
+# Claude
+.claude/
+
+# Python (не должно быть, но на всякий случай)
+venv/
+.venv/
+__pycache__/
+*.py[cod]
