@@ -52,7 +52,7 @@ function TestimonialCard({ testimonial }: { testimonial: { name: string; role: s
         </div>
       </div>
       <p className="font-normal text-lg md:text-xl text-[#0a0a0a] leading-7 md:leading-8">
-        "{testimonial.quote}"
+        &ldquo;{testimonial.quote}&rdquo;
       </p>
     </div>
   );
